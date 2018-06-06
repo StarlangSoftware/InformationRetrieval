@@ -53,3 +53,5 @@ nb-configuration.xml
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+out/artifacts/InformationRetrieval_jar/InformationRetrieval.jar
+out/production/InformationRetrieval/libs/Corpus.jar
