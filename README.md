@@ -1,4 +1,3 @@
-# InformationRetrieval
 For Developers
 ============
 
@@ -36,7 +35,7 @@ Use Git for cloning the code to your local or below line for Ubuntu:
 
 A directory called InformationRetrieval will be created. Or you can use below link for exploring the code:
 
-	git clone https://github.com/olcaytaner/InformationRetrieval.git
+	git clone https://github.com/starlangsoftware/InformationRetrieval.git
 
 ## Open project with IntelliJ IDEA
 
