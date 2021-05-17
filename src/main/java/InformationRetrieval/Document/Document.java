@@ -1,9 +1,16 @@
 package InformationRetrieval.Document;
 
 import Corpus.*;
+import Dictionary.Word;
 import InformationRetrieval.Index.TermOccurrence;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 
 public class Document {
 
@@ -17,6 +24,33 @@ public class Document {
         this.absoluteFileName = absoluteFileName;
         this.fileName = fileName;
         this.corpus = new Corpus(absoluteFileName);
+    }
+
+    public Document(String absoluteFileName, String fileName, int docId, HashMap<String, String> rootList){
+        String line;
+        this.docId = docId;
+        this.absoluteFileName = absoluteFileName;
+        this.fileName = fileName;
+        this.corpus = new Corpus();
+        try {
+            FileReader fr = new FileReader(fileName);
+            BufferedReader br = new BufferedReader(fr);
+            line = br.readLine();
+            while (line != null) {
+                String[] wordArray = line.split(" ");
+                Sentence sentence = new Sentence();
+                for (String word : wordArray){
+                    String lowerCased = word.toLowerCase(new Locale("tr"));
+                    if (rootList.containsKey(lowerCased)){
+                        sentence.addWord(new Word(rootList.get(lowerCased)));
+                    }
+                }
+                corpus.addSentence(sentence);
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getDocId(){
