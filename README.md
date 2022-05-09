@@ -1,3 +1,11 @@
+InformationRetrieval
+============
+
+Video Lectures
+============
+
+[<img src=video1.jpg width="50%">](https://youtu.be/DhjZPVrvdnE)
+
 For Developers
 ============
 
@@ -72,16 +80,7 @@ Use below line to generate jar file:
 
      mvn install
 
-
-
-------------------------------------------------
-
-InformationRetrieval
-============
-+ [Maven Usage](#maven-usage)
-
-
-### Maven Usage
+## Maven Usage
 
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
