@@ -1,0 +1,22 @@
+Engellilerin kendilerine yönelik vergi indirimi sürecini izlemesi için geliştirilen Engelli Vergi İndirim Sistemi , engelli sağlık raporu işlemlerini de kapsayacak şekilde geliştirilecek .
+Engellilerin kendilerine yönelik vergi indirimi süreçlerini izleyebilmesi için geliştirilen Engelli Vergi İndirim Sistemi ( EVİS ) , engelli sağlık raporu işlemlerini de kapsayacak şekilde geliştirilecek .
+Böylece , engelli vatandaşlar , raporların tasdiki ve iş süreci takibi gibi işlemlerle uğraşmayacak .
+Gelir İdaresi Başkanlığı ( GİB ) engellilerin yaşadığı zorlukların giderilmesine katkıda bulunmak ve vergisel işlemlerde kolaylık sağlamak geliştirdiği projeyle engellilerin vergisel iş ve işlemlerinin elektronik ortamdan yürütülmesi , iletişim ve ulaşım sorunlarının en aza indirilmesi amaçlanıyor .
+Hazırlanan EVİS Projesi , engellilerin vergi indirimiyle ilgili işlemlerini elektronik ortamda takip etmesini sağlıyor .
+Vergi avantajından yararlanmak için başvuran engellilerin , dosyalarının hangi aşamada olduğunu öğrenmek için vergi dairelerine gitmelerine ya da telefonla ulaşmalarına gerek kalmayacak .
+Sistemle başvuru durumlarının hangi aşamada olduğunu internet üzerinden sorgulanabilecek .
+Geliştirme çalışmaları devam proje , engellilere işlemlerini kısa sürede gerçekleştirme kolaylığı sağlayacak .
+Mükelleflerin hastaneden aldıkları sağlık kurulu raporları , GİB'in ilgili birimlerinin erişimine elektronik ortamda açılacak .
+Sistemle e - rapor paylaşımı gerçekleştiğinde mükellef açısından rapor asıllarının noter tasdiki , kağıt ortamında iş süreci takibi ve süre kaybı gibi hususlar ortadan kalkacak , yazışma ve prosedürler en asgari düzeye çekilecek .
+Bu sistemle idare açısından sahtecilik ve bürokrasi ortadan kaldırılırken , iş süreci de hız kazanacak .
+ENGELLİLERE YÖNELİK İNDİRİMLEREngellilik indirimiyle çalışma gücü kayıp oranı asgari yüzde 40 ve üzerinde olanların ücret veya kazançlarına , girecekleri derecelere göre belirlenen miktarda vergi indirimi uygulanıyor .
+Söz konusu indirimden yararlanılması Merkez Sağlık Kurulunca verilmiş rapor ile engelliliğin karara bağlanmış olması gerekiyor .
+Engellilik indiriminden , engelli ücretli , bakmakla yükümlü olduğu engelli kişi bulunan ücretli , engelli serbest meslek erbabı , bakmakla yükümlü olduğu engelli bulunan serbest meslek erbabı ile basit usulde vergilendirilen engelliler yararlanabiliyor .
+Bu yıl indirim tutarları , birinci derece engelliler için bin 200 lira , ikinci derece engelliler için 650 lira , üçüncü derece engelliler için 290 lira olarak uygulanıyor .
+Engelli vatandaşlar , kendi kullanımlarına özel eşya ve araçlarda gümrük vergisinden muaf tutulurken , yurt içinden alınan taşıtlarda da özel tüketim vergisi ( ÖTV ) avantajından yararlanıyor .
+Engellilik derecesi yüzde 90 veya üzerinde olanların taşıt alımlarında , 5 yılda bir olmak üzere ilk alımı ÖTV'den istisna tutuluyor .
+Engellilik derecesi yüzde 90'ın altında olanlar da bizzat kullanma amacıyla engellerine uygun olarak aldıkları araçlarda bu muafiyetten yararlanabiliyor .
+Engelli bireylerin ÖTV ödemeden edinebilecekleri araç bedelinde sınırı bu yıl için 247 bin 400 lira olarak belirlendi .
+Engellilerin eğitimleri , meslekleri , günlük yaşamları için özel üretilmiş her türlü araç - gereç ve özel bilgisayar programları ise katma değer vergisinden istisna tutuluyor .
+VERGİ VE SGK BORCU EMEKLİ AYLIĞINDAN HACİZLE KESİLEBİLİR Mİ ?
+- VİDEO

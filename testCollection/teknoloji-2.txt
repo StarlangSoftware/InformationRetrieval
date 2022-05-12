@@ -1,0 +1,8 @@
+Bugünden itibaren 4.5G Türkiye'de kullanıma girdi .
+4.5G'ye geçen kullanıcılar ekranlarında 4.5G yerine LTE yazısını görüyor .
+Peki LTE ne anlama geliyor ?
+4.5G bugün Türkiye'de kullanıma girdi .
+Mobil internet hızını gözle görülür bir biçimde hızlandıran yeni teknolojiye geçenler akıllı telefon ekranlarında 4.5G yazısı yerine LTE yazısını gördü . \nLTE İLE 4.5G ARASINDA NE FARK VAR ? \nLTE ( Long Term Evolution ) ağ teknolojilerine dayalı yüksek hızlı kablosuz veri aktarıma verilen addır . \n4.5G hızının bir başka adı olan LTE'yi yüksek hızlı mobil internete veriln ad olarak da tanımlamak mümkün . \nLTE 2G ya da 3G gibi bağlantıların aksine , tamamen IP bazlıdır . \nEvlerimizde kullandığımız kablosuz internet yani IP tabanlı bağlantının yapabildiği her şeyi yapabilen LTE , 3G'ye oranla yaklaşık 10 kat internet hızı sağlar .
+AKILLI TELEFONUNUZ 4.5G İLE UYUMLU MU ? 4.5G'YE GEÇMEK İÇİN YAPILMASI GEREKENLER \n2G'den 3G'ye geçişte çok yüksek oranda veri kullanımı olacağı için onay şartı aranıyor .
+Başka bir deyişle 4.5G'ye geçmek için öncelikle operatörünüze onay vermeniz gerekiyor . \n4.5G'ye geçmek için operatörünüze onay verdikten sonra eğer akıllı telefonunuz ve SIM kartınız 4.5G ile uyumluysa izlemeniz gereken adımlar oldukça basit .
+Bu koşullar altında yapmanız gereken tek şey akıllı telefonunuzun \ " ayarlar\ " kısmından 4.5G'yi işaretlemek .

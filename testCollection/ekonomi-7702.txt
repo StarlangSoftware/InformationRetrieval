@@ -1,0 +1,31 @@
+Türkiye’nin yenilenen deprem haritası dijital ortama aktarıldı .
+Oturduğu semtin deprem riskini öğrenmek isteyen vatandaş , https://tdth.afad.gov.tr adresinden koordinat ve adres bilgilerini girerek sorgulama yapılıyor .
+( Yoğunluk nedeniyle site kilitlendi ) Vatandaş , internetten soyağacı ve miras arama hizmetleri sonrası mahallesinin deprem riskini de görebilecek .
+En son 1996 yılında hazırlanan Türkiye’nin deprem tehlike haritası güncellenerek önceki gün Resmi Gazete’nin mükerrer sayısında yayımlandı .
+AFAD’ın koordinasyonunda ODTÜ , Boğaziçi , Akdeniz , Çukurova , Sakarya Üniversiteleri ve Maden Tetkik Arama ( MTA ) Genel Müdürlüğü ile birlikte hazırlanan yeni haritayla , risk değerlendirmesi sadece fay hattına göre değil , zemin yapısı da göz önünde bulundurularak yapıldı .
+Riski belirtmek için kullanılan 1'inci ve 2'nci derece şeklindeki sistem kalktı , yerini Avrupa ve Amerika’da yıllardır uygulanan “ivme” yöntemi aldı .
+İSTANBUL’DA KIRMIZI ALAN ARTTIHaritada İstanbul’da tehlikeli yerleri gösteren kırmızı alanlardaki artış dikkat çekti .
+AFAD Danışma Kurulu Üyesi Prof. Dr. Orhan Tatar , “Yeni haritada artık yerel zemin koşulları da dikkate alınıyor .
+Kadıköy , Çamlıca , Beykoz civarında zemin sağlam , çünkü ana kayalar var zemininde ama biraz daha kuzeye çıkılınca Şile civarında daha dayanıksız zeminler söz konusu .
+Fay hattıyla beraber zemin koşulları da dikkate alındığı zaman renklerde bazı değişiklikler yaşandı” dedi .
+İstanbul’da 19 yılında yaşanan depremden sonra , adaların içinden kırılmamış bir hat kaldığına dikkat çeken Tatar , bu hatta en yakın kıyı şeridinin koyu kırmızı renkte gösterildiğini ifade etti .
+MAHALLE MAHALLE DEĞERLENDIRMEYeni deprem haritası dijital ortama taşındı .
+İnternetteki https://tdth.afad.gov.tr adresinde mahalle mahalle risk değerlendirmesi yapılmasına imkân tanıyan “Türkiye Deprem Tehlike Haritaları İnteraktif Web Uygulaması” oluşturuldu .
+Test aşamasındaki uygulamayı kullanmak için ana sayfanın sol üst bölümünde yer alan “raporlama” butonuna tıklamak yeterli .
+Gereken koordinat bilgileri girildikten sonra , o yerin deprem riski görülebilecek .
+HESAPLAMALAR OTOMATİK OLACAKGazete Habertürk'ten Esra Nehir'in haberine göre Tatar , yeni deprem haritası ile inşaat mühendislerinin işlerinin kolaylaşacağını belirterek , “Eskiden mühendisler hesaplamaları kendileri yapıyordu .
+Örneğin 1. ve 2. bölge arasında kalan yerleşim yerlerinde , 1’i baz alınca farklı değerler ortaya çıkıyor , bina maliyetleri artıyordu .
+Artık hesaplamayı program otomatik olarak yapacak ve tartışmaya yer kalmayacak” dedi .
+Tatar , yeni düzenleme ile 5 farklı zemin türü ve 4 farklı “ivme değeri” baz alınarak hesaplama yapıldığını vurgulayarak , “Sadece mevcut durum değil , fay hattı aktif mi değil mi , en son ne zaman hasar yapıcı deprem üretmiş , üzerinden ne kadar zaman geçmiş , kayma hızı ne kadar , bütün parametreler üst üste konularak daha sağlıklı hesaplama yapılacak .
+Yeni harita 3-4 yıllık bir çalışmanın ürünü” diye konuştu .
+YÜKSEK BİNALAR İZLENECEKTürkiye Bina Deprem Yönetmeliği de güncellendi .
+Yönetmelik , 1 Ocak 2019 tarihinde yürürlüğe girecek .
+AFAD , gerekli gördüğü durumlarda , kuvvetli deprem hareketlerinin ölçülmesi amacıyla binalara veya açık alanlara “ivme kayıtçıları” yerleştirebilecek .
+Yüksekliği 105 metre ve daha fazla olan binalara , “Yapı Sağlığı İzleme Sistemi” kurulması zorunlu hale getirilecek .
+Gerçek zamanlı kayıt yapacak izleme sisteminin bakımından ve korunmasından yapı sahipleri sorumlu olacak .
+NELER DEĞİŞTİ ?
+Haritadaki bir başka değişiklik de İç Anadolu Bölgesi’nde .
+22 yıl önceki haritada koyu kırmızı ile gösterilen Kırşehir , Kırıkkale çevresi yeni haritada daha düşük deprem riskine işaret eden turuncuya çalan sarı renk ile işaretlendi .
+Karadeniz bölgesinde ise Bartın eski haritada koyu kırmızı renkte yer alırken , yeni haritada turuncu renkte gösterildi .
+Ankara’da da yeni haritada riskin düşürüldüğü görüldü .
+KANDİLLİ'NİN YENİ DEPREM TAHMİNİ

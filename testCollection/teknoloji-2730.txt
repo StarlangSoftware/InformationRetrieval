@@ -1,0 +1,12 @@
+Apple'ın yeni etkinlik izleme kuralları sonrası kullanıcılarını takip etmek için izin alma zorunluluğu ile karşı karşıya kalan Sosyal medya devi Facebook'a bir kötü haber de Android cephesinden geldi .
+ABD merkezli teknoloji şirketi Apple , iOS 14 ile attığı güvenlik adımlarıyla Facebook’u bir hayli kızdırıyor .
+Zira Apple , yeni etkinlik izleme kuralları hayata geçmeye başladı .
+Yeni kurallar çerçevesince Apple'ın uygulama mağazası App Store’da yer alan bir uygulama , iOS kullanıcılarının internet ortamındaki izlerini takip edemeyecek .
+Başka bir deyişle kullanıcı verilerini takip ederek hedeflenmiş reklam gösteren Facebook gibi uygulamalar artık mecburen kullanıcılardan izin almaları gerekiyor .
+Son dönemde bünyesinde bulundurduğu WhatsApp'ın zorunlu güncelleme kararı ile gündemde olan Facebook’a bir kötü haber de Android cephesinden geldi .
+The Verge’de yer alan habere göre , Google da Android için benzer bir özellik üzerinde çalışıyor .
+Ancak gelen ilk bilgiler Android için gelecek özelliğin iOS ekosistemindeki kadar katı olmayacağını işaret ediyor .
+Şirkete yakın kaynaklara dayandırılan haberlere göre , Google’ın burada reklam tarafına zarar vermemek adına daha temel düzey bir altyapı kurduğu aktarılıyor . iOS KULLANICILARINA MESAJ GÖNDERMEYE BAŞLADIFacebook geçtiğimiz günlerde Apple’ın attığı bu adım sonrası kullanıcılarından bu izni talep ettiği bildirimler göndermeye başlamıştı .
+Apple'ın getirdiği yeni kural gereği kullanıcıların bu bildirime olumsuz yanıt vermesi durumunda Facebook bu kullanıcıları izleyemeyecek .
+Apple’ın iOS 14.5’in nihai sürümünü 2021’in İlkbahar aylarında yayınlaması bekleniyor .
+Şirketler bu tarihten sonra izin alamamaları durumunda kullanıcılarını takip edemeyecek .

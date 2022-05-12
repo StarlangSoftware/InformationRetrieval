@@ -1,0 +1,24 @@
+Dünyaca ünlü mesajlaşma uygulaması WhatsApp'ın yeni gizlilik ilkeleri sonrası anlık mesajlaşma uygulamaları Telegram'ı tercih edenlerin sayısı artmaya başladı .
+Peki telegram uygulaması nasıl kullanılır , Telegram ne kadar güvenli ? WhatsApp'ın uygulama mağazalarında güç kaybetmesiyle birlikte ilgi gören uygulamalardan biri de Telegram oldu .
+TELEGRAM KİMİN ?
+Merkezi Londra'da bulunan uygulama , 2013 yılında Rus bilgisayar programcıları Pavel Durov ve Nikolai Durov isimli iki kardeş tarafından kuruldu .
+Uçtan uca şifreleme özelliğiyle birçok özelliği bünyesinde barındıran uygulama , diğer mesajlaşma programlarından farklı olarak binlerce kişinin katılabildiği grupların oluşturulmasına imkan tanıyor .
+Açık kaynak kodlu uygulamanın kullanım şartlarında yasal olmayan amaçlarla kullanılamayacağı belirtiliyor .
+Ancak uzmanlar , uygulamanın korsan içeriklerin merkezi haline geldiğini , illegal veri paylaşımı yapanlar , yasa dışı faaliyetler yürütenler ve borsa manipülatörleri gibi kötü amaçlı kullanıcılar tarafından yoğun bir şekilde kullanıldığını aktarıyor .
+EN ÇOK VERİYİ HANGİ UYGULAMALAR TOPLUYOR ?
+400 milyondan fazla aktif kullanıcısı bulunan uygulama , Rusya tarafından 2018 yılında yasaları ihlal ettiği gerekçesiyle yasaklanmış , geçen yıl haziran ayında tekrar erişime açılmıştı .
+Aralarında Pakistan , İran ve Çin'in bulunduğu birçok ülke de Telegram'a yönelik engelleme kararı almıştı .
+TELEGRAM GÜVENLİ Mİ ?
+Paris'te 13 Kasım’da düzenlenen saldırıların teröristler tarafından Telegram kullanılarak organize edildiği söyleniyor .
+EFF’e ( Electronic Frontier Foundation - EFF ) göre güvenlik açısından Telegram’ın standart ayarları 7 üzerinden 4 , gizli sohbet uygulaması ise 7 üzerinden 7 puana sahip .
+Yazılım , iki katmanlı güvenli şifreleme özelliğini destekliyor : Bulut sohbetleri için sunucu - kullanıcı şifrelemesi ve gizli sohbetler için ek olarak kullanıcıdan kullanıcıya şifreleme .
+TELEGRAM'IN ÖZELLİKLERİ - Telegram sunduğu teknoloji sayesinde Telegram bile mesajlarınızı göremiyor .
+- Bulut tabanlı mesajlaşma özelliği ile her platform saniyeler içerisinde karşınıza gelir , içerik eşleştirilir .
+- Telefon numarası ile kayıt olunmasına rağmen telefon numarası verilmeden kullanıcı adı ile görüşme yapılır .
+- Mesajlar Telegram dahil , üçüncü kişilere iletilmesi engellidir .
+- Görüntülü ve sesli mesaj özellikleri sunar .
+- Gönderilen mesajı belirli bir süre sonra yok eden özelliği vardır .
+Mesajlar belirlenen sürenin sonunda her iki taraftan silinir .
+- Son görülme özelliği kapatılabilir .
+- Masaüstü uygulaması seçeneğiyle kullanma özelliği sunar .
+- Ekran görüntüsü alındığında karşıdaki kişiye bildirim gönderilir .

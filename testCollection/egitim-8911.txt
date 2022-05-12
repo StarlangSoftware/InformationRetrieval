@@ -1,0 +1,34 @@
+2020-2021 eğitim öğretim yılı Eğitim Bilişim Ağı ( EBA ) üzerinden yayınlanan , uzaktan derslerle başladı .
+Peki , EBA öğrenci girişi nasıl yapılır ?
+EBA şifresi nasıl alınır ?
+31 Ağustos Pazartesi'den itibaren EBA TV üzerinden öğrenciler 2020-2021 eğitim öğretim yılına başladı .
+Covid - 19 salgını nedeniyle uzaktan yürütülecek yeni eğitim öğretim döneminde ilk ders zili çaldı .
+EBA'ya öğrenciler T. C. kimlik numaraları ve kendi oluşturacakları şifreleriyle girecekler .
+EBA ÖĞRENCİ GİRİŞİ NASIL YAPILIR ?
+EBA'ya öğrenciler T. C. kimlik numaraları ve kendi oluşturacakları şifreleriyle , veliler e - devlet hesap bilgileriyle , öğretmenler de MEBBİS ya da e - devlet hesap bilgileriyle giriş yapabiliyor .
+EBA ÖĞRENCİ GİRİŞ EKRANIEBA ŞİFRESİ NASIL ALINIR ?
+Öğrenciler , EBA'da iki şekilde şifre oluşturabiliyor .
+Birincisi , eba . gov . tr’ye girildikten sonra , önce öğrenci butonuna sonra EBA Hesabı Oluştur butonuna tıklanarak veliye ya da öğretmene başvurmadan , güvenlik kodu , T. C. kimlik numarası , öğrenci numarası ve nüfus cüzdanı veya Türkiye Cumhuriyeti kimlik kartı seri numaraları girilmesi yoluyla .
+Bunun için yapılacak işlem basamakları şöyle :
+- EBA Hesabı Oluştur butonuna tıkla .
+- e
+- Okul bilgilerini girip \ " Giriş\ " butonuna bas
+- EBA hesabın için yeni şifreni belirle .
+- Kendinin ya da velinin e - posta adresini ve cep telefonu numarasını gir ve Şifre Oluştur butonuna tıkla .
+- Girmiş olduğun cep telefonu numarasına gelen doğrulama kodunu gir ve \ " Gönder\ " butonuna bas . \ "
+- Adımlar , eksiksiz tamamladığında öğrenci EBA Giriş ekranına yönlendiriliyor .
+Bu ekranda T. C. kimlik numarası ve EBA hesabı için belirlenen yeni şifrenin ve güvenlik kodunun girilmesinden sonra \ " Gönder\ " butonuna basıldığında Ana Sayfaya ulaşılıyor .
+Öğrencilerin şifre almak için başvuracağı ikinci yöntem ise velisine ya da öğretmenlerinden birine başvurarak şifre oluşturması yoluyla olacak .
+Burada ise işlem basamakları sırayla şöyle : EBA giriş ekranında T. C. kimlik numaranı ve velinden ya da öğretmeninden edindiğin tek kullanımlık şifreyi gir .
+- Güvenlik kodunu gir ve \ " Gönder\ " butonuna tıkla .
+- ' Veli Bilgileriyle Aktivasyon ' , ' e
+- Postayla Aktivasyon ' ya da ' Cep Telefonuyla Aktivasyon ' yöntemlerinden birini seç , istenen bilgileri gir .
+- Aktivasyon adımını geçtikten sonra açılan ekranda EBA hesabın için ' Yeni Şifreni Belirle ' ve ' Kaydet'e tıkla .
+- Bu adımları eksiksiz tamamladıktan sonra öğrenci , EBA Giriş ekranına yönlendiriliyor .
+Bu ekranda T. C. kimlik numarası ve EBA hesabı için belirlenen yeni şifre ve güvenlik kodu girildikten sonra \ " Gönder\ " butonuna basıldığında \ " Ana Sayfa\ " ya ulaşılıyor .
+EBA ÖĞRETMEN GİRİŞİ NASIL YAPILIR ?
+Eğitim Bilişim Ağı olan EBA sistemine öğretmenler , kişisel MEBBİS şifreleri veya e - devlet kullanıcı adı ve şifreleri ile erişebilecek .
+Milli Eğitim Bakanlığı , internet sitesinden öğretmenlere özel EBA kullanım simülasyonlarını da video ve görsellerle yayınlandı .
+Sisteme girecek öğretmenler , bu konu ile ilgili ayrıntılı bilgiye bu videolardan kolaylıkla ulaşabilecekler .
+EBA ÖĞRETMEN GİRİŞİ İÇİN TIKLAYIN .
+OKULLAR 21 EYLÜL'DE AÇILACAK MI ?

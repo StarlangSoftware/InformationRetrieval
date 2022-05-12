@@ -1,0 +1,12 @@
+Yerli mesajlaşma uygulaması ULAK .
+IM , kurumsal haberleşme ihtiyaçları göz önünde bulundurularak geliştirilmiş anlık mesajlaşma uygulamasıdır .
+ULAK .
+IM popüler mesajlaşma uygulaması Whatsapp gibi anlık mesajlaşma hizmeti veren yerli ve milli kurumsal yapıya uygun uçtan uca anlık güvenli bir haberleşme platformudur .
+ULAK .
+IM mesajları kayıt altına almadan ülke hatta kurum sınırları içerisinde saklayarak sesli ve görüntülü arama imkanı sunuyor .
+Ulak , masaüstü uygulaması Windows ve MacOS işletim sistemlerinde çalışabiliyor .
+Kurumsal haberleşme ihtiyaçları göz önünde bulundurularak geliştirilen uygulamada ileri kripto algoritmaları kullanılıyor .
+TEKNİK ÖZELLİKLER - WebRTC internet tabanalı sesli ve görüntülü aramalarda güvenli iletişim protokolü olarak kullanılan ulak TreeKEM şifreleme kullanmaktadır .
+- Uçtan uca güvenlik sayesinde , aradaki bileşenler , sunucu dahil olmak üzere , mesajları çözmesi mümkün değildir .
+Mesajlar yalnızca gönderici ve alıcı partilerin cihazlarında şifrelenip çözülebilir .
+PLATFORM BİLEŞENLERİ - Grup Oluşturma - Anlık Mesajlaşma - Sesli ve Görüntülü Konuşma - Milli Mühendislik - Bağımsız Platform - Mobil Kullanım - Genel ve Özel Bulut - Güvenlik - Dosya ve Medya Gönderimi - Lokasyon Paylaşımı - Geliştirilebilir Sistem - Masaüstü Kullanım

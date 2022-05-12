@@ -1,0 +1,16 @@
+Dolar / TL kurunda yaşanan dalgalanmanın etkisiyle BIST 100 endeksi yeni haftaya sert düşüşle başladı . Açılışın ardından endekse bağlı devre kesici sistemi devreye girdi .
+BIST 100 ikinci işlem gününde de 5,4 düşüşle 1.304 puandan başladı ve yine devre kesici uygulaması gerçekleşti .
+Peki devre kesici nedir , nasıl çalışır ?
+BIST 100 endeksi yeni haftaya Türkiye Cumhuriyet Merkez Bankası ( TCMB ) başkanlığında yaşanan değişimin dolar / TL kurunda yaşanan dalgalanmanın etkisiyle sert düşüşle başladı .
+Açılışın ardından dün endekse bağlı devre kesici sistemi devreye girdi .
+Borsa İstanbul dün yaptığı açıklamada , saat 09.55 itibarıyla endekse bağlı devre kesicinin tetiklendiği , pay piyasasındaki tüm işlem sıralarında , Vadeli İşlem ve Opsiyon Piyasasındaki ( VİOP ) pay ve pay endekslerine dayalı sözleşmelerde ve Borçlanma Araçları Piyasası ( BAP ) pay senedi repo pazarında işlemlerin geçici olarak durdurulduğunu belirten bir açıklama yaptı .
+İKİNCİ KEZ DEVRE KESTİ BIST 100 endeksi ikinci işlem gününe de 5,4 düşüşle 1.304 puandan başladı ve yine devre kesici uygulaması gerçekleşti .
+Vadeli işlemlerde de açılıştan sonra yüzde 5'i aşan kayıplar yaşandı .
+Borsa İstanbul , sert hareketlerin yaşandığı hisse senetleri piyasasında bugün için geçerli olacak yeni bir adım attı .
+Buna göre ; BIST - 50 endeksinde yer alan paylarda bugün , açığa satış işlemlerinde yukarı adım kuralı ( up - tick rule ) uygulanacak .
+DEVRE KESİCİ NEDİR ?
+Borsalarda işlem yapan yatırımcıların belirlenen sınırları aşan fiyat dalgalanmalarından negatif etkilenmemesi için ani fiyat dalgalanmalarından koruyan sisteme devre kesici denir .
+Bir senet fiyatında yüzde 10 yükseliş ya da yüzde 5 düşüş meydana geldiğinde devre kesici müdahil olur ve bütün emirleri iptal eder .
+Borsada devre kesici uygulaması otomatik olarak devreye girer , manuel bir müdahale gerektirmez .
+Otomatik Seans Durdurma Sistemi ( Devre Kesiciler ) kısaca ; Sürekli İşlem Bölümü'nde fiyat değişiminin eşik değeri aşması durumunda işlemlerin geçici süre durdurulması ile emir toplama aşamasına alınması durumudur .
+GALATAPORT İSTANBUL'DA KLİMALAR GAZLA DEĞİL DENİZ SUYUYLA ÇALIŞACAK

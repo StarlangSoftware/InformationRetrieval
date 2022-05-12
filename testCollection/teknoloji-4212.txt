@@ -1,0 +1,25 @@
+Asus'un oyun odaklı yüksek performanslı telefon serisi ROG'un yeni modelleri tanıtıldı .
+İşte ROG 5 serisinin özellikleri ve fiyatı .
+ROG 5 serisi üç model halinde geliyor .
+Asus , ROG 5 , ROG Phone 5 Pro ve ROG Phone 5 Ultimate olarak üç modeli birden tanıttı .
+Üstün performansın göz önünde tutulduğu Asus ROG 5 serisinin Ultimate modeli şimdiye kadar üretilmiş en hızlı gelişmiş akıllı telefon olmaya aday .
+6.78 inçlik AMOLED ekrana sahip cihaz 144 Hz kalitesi sağlıyor .
+Aynı zamanda Gorilla Glass Victus ile korunan Full HD + çözünürlüğündeki bu ekran 60 , 120 ve 144 Hz değerleri arasında da otomatik olarak geçişte yapabiliyor .
+Cihazda performans için üretilmiş olan Snapdragon 8 işlemci bulunuyor .
+Asus , ayrıca ROG Phone 5’te üç farklı yapılandırma seçeneği sunacak .
+Cihazın ilk versiyonunda 12 / 16 GB RAM ve 256 GB dahili hafıza seçeneği bulunuyor .
+İkinci versiyonda ise 12 ve 16 GB'lık RAM'in yanına 8 GB harici RAM seçeneği getiriliyor .
+Son seçenekte ise 8 GB RAM + 128 GB ya da 12 GB RAM + 256 GB opsiyonları nuluyor .
+Asus 8 GB'lik modeller dışındaki seçeneklerde UFS 3.1 depolama birimini kullanıyor .
+BATARYAAsus ROG 5'in bütün modellerinde çift hücreli 6.0 mAh kapasiteli batarya kullanılıyor .
+Bu bataryaya 65W'lık hızlı şarjı destekleyecek şekilde tasarlanmıştı .
+ASUS ROG 5 KAMERAAsus ROG 5 tanıtılmadan önce telefona dair neredeyse bütün bilgiler sızdırılmıştı .
+ROG 5'in kamera donanımındaki sızıntılar doğru çıktı ve 64 Megapiksel Quad Baer ( Sony IMX686 ) kamera bulunuyor .
+Ana kameranın yanısıra 13 MP ultra geniş açı ve 5 MP makro kameraları da cihazda eklenmiş .
+Ön taraftaki selfie kamerası ise 24 MP çözünürlüğünde .
+Asus'un üç farklı modelinde ekran , kamera ve donanım standart olarak tasarlanmış .
+Ancak farklılıklar bellek kapasitesi ve soğutma fanında kendini gösteriyor .
+Pro ve Ultimate modelleri AeroActive Cooler 5 adındaki harici soğutma sistemiyle geliyor .
+Bu soğutma telefonun ısınmasını engelleyerek performansı yükseltiyor .
+ROG Phone 58 GB RAM + 128 GB depolama – 799 Euro12 GB RAM + 256 GB depolama – 899 Euro16 GB + 256 GB depolama – 9 EuroROG Phone 5 Pro 16 GB RAM 9 + 512 GB depolama – 1.199 EuroROG Phone 5 Ultimate 18 GB RAM + 512 GB depolama – 1.299 EuroAsus ROG Phone 5 Teknik ÖzellikleriAğırlık : 238 gramBoyutlar : 172.8 x 77.3 x 10.3 mmEkran : 6.78 inç boyutundaki 144Hz AMOLED ekran , FHD + çözünürlük , 800 nit parlaklık , 395 ppi piksel yoğunluğu , HDR10 + desteği , Corning Gorilla Glass Victus korumaEkran Kasa Yüzdesi : Yüzde 82İşletim Sistemi : Android 11 , ROG UIİşlemci : Qualcomm SM8350 Snapdragon 8 ( 5 nm ) CPU : Octa - core ( 1×2.84 GHz Kryo 680 3×2.42 GHz Kryo 680 4×1.80 GHz Kryo 680 ) GPU : Adreno 660Batarya : 65W hızlı şarj destekli 6.0 mAh boyutundaki bataryaBellek : 8 / 12 / 16 GB RAMDepolama : 128 / 256 GB UFS 3.1 depolamaArka Kamera : 64 MP , f / 1.8 , 26mm ( geniş ) , 1 / 1.73¨ , 0.8µm , PDAF13 MP , f / 2.4 , 11mm , 125° ( ultra geniş açı ) 5 MP , f / 2.0 , ( makro ) Arka Kamera – Video : 8K@30fps , 4K@30 / 60 / 120fps , 1080p@30 / 60 / 120 / 240fps , 720p@480fps ; gyro
+- EISÖn Kamera : 24 MP , f / 2.5 , 27mm ( geniş ) , 0.9µmÖn Kamera – Video : 1080p@30fps

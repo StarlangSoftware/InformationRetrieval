@@ -1,0 +1,11 @@
+Elon Musk’ın önerdiği mesajlaşma uygulaması Signal son zamanlarda WhatsApp'ın alternatifi olarak gündemdeydi . Mark Zuckerberg'in de Signal adlı WhatsApp rakibi mesajlaşma platformunu kullandığı ortaya çıktı .
+İşte şifreli şekilde sesli , görüntülü arama ve mesajlaşma uygulaması olan Signal hakkında merak edilenler … iOS , Android ve bir masaüstü uygulaması bulunan Signal kullanıcılarının metin mesajları , dosyalar , sesli notlar , resimler , GIF ve video mesajları göndermelerine olanak tanıyor .
+Signal uygulaması standart cep telefon numaralarını kullanır ve diğer Signal uygulamasında kullanıcılarıyla tüm iletişimleri güvence altına almak için uçtan uca şifreleme bulunur .
+Open Whisper Systems'a ait Signal yazılımı ücretsiz ve herkese açık bir kaynak .
+Apple’ın iOS’u ve Android için şifreli telefon görüşmesi ve yazılı mesajlaşma hizmeti sunuyor .
+Open Whispers Systems , Signal Protocol’ü WhatsApp’e entegre etmek için WhatsApp ile ortaklığa gitti .
+Yazılımın original ses şifrelemesi , Zimmermann Gerçek Zamanlı Aktarma İletişim Protokolü’ne ( Zimmermann Real - time Transport Protocol - ZRTP ) dayalı .
+ZRTP'nin , canlı telefon görüşmesinin dinlenmesi anlamına gelen ‘araya giren adam saldırılarına ' ( Man - in - the - middle - attack - MiTM ) karşı güvenli olduğu belirtiliyor . WHATSAPP İLE ARASINDAKİ FARKLAR NELERDİR ?
+Signal’de gerçeklesen her şey üst düzey güvenlik adına uçtan uca şifrelenir .
+Ses aramasındaki ağır şifrelemeden dolayı arama birkaç saniye geç başlasa da ses kalitesi yüksektir ve kesilmeler yaşanmaz .
+Ayrıca WhatsApp kişi listelerini şifrelemezken , Signal hiçbir şekilde buna izin vermez .

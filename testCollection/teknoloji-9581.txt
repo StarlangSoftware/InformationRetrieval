@@ -1,0 +1,12 @@
+Çin merkezli teknoloji şirketi Huawei , Google’ın alternatif olarak geliştirdiği arama motoru Petal Search’ü kullanıcıları ile birlikte geliştiriyor Huawei'nin yeni arama motoru Petal Search'ü deneyimleyerek geri bildirimlerimde bulunan kullanıcılar , hem arama motorunun daha iyi hale getirilmesine yardımcı olacak hem de hediyeler kazanacak .
+Huawei açıklamasına göre , 3 Aralık tarihine kadar Petal Search uygulaması üzerinden en çok geçerli geri bildirim gönderen kullanıcılara ödül verilecek .
+Aynı açıklamaya göre , geçerli geri bildirimler belirlendikten sonra en fazla geçerli geri bildirimde bulunan kazananlar Huawei Community sayfasından duyurulacak .
+Geri bildirimlerin geçerli olabilmesi için geri bildirim verilen konuyla ilgili açıklamanın anlaşılır bir şekilde yazılması gerekiyor .
+Önce geri bildirim verilen noktanın belirtilip , daha sonra açıklama yapılması gerekiyor .
+Geri bildirim verilen noktayla ilgili ekran görüntüsü veya kaydı eklemek de kullanıcıların tercihleri arasında .
+AppGallery ile doğrudan entegre çalışan ve Qwant ile Yandex arama motorlarının gücü ile birçok farklı kaynaktan aynı anda uygulama araması yapabilen Petal Search , bulunan uygulamaların hangi kaynaktan yükleneceği ve Huawei’nin güvenlik testlerinden geçip geçmediği bilgisini de sonuç ekranında gösteriyor .
+Üçüncü parti kaynaklar arasında Aptoide , APKMonk , APKPure , APKCenter ve UpToDown yer alıyor .
+Böylece kullanıcılar tam olarak istedikleri uygulamayı , istedikleri kaynaktan ve güvenlik kontrolleri önceden yapılmış şekilde indirebiliyorlar .
+Petal Search aynı zamanda indirilen ve daha önce cihazda bulunan uygulamaların güncellemelerini de kontrol ederek kullanıcıya yardımcı oluyor .
+Petal Search ile aynı zamanda haber , görsel , video , müzik , spor etkinlikleri , otel ve restoran rezervasyonu , uçak bileti gibi aramalar da yapılabiliyor .
+Tüm arama sonuçları , kullanıcının kişisel tercihlerine ve bulunduğu lokasyona göre özelleştirilebiliyor .

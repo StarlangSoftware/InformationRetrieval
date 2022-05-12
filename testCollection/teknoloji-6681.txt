@@ -1,0 +1,19 @@
+WhatsApp'ın yeni gizlilik sözleşmesiyle birlikte diğer uygulamaların da kullanıcılar hakkında ne bildiği sorgulanırken buna cevap olabilecek bir tablo hazırlandı .
+Clario'nun hazırladığı tabloda popüler uygulamaların hangi bilgileri topladığına yer verildi . WhatsApp'ın yeni gizlilik sözleşmesiyle birlikte yalnızca WhatsApp'ın topladığı bilgiler değil , diğer uygulamaların da topladıkları bilgiler merak konusu olmuştu .
+İşte bu merakı cevaplandırabilecek bir çalışma Clario . co tarafından yapıldı .
+Clario , hangi şirketin ve uygulamanın hangi bilgilerinizi topladığını gösteren bir grafik hazırladı . Webtekno'nun haberine göre Clario'nun hazırladığı grafiğin kişisel veriler sütununda e - posta , isim , yaş , cinsiyet , cinsel yönelim , medeni hal , ırk , dini inanış , yaşanan yer , ev adresi , çalışma durumu , iş unvanı , evcil hayvan sahipliği , telefon numarası , sabit telefon numarası , telefonun modeli , hobiler , ilgi alanları , boy , kilo , akraba , anne kızlık soyadı , mevcut işverenler , geçmiş işverenler , banka hesap bilgileri , maaş , sosyal profil ( arkadaşlar , hobiler , ilgi alanları ) , doğduğu ülke , alerjiler ve sağlık bilgilerinin toplanıp toplanmadığı bilgisi yer alıyor .
+FACEBOOK LİSTENİN BAŞINDAPaylaşılan grafiğe göre Facebook , yukarıda saydığımız kişisel bilgilerin %70,59'unu topluyor .
+Bu da şirketi en fazla kişisel veri toplayan şirket konumuna getiriyor .
+Facebook'un hakkımızda bilmediği verilerin yalnızca boyumuz , kilomuz , annemizin kızlık soyadı , banka hesap bilgilerimiz , maaşımız , doğduğumuz ülke , alerjilerimiz ve sağlık bilgilerimiz olduğu görülüyor .
+Bir diğer Facebook şirketi olan Instagram'sa %58,82'lik oranla ikinci sırada yer alıyor .
+Instagram , Facebook'un aksine boy ve kilo bilgilerini toplarken cinsel yönelim , medeni hal , ırk , dini inanış , sabit telefon hattı ve akraba bilgilerini toplamıyor .
+Instagram'ı üçüncü sırada takip eden isimse Tinder . WHATSAPP LİSTENİN NERESİNDE ?
+Son günlerin en tartışılan uygulaması olan WhatsApp , yukarıdaki grafiğin son sıralarında yer alıyor .
+Grafiğe göre uygulama , saydığımız bilgilerin yalnızca %11,76'sını topluyor . WhatsApp'ın topladığı bilgiler isim , yaş , telefon numarası ve telefon bilgileriyle sınırlı kalıyor .
+Listede açık bir şekilde görüldüğü üzere kişisel bilgilerimizin en fazla toplandığı platformlar beklendiği üzere sosyal medya platformları .
+Bunun yanı sıra grafikten çıkan ilginç sonuçlar da var .
+Listedeki şirketlerin %93'ü gelecekte bizimle temasa geçmeye devam edebilmek için e - posta adreslerimizi depoluyor .
+Ayrıca şirketlerin %18'i kaç kilo olduğumuzu biliyor .
+ARAŞTIRMA HAKKINDAClario , bu sonucu ortaya koyabilmek için çeşitli sektörlerden 47 uygulamayı ve bu uygulamaların gizlilik sözleşmelerinde istedikleri izinleri incelediğini belirtiyor .
+Uygulamaların istedikleri her bir izin yukarıdaki grafikte 34 izin türü olarak kendisine yer buldu .
+Araştırma ABD'de gerçekleştirildi bu nedenle ABD'deki gizlilik sözleşmeleri incelendi .

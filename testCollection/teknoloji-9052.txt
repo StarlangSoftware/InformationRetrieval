@@ -1,0 +1,20 @@
+İlk ve en değerli kripto para konumunda olan Bitcoin için harcanan enerji , Türkiye'nin elektrik kullanımının yüzde 40'ını aştı .
+Son dönemde kırdığı rekorlar ile bir kez daha çok konuşulanlar arasında giren Bitcoin bu sefer enerji tüketimine olan etkisi ile gündemde .
+Bitcoin üretimi için bilgisayarlar tarafından bir yılda harcanan enerji miktarı belli oldu .
+BBC’nin haberine göre , Bitcoin için harcanan enerji , Türkiye'nin elektrik kullanımının yüzde 40'ını aştı .
+Aynı habere göre , Bitcoin'in değerinin son bir yılda yedi kattan fazla artması , daha fazla kişinin Bitcoin madenciliğine girmesine yol açtı .
+Bu durum da Bitcoin için harcanan enerji miktarının artmasına neden oldu .
+İngiltere’nin önde gelen eğitim kurumları arasında gösterilen Cambridge Üniversitesi'nin hesaplamasına göre Bitcoin üreticileri bir ülke olsaydı , dünyanın en fazla elektrik tüketen 30'uncu ülke olacaktı .
+FACEBOOK VE TESLA'YI GERİDE BIRAKTISon dönemde yaşanan artış sonrası Bitcoin , dünyanın en değerli dokuzuncu varlığı oldu ve sosyal medya devi Facebook ve elektirkli otomobil üreticisi Tesla'yı geride bıraktı .
+TSİ 11.22 itibari ile Bitcoin’in değeri 44 bin 600 dolar seviyesinde .
+BITCOIN MADENCİLİĞİ NASIL YAPILIYOR ?
+Para oluşturma işlemine madencilik ( mining ) denilmektedir .
+Madencilik , hesaplama yetkisini ve gücünü kullanarak matematiksel işlemleri gerçekleştirme işleminin genel adıdır .
+Bu işlemleri yapmak için , sunulan bitcoin yazılımını indirerek donanımları ( genellikle ekran kartları ) üzerinde yoğun işlemci gücü gerektiren işlemleri gerçekleştiren bitcoin ağındaki düğümlere \ " madenci\ " denilmektedir .
+Sistemin ilk bloğunun adı \ " genesis block\ " olarak isimlendirilmiştir ve 4 ocak 2009'da üretilmiştir .
+Bunun gibi bloktaki ilk işlem özel bir işlemdir ve yeni para bloğu oluşturan tarafından başlatılır .
+Bu , ağa madencilerin katılmaları için bir teşvik sistemidir , bu sayede parayı basacak merkezi bir otoriteye sahip olmayan sisteme , para , istenildiği gibi dağıtık olarak girebilmektedir .
+Madenciler bu şekilde , hem sisteme yeni bitcoinler üretip sürerek hem de bekleyen işlemleri gerçekleştirme hizmetleri karşılığında sistemden bitcoin alarak kazanç sağlamaktadırlar .
+Yeni paranın sisteme düzenli olarak eklenmesi altın madencilerinin altın bularak dolaşıma sokmalarına benzetilmektedir , madencilik ismi de buradan gelmektedir .
+Mevcut süreçte madenciler , her yıl dolaşıma girecek olan bitcoin miktarını azalan ve öngörülebilir bir oranla üretmeye devam etmektedirler .
+Sistemde , toplamda 21 milyon bitcoin dolaşıma çıkıncaya kadar üretim devam edecektir , ardından üretim süreci duracak ve madenciler sadece işlem masrafları üzerinden desteklenmeye devam edilecektir .

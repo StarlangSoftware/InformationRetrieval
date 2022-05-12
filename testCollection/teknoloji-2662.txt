@@ -1,0 +1,12 @@
+Özel uzay şirketi SpaceX , uydu aracılığıyla yeryüzüne internet servisi veren Starlink'in kullanıcı sayısının 10 bini aştığını açıkladı .
+Elon Musk'ın sahibi olduğu özel uzay şirketi SpaceX’in uydu bazlı küresel internet projesi Starlink’in kullanıcı sayısı belli oldu .
+Son dönemde 60'lık partiler halinde onlarca Starlink misyonuna imza atan SpaceX’in bu hizmetinden faydalanan kullanıcı sayısı 10 bine aştı .
+Şirket tarafından yapılan açıklamada Starlink’in beta programına ABD ve Avrupa’da kayıtların sürdüğü bilgisinin de altı çizildi .
+Beta denemelerine geçtiğimiz senenin ekim ayında başlayan şirket , kullanıcılardan Starlink Kit kurulumu için 499 dolar , aylık abonelik için ise 99 dolar ücret talep etmişti .
+SpaceX daha önce yaptığı açıklamada yörüngedeki uydular tarafından sunulan internet hizmetinin hızının 50Mb / s ile 150Mb / s arasında olacağı belirtilmişti .
+Ancak geçtiğimiz aylarda Ookla tarafından yapılan testte Starlink uyduları Mbps'den 18 Mbps'ye kadar yükleme hızı sundu .
+Elon Musk , uzaya gönderilecek binlerce uyduyla dünyanın dört bir yanına hızlı ve ucuz internet hizmeti sağlamayı hedefliyor .
+Proje kapsamında yörüngeye binin üzerinde uydu gönderildi .
+Bu hamle sonrası Musk’ın şirketi yörüngedeki her 4 uydudan 1’inin kontrolünü elinde bulundurur hale geldi .
+SpaceX , Starlink projesi çerçevesinde toplamda 12 bin internet uydusu fırlatmayı planlıyor .
+Projenin 2027'de tamamlanması bekleniyor .

@@ -1,0 +1,9 @@
+Borsa İstanbul'da yüzde 5'lik devre kesici uygulaması yukarı yönlü olarak kaldırıldı .
+Aşağı yönlü olarak ise yüzde 5 olarak uygulanmaya devam edecek .
+Borsa İstanbul , pay piyasasında sürekli işlem yöntemiyle işlem görmekte olan sıralarda , yukarı yönlü yüzde 5 olarak uygulanmakta olan devre kesici tetikleme oranını kaldırdı .
+Borsa İstanbul'dan yapılan açıklamada , pay piyasasında sürekli işlem yöntemiyle işlem görmekte olan sıralarda 13 Mart'tan itibaren aşağı ve yukarı yönlü yüzde 5 olarak uygulanmakta olan devre kesici tetikleme oranının ikinci bir duyuruya kadar yukarı yönlü olarak kaldırıldığı belirtildi .
+Açıklamada , ilgili sıralarda yüzde 5 devre kesici tetikleme oranının aşağı yönlü olarak uygulanmaya devam edileceği kaydedildi .
+BIST 100 Endeksi dün yüzde 8 düşüşle 88 binin altına geriledi , endeks böylece Mayıs 2019'dan beri en düşük kapanışını yaptı .
+Borsa bugün ise , 87 bin puanın üzerinde işlem görüyor .
+Devre Kesici Uygulaması ( Otomatik Seans Durdurma Sistemi ) nedir ?
+Devre Kesici Uygulaması ( Otomatik Seans Durdurma Sistemi ) kısaca ; Sürekli İşlem Bölümü'nde fiyat değişiminin eşik değeri aşması durumunda işlemlerin geçici süre durdurulması ile emir toplama aşamasına alınması durumudur .

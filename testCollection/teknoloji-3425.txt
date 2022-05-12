@@ -1,0 +1,4 @@
+Gönderdiğiniz mesajların karşı taraf görmeden önce silinmesine izin veren ' Privates ' isimli uygulama kullanıma sunuldu .
+Daha sonra utanacağınız veya yanlışlıkla gönderdiğiniz bir mesajı silmek için her yolu deneyenlerdenseniz artık bu işlemi gerçekleştirmek oldukça kolay . \nBu özelliğe sahip ' Privates ' isimli uygulama kullanıma sunuldu . \nSöz konusu uygulama karşı tarafın mesajı açmaması halinde gönderilen mesajın gönderen parti tarafından silinmesine izin veriyor .
+Söz konusu özelliği kullanmak için bu uygulamayı indirmeniz gerekiyor . \nKullanıcılarına üç aşamalı güvenlik hizmeti sunan uygulama , mesajların karşı taraf tarafından okunmaması durumunda 3,12 ve 24 saat içinde mesajları siliyor . \nSöz konusu uygulama şu an için sadece iOS işletim sistemi ile çalışan akıllı telefonlarda kullanılıyor .
+Ancak yapılan açıklamaya göre , Privates'in Android ve Windows versiyonları da kısa süre içinde kullanıma girecek .

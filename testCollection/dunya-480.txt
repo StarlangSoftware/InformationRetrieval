@@ -1,0 +1,39 @@
+Türkçesi ' Değiştirilemeyen tokenlar ' yani NFT'ler ( Non - Fungible - Tokens ) , ana akım olan en son kripto para birimi fenomeni .
+Dünyaca ünlü Fenerbahçeli futbolcu Mesut Özil ve Youtuber Logan Paul'un da NFT'leri kullanıp ürün alıp satmasıyla NFT'ler aniden tüm dünyanın dikkatini çekti .
+Peki , NFT coin nedir , nasıl yapılır ?
+Tüm merak edilenler .
+Yakın zamanda Twitter'ın kurucusu Jack Dorsey , 21 Mart 2006'da yaptığı ve \ " tweet'imi kuruyorum\ " yazan ilk tweetini sattığını duyurdu .
+Yaklaşık 15 yıl boyunca tweet , herhangi bir parasal değer olmaksızın kullanılıyordu , ancak sanal açık artırma bloğuna girdikten sadece bir gün sonra en yüksek teklif 2,5 milyon dolara ( veya 1630.6 ETH - Ethereum kripto para birimine ) ulaştı .
+Dorsey , alıcıya dijital mülkiyet haklarını veren tweetini tokenize edilmiş bir versiyonunu , bir NFT'yi yarattı .
+Peki , NFT nedir , nasıl yapılır ?
+NFT COIN NEDİR ?
+Değiştirilemez Token ( NFT ) , dijital sanat veya dijital koleksiyon olarak da biliniyor .
+Değiştirilemez Tokenlar ; bir tweeti , bir tabloyu , bir resmi , bir anı , bir gif'i , bir futbolcu kartını vb. nesneleri temsil edebilirler .
+Değiştirilemez tokenlar , CryptoKitties olarak da bilinirler fakat bu tamamiyle bir karışıklıktır .
+CryptoKitties , dijital olarak kedi figürü sahiplenmenizi sağlayan bir değiştirilemez token marketidir .
+Popülerliği sebebiyle değiştirilemez tokenları tanımlamak maksadıyla kullanımına rastlanmaktadır .
+Değiştirilemez bir token ( NFT ) , her NFT'nin benzersiz bir dijital öğeyi temsil edebildiği ve bu nedenle birbirinin yerine geçemeyen , blok zinciri ( blockchain ) adı verilen bir dijital defterdeki bir veri birimidir .
+NFT'ler sanat , ses , video ve diğer yaratıcı çalışma biçimleri gibi dijital dosyaları temsil edebilir .
+Dijital dosyaların kendileri sonsuz bir şekilde yeniden üretilebilirken , onları temsil eden NFT'ler temel blok zincirlerinde izlenir ve alıcılara sahiplik kanıtı sağlar .
+Ethereum , Bitcoin Cash , Flow , vb. gibi yaygın blok zincirlerinin her birinin NFT kullanımlarını tanımlamak için kendi token standartları vardır .
+NFT NASIL YAPILIR ?
+Değiştirilemez token ( NFT ) , sanat gibi benzersiz bir dijital öğeyi temsil edebilen bir blok zincirinde ( dijital bir defter ) depolanan bir veri birimidir .
+Bir NFT kriptografik bir belirteçtir ancak Bitcoin ve birçok ağ veya hizmet belirteci gibi kripto para birimlerinin aksine , NFT'ler karşılıklı olarak değiştirilemez .
+NFT , bir sanat eseri gibi bir dosyanın KnownOrigin , Rarible veya OpenSea gibi bir NFT açık artırma pazarına yüklenmesiyle oluşturulur .
+Bu , dijital deftere kaydedilen dosyanın kripto para birimi ile satın alınabilen ve yeniden satılabilen bir NFT olarak kopyasını oluşturur .
+Bir sanatçı , bir eseri temsil eden NFT'yi satabilse de , sanatçı eserin telif hakkını elinde tutabilir ve aynı çalışmanın daha fazla NFT'sini yaratabilir .
+NFT'nin alıcısı işe özel erişim elde etmez , aynı zamanda alıcı \ " orijinal\ " dijital dosyanın mülkiyetinide elde etmez .
+Herhangi bir eseri NFT olarak yükleyen bir kişinin , kendisinin orijinal sanatçı olduğunu kanıtlaması gerekmez bu yüzden asıl sanatçının izni olmadan o sanatçının eserini NFT için kullanan birçok insan olmuştur .
+Günümüzde Rarible ( Digital Collectibles ) , Opensea ( Digital Marketplace ) , Nifty Gateway ( Digital Art ) , superRare ( Digital Art ) , Enjin ( Gaming ) , Decentraland ( Virtual Reality ) gibi birçok NFT platformu üzerinden dakikalar içinde kendi NFT’nizi oluşturmanız mümkündür .
+Bunun için dijital cüzdanınızın olması yeterlidir .
+NFT ' NİN KULLANIMINFT , benzersiz bir imzayla çalışan tek bir NFT'yi yaparak , dijital bir yaratıcı çalışmanın yapay kıtlığına neden olmak için kullanılabilir .
+Sanat eserlerinin NFT'leri bu nedenle imzalı öğelere benzer .
+Bir NFT'nin benzersiz kimliği ve mülkiyeti , blok zinciri defteriyle doğrulanabilir .
+NFT'ler , benzersiz , 40 basamaklı bir harf ve sayı dizisini hesaplayan bir algoritma olan kriptografik bir karma işlevi aracılığıyla işlenen meta verilere sahiptir .
+NFT'ler ayrıca birden çok platformda varlık birlikte çalışabilirlik olasılığını yaratmak için kullanılır .
+Dijital sanatNFT'lerin benzersiz imzasını ve sahipliğini güvence altına alan blockchain teknolojisinin yeteneği nedeniyle NFT'ler için erken bir kullanım platformuydu .
+Beeple'ın dijital sanat eserleri , 2021'de 69,3 milyon ABD dolarına satıldı .
+Christie , bu meblağ karşılığında Beeple's Everydays : The First 50 Days'i satarak açık artırma endüstrisinde olay oldu .
+OyunlarNFT'ler , oyun geliştiricisi yerine kullanıcı tarafından kontrol edilen oyun içi varlıkları temsil etmek için de kullanılabilir .
+Oyunda NFT'lerin ilk kullanımı , merkezi bir yaklaşım kullanılarak Tokenzone tarafından gerçekleştirildi .
+NFT'ler , varlıkların oyun geliştiricisinin izni olmadan üçüncü taraf pazarlarda alınıp satılmasına izin verir .

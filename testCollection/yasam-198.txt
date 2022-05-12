@@ -1,0 +1,24 @@
+Tuzlu su arıtma tesislerine her geçen gün bir yenisi ekleniyor .
+Yoğun enerjiye ihtiyaç duyulan arıtma süreci enerji kullanımını artırıyor ancak çevreye farklı açılardan zarar verebiliyor .
+İSTANBUL - Tuzlu suyun arıtılarak tatlı su elde edilmesi son yıllarda oldukça revaçta .
+Arıtma tesisleriyle , gittikçe azalan tatlı su kaynaklarına takviye yapılması hedefleniyor .
+Başı çeken ülke ise yıllardır deniz suyunu arıtan İspanya .
+Singapur ve komşusu Malezya da bu yöntemle tatlı suya bağımlılığını azaltmaya çalışıyor .
+İsrail'in de yılda 500 milyon metreküp deniz suyunu arıtan bir tesisi bulunuyor .
+" Aslında tuzlu suyu arıtarak istenildiği kadar , yüksek kalitede tatlı su elde edilebilir . Zira okyanuslar oldukça büyük . Çok büyük miktarlarda tuzlu su hiçbir zarar verilmeden çekilebilir . Bu nehir ve gölün ekolojik sistemlerinde mümkün değil . Ancak ne var ki , tuzlu suyu arıtmak , nehir ve göllerdeki suyu arıtmaktan çok daha fazla enerji tüketimine yol açıyor . Bu da en büyük sorun " şeklinde konuşan ABD'deki Yale Üniversitesi çevre teknolojileri bölümünden Profesör Menachem Elimelech , tuzlu suyun arıtılmasının ilk bakışta su krizinden kurtulmak için en ideal çözüm olarak göründüğünü belirtti .
+ARITMA İŞLEMİ ÇEVREYE ZARAR VERİYOR MU ?
+Hemen tüm modern tuzlu su arıtma tesisleri , ters ozmoz prensibine dayanıyor .
+Ters ozmoz işleminde , suyun içindeki istenmeyen tüm mineraller sudan ayrıştırılarak bir filtrasyon işleminden geçiriliyor .
+Tuzlu su arıtılırken , oldukça yüksek bir basınç uygulanıyor ve bir metreküp tatlı su için 3 ila 4 kilovatsaat elektrik kullanılıyor .
+Nehir ve göl sularının arıtılmasına kıyasla tuzlu su arıtımında üç kat daha fazla karbondioksit üretiliyor . \nTuzlu su arıtımının çevreye olumsuz etkilerinin başında , karbondioksit salınımı geliyor .
+" Deniz suyunun içinde tuzun yanı sıra birçok kendini ayrıştırabilen deniz yosunu bulunuyor . Mevcut olan membranlar , suyun geçirgenliği konusunda oldukça iyi işliyor . Ancak organik madde ve bakterilerin bu membran filtrelere yapışması durumunda işlevleri azalıyor . Çünkü organik maddeler filtrelerin üst kısımlarında toplanıyor " diyen ABD'nin Indiana Eyaleti'ndeki Notre Dame Üniversitesi'nden William Phillip , tesislerde rüzgar ya da güneş enerjisinin kullanılması durumunda karbondioksit salınımının azaltılabileceğine dikkat çekti .
+KİMYASAL MADDELER KULLANILIYOR Membranlara bu tip organik maddelerin yapışmasını azaltabilmek için de deniz suyunu arıtma işleminden önce kimyasallar dökülüyor .
+Kimyasal kullanımını engellemek amacıyla birçok mühendis , yeni bir mikrop ayrıştırıcı geliştirmeye çalışıyor olsa da , bu da çevreye olumsuz etkisi olabilecek etkenler arasında gösteriliyor .
+AYRIŞTIRILAN TUZLAR NEREYE GİDİYOR ?
+Tuzlu suyun arıtılarak tatlı su elde edilmesi sürecinde , ayrıştırılan tuzların nasıl imha edileceği konusu da oldukça önemli .
+Genelde tuz yığınları toplu olarak , çabucak çözülmeleri için yeniden denize boşaltılıyor .
+Henüz uzun vadeli bir araştırma yapılmadığı için tuzların denize dökülmesinin , deniz canlıları için ne tür yan etkileri olduğu ise bilinmiyor .
+Çevre teknolojileri uzmanı Profesör Menachem Elimelech , denizden uzak yerlerdeki tesislerde yarı tuzlu suyun arıtımından elde edilen tuzların imha edilmesinde gelecekte oluşabilecek farklı bir soruna da dikkat çekiyor ; " Çözüm yollarından biri , tuz öbeklerini yaklaşık 1 kilometre yeraltına pompalamak olabilir . Bu bir çeşit imha yöntemi olsa da kalıcı bir çözüm değil . Arıtma tesislerinin tuzları imha etmek için yeraltına pompalamaları durumunda 50 , 100 ya da 500 yıl içinde yeraltı suları zarar görebilir "
+Tuzlu su arıtımı ilk bakışta akla yatkın gelse de , arıtma süreci enerji kullanımını artırıyor ve çevreye farklı açılardan zarar verebiliyor .
+Profesör Elimelech , birçok kurak bölgede tuzlu su arıtımından başka seçenek olmayacağı görüşünde .
+Ancak yine de bu yönteme başvurmadan önce daha çevre dostu teknolojilerin de göz önünde bulundurulması gerektiğini belirtiyor .

@@ -1,0 +1,21 @@
+Nvidia’nın bulut tabanlı oyun teknolojisi GeForce Now , Turkcell GAME + iş birliği ile Türkiye’de hizmet vermeye hazırlanıyor .
+Mart ayı itibariyle kullanıma sunulacak olan GAME + platformunun abonelik paketleri açıklandı .
+Peki , GeForce Now GamePlus nedir , nasıl kullanılır ?
+GeForce Now GamePlus çıkış tarihi ne zaman ?
+Turkcell GAME + iş birliği ile Türkiye sunularından hizmet vermeye hazırlanan GeForce Now’un , Mart ayında kullanıma sunulacağı açıklandı .
+Nvidia , kullanıcılar için Basic ve Premium olmak üzere iki farklı paket sunacak .
+Ücretsiz olan Basic paketinde , oyunculara Premium’dan farklı olarak 1 saatlik oyun deneyimi sunulacak ve ücretsiz hesaplar oyuna girmek için sıra bekleyecek .
+Süre sınırlaması olmayan Premium paketinde , oyuncular RTX özelliğini de oyunlarda kullanabilecek .
+Önümüzdeki aylarda fiyatının açıklanması beklenen Nvidia GeForce Now servisinin ücreti henüz açıklanmadı .
+GeForce Now’un iOS , Android , Windows , Mac ve ChromeBook cihazlarının tümünde çalışıyor .
+Ayrıca , GeForce Now servisini kullanarak oyun deneyimi yaşamak isteyen kullanıcıların Steam , Epic Games Store veya Ubisoft gibi dijital platform hesabınızda olması gerekiyor .
+NVIDIA GEFORCE NOW ÇIKIŞ TARİHİ NE ZAMAN ?
+GeForce Now 15 Şubat Pazartesi günü Beta sürecinin ardından , 15 Mart tarihinde tüm kullanıcılar için erişim sağlanacak .
+Eskiden Nvidia GRID olarak bilinen GeForce Now'ın Nvidia Shield sürümü , 2013'te beta olarak piyasaya sürüldü ve Nvidia , 30 Eylül 2015'te ismini resmen açıkladı .
+Abonelik süresi boyunca Nvidia sunucularında , video akışı yoluyla abonelere ulaştırılmakta .
+NVIDIA GEFORCE NOW NEDİR ?
+Nvidia tarafından piyasaya sürülen GeForce NOW , oyunculara gerçek zamanlı oyun deneyimi sunan bulut tabanlı bir hizmetidir .
+GeForce Now iOS , Android , Windows , Mac ve ChromeBook cihazlarının tümünde çalışmaktadır .
+GeForce Now’un Türkiye’de erişime sunulmasıyla birlikte oyuncular , cihazlarına bağlı kalmaksızın tüm oyunları Türkiye'deki sunucular üzerinden yüksek çözünürlükte oynayabilecek .
+NVIDIA GEFORCE NOW ÖZELLiKLERİ NELERDİR ?
+Highlights ( Oyundaki önemli anları yakalama özelliği ) Freestyle ( Oyuna filtreler ekleme özelliği ) Süper çözünürlüklü , 360 derece fotolar veya HDR ile Ansel desteğiDLSS ve RTX , NVIDIA teknolojilerine destek Mac , Android , İOS , Chromebook , PC gibi tüm cihazlardan erişim sağlama , Steam , Ubisoft Connect , Epic Games Store , GOG ve Ubisoft Connect gibi platformlar üzerinden erişim .
