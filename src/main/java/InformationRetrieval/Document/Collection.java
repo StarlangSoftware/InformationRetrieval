@@ -41,7 +41,7 @@ public class Collection {
         Arrays.sort(listOfFiles);
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
-                if (file.isFile()) {
+                if (file.isFile() && file.getName().endsWith(".txt")) {
                     documents.add(new Document(file.getAbsolutePath(), file.getName(), i));
                     i++;
                 }
@@ -64,7 +64,7 @@ public class Collection {
         Arrays.sort(listOfFiles);
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
-                if (file.isFile()) {
+                if (file.isFile() && file.getName().endsWith(".txt")) {
                     Document document = new Document(file.getAbsolutePath(), file.getName(), i);
                     document.normalizeDocument(disambiguator, fsm);
                     documents.add(document);
@@ -79,8 +79,16 @@ public class Collection {
         return documents.size();
     }
 
+    public int vocabularySize(){
+        return dictionary.size();
+    }
+
     public Document getDocument(int index){
         return documents.get(index);
+    }
+
+    private boolean areTermsDifferent(TermOccurrence previousTerm, TermOccurrence currentTerm){
+        return previousTerm.getTerm().getName().hashCode() != currentTerm.getTerm().getName().hashCode();
     }
 
     private ArrayList<TermOccurrence> constructDictionary(){
@@ -102,7 +110,7 @@ public class Collection {
             i = 1;
             while (i < terms.size()){
                 term = terms.get(i);
-                if (!term.getTerm().getName().equals(previousTerm.getTerm().getName())){
+                if (areTermsDifferent(term, previousTerm)){
                     dictionary.addTerm(term.getTerm());
                 }
                 i++;
@@ -113,25 +121,19 @@ public class Collection {
     }
 
     private void constructIncidenceMatrix(){
-        int termId, i;
+        int i;
         ArrayList<TermOccurrence> terms;
-        TermOccurrence term, previousTerm;
+        TermOccurrence term;
         terms = constructDictionary();
         incidenceMatrix = new IncidenceMatrix(dictionary.size(), documents.size());
         if (terms.size() > 0){
-            termId = 0;
             term = terms.get(0);
             i = 1;
-            previousTerm = term;
-            incidenceMatrix.set(termId, term.getDocID());
+            incidenceMatrix.set(dictionary.getWordIndex(term.getTerm().getName()), term.getDocID());
             while (i < terms.size()){
                 term = terms.get(i);
-                if (!term.getTerm().getName().equals(previousTerm.getTerm().getName())){
-                    termId++;
-                }
-                incidenceMatrix.set(termId, term.getDocID());
+                incidenceMatrix.set(dictionary.getWordIndex(term.getTerm().getName()), term.getDocID());
                 i++;
-                previousTerm = term;
             }
         }
     }
@@ -143,17 +145,17 @@ public class Collection {
         terms = constructDictionary();
         invertedIndex = new InvertedIndex(dictionary.size());
         if (terms.size() > 0){
-            termId = 0;
             term = terms.get(0);
             i = 1;
             previousTerm = term;
+            termId = dictionary.getWordIndex(term.getTerm().getName());
             invertedIndex.add(termId, term.getDocID());
             invertedIndex.addPosition(termId, term.getDocID(), term.getPosition());
             prevDocId = term.getDocID();
             while (i < terms.size()){
                 term = terms.get(i);
-                if (!term.getTerm().getName().equals(previousTerm.getTerm().getName())){
-                    termId++;
+                termId = dictionary.getWordIndex(term.getTerm().getName());
+                if (areTermsDifferent(term, previousTerm)){
                     invertedIndex.add(termId, term.getDocID());
                     invertedIndex.addPosition(termId, term.getDocID(), term.getPosition());
                     prevDocId = term.getDocID();
