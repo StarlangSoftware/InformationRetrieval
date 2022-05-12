@@ -3,14 +3,12 @@ package InformationRetrieval.Document;
 import Corpus.*;
 import Dictionary.Word;
 import InformationRetrieval.Index.TermOccurrence;
+import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
+import MorphologicalAnalysis.FsmParse;
+import MorphologicalAnalysis.FsmParseList;
+import MorphologicalDisambiguation.MorphologicalDisambiguator;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
 
 public class Document {
 
@@ -23,34 +21,22 @@ public class Document {
         this.docId = docId;
         this.absoluteFileName = absoluteFileName;
         this.fileName = fileName;
-        this.corpus = new Corpus(absoluteFileName);
+        corpus = new Corpus(absoluteFileName);
     }
 
-    public Document(String absoluteFileName, String fileName, int docId, HashMap<String, String> rootList){
-        String line;
-        this.docId = docId;
-        this.absoluteFileName = absoluteFileName;
-        this.fileName = fileName;
-        this.corpus = new Corpus();
-        try {
-            FileReader fr = new FileReader(fileName);
-            BufferedReader br = new BufferedReader(fr);
-            line = br.readLine();
-            while (line != null) {
-                String[] wordArray = line.split(" ");
-                Sentence sentence = new Sentence();
-                for (String word : wordArray){
-                    String lowerCased = word.toLowerCase(new Locale("tr"));
-                    if (rootList.containsKey(lowerCased)){
-                        sentence.addWord(new Word(rootList.get(lowerCased)));
-                    }
-                }
-                corpus.addSentence(sentence);
-                line = br.readLine();
+    public void normalizeDocument(MorphologicalDisambiguator disambiguator, FsmMorphologicalAnalyzer fsm){
+        Corpus tmpCorpus = new Corpus();
+        for (int i = 0; i < corpus.sentenceCount(); i++){
+            Sentence sentence = corpus.getSentence(i);
+            FsmParseList[] parses = fsm.robustMorphologicalAnalysis(sentence);
+            ArrayList<FsmParse> correctParses = disambiguator.disambiguate(parses);
+            Sentence newSentence = new Sentence();
+            for (FsmParse fsmParse : correctParses){
+                newSentence.addWord(new Word(fsmParse.getWord().getName()));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            tmpCorpus.addSentence(newSentence);
         }
+        corpus = tmpCorpus;
     }
 
     public int getDocId(){

@@ -47,8 +47,8 @@
     <dependencies>
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
-            <artifactId>MorphologicalAnalysis</artifactId>
-            <version>1.0.40</version>
+            <artifactId>MorphologicalDisambiguation</artifactId>
+            <version>1.0.21</version>
         </dependency>
     </dependencies>
 

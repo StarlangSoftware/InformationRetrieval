@@ -4,9 +4,10 @@ import Dictionary.WordComparator;
 import InformationRetrieval.Index.*;
 import InformationRetrieval.Query.*;
 import Math.Matrix;
+import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
+import MorphologicalDisambiguation.MorphologicalDisambiguator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Collection {
@@ -16,24 +17,6 @@ public class Collection {
     private IncidenceMatrix incidenceMatrix;
     private InvertedIndex invertedIndex;
     private WordComparator comparator;
-
-    private HashMap<String, String> constructRootList(String fileName){
-        HashMap<String, String> rootList = new HashMap<>();
-        try {
-            Scanner input = new Scanner(new File(fileName));
-            while (input.hasNextLine()){
-                String line = input.nextLine();
-                String[] items = line.split(" ");
-                if (items.length == 2){
-                    rootList.put(items[0], items[1]);
-                }
-            }
-            input.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return rootList;
-    }
 
     private void constructIndex(){
         switch (indexType){
@@ -46,7 +29,9 @@ public class Collection {
         }
     }
 
-    public Collection(String directory, IndexType indexType, WordComparator comparator){
+    public Collection(String directory,
+                      IndexType indexType,
+                      WordComparator comparator){
         int i = 0;
         this.indexType = indexType;
         this.comparator = comparator;
@@ -65,9 +50,12 @@ public class Collection {
         constructIndex();
     }
 
-    public Collection(String directory, IndexType indexType, WordComparator comparator, String rootFile){
+    public Collection(String directory,
+                      IndexType indexType,
+                      WordComparator comparator,
+                      MorphologicalDisambiguator disambiguator,
+                      FsmMorphologicalAnalyzer fsm){
         int i = 0;
-        HashMap<String, String> rootList = constructRootList(rootFile);
         this.indexType = indexType;
         this.comparator = comparator;
         documents = new ArrayList<Document>();
@@ -77,53 +65,12 @@ public class Collection {
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-                    documents.add(new Document(file.getAbsolutePath(), file.getName(), i, rootList));
+                    Document document = new Document(file.getAbsolutePath(), file.getName(), i);
+                    document.normalizeDocument(disambiguator, fsm);
+                    documents.add(document);
                     i++;
                 }
             }
-        }
-        constructIndex();
-    }
-
-    public Collection(String directory, String fileList, IndexType indexType, WordComparator comparator){
-        Scanner input;
-        String fileName;
-        int i = 0;
-        this.indexType = indexType;
-        this.comparator = comparator;
-        documents = new ArrayList<Document>();
-        try {
-            input = new Scanner(new File(fileList));
-            while (input.hasNext()){
-                fileName = input.next();
-                documents.add(new Document(directory + fileName, fileName, i));
-                i++;
-            }
-            input.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        constructIndex();
-    }
-
-    public Collection(String directory, String fileList, IndexType indexType, WordComparator comparator, String rootFile){
-        Scanner input;
-        String fileName;
-        int i = 0;
-        HashMap<String, String> rootList = constructRootList(rootFile);
-        this.indexType = indexType;
-        this.comparator = comparator;
-        documents = new ArrayList<Document>();
-        try {
-            input = new Scanner(new File(fileList));
-            while (input.hasNext()){
-                fileName = input.next();
-                documents.add(new Document(directory + fileName, fileName, i, rootList));
-                i++;
-            }
-            input.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
         constructIndex();
     }
