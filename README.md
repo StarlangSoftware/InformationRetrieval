@@ -4,7 +4,7 @@ InformationRetrieval
 Video Lectures
 ============
 
-[<img src=video1.jpg width="50%">](https://youtu.be/DhjZPVrvdnE)[<img src=video2.jpg width="50%">](https://youtu.be/rfNoyFw-_g8)[<img src=video3.jpg width="50%">](https://youtu.be/sYHVpTZL6o4)
+[<img src=video1.jpg width="50%">](https://youtu.be/DhjZPVrvdnE)[<img src=video2.jpg width="50%">](https://youtu.be/rfNoyFw-_g8)[<img src=video3.jpg width="50%">](https://youtu.be/sYHVpTZL6o4)[<img src=video4.jpg width="50%">](https://youtu.be/bRckCK9VcKQ)
 
 For Developers
 ============
