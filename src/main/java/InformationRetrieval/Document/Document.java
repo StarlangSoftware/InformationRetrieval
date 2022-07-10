@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 public class Document {
 
-    private String absoluteFileName;
-    private String fileName;
+    private final String absoluteFileName;
+    private final String fileName;
     private Corpus corpus;
-    private int docId;
+    private final int docId;
 
     public Document(String absoluteFileName, String fileName, int docId){
         this.docId = docId;
@@ -56,11 +56,23 @@ public class Document {
     }
 
     ArrayList<TermOccurrence> getTerms(){
-        ArrayList<TermOccurrence> terms = new ArrayList<TermOccurrence>();
+        ArrayList<TermOccurrence> terms = new ArrayList<>();
         int size = 0;
         for (int i = 0; i < corpus.sentenceCount(); i++){
             for (int j = 0; j < corpus.getSentence(i).wordCount(); j++){
                 terms.add(new TermOccurrence(corpus.getSentence(i).getWord(j), docId, size));
+                size++;
+            }
+        }
+        return terms;
+    }
+
+    ArrayList<TermOccurrence> getBiWordTerms(){
+        ArrayList<TermOccurrence> terms = new ArrayList<>();
+        int size = 0;
+        for (int i = 0; i < corpus.sentenceCount(); i++){
+            for (int j = 0; j < corpus.getSentence(i).wordCount() - 1; j++){
+                terms.add(new TermOccurrence(new Word(corpus.getSentence(i).getWord(j).getName() + " " + corpus.getSentence(i).getWord(j + 1).getName()), docId, size));
                 size++;
             }
         }

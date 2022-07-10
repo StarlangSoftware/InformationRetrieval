@@ -9,7 +9,7 @@ public class PostingList {
     protected ArrayList<Posting> postings;
 
     public PostingList(){
-        postings = new ArrayList<Posting>();
+        postings = new ArrayList<>();
     }
 
     public void add(int docId){
@@ -46,5 +46,13 @@ public class PostingList {
             result.add(posting.getId());
         }
         return result;
+    }
+
+    public String toString(){
+        String result = "";
+        for (Posting posting : postings){
+            result += posting.getId() + " ";
+        }
+        return result.trim() + "\n";
     }
 }

@@ -4,19 +4,24 @@ import Dictionary.WordComparator;
 import InformationRetrieval.Index.*;
 import InformationRetrieval.Query.*;
 import Math.Matrix;
-import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
-import MorphologicalDisambiguation.MorphologicalDisambiguator;
 
 import java.io.File;
 import java.util.*;
 
 public class Collection {
-    private IndexType indexType;
+    private final IndexType indexType;
     private TermDictionary dictionary;
-    private ArrayList<Document> documents;
+
+    private TermDictionary biWordDictionary;
+    private final ArrayList<Document> documents;
     private IncidenceMatrix incidenceMatrix;
     private InvertedIndex invertedIndex;
-    private WordComparator comparator;
+
+    private InvertedIndex biWordIndex;
+    private final WordComparator comparator;
+    private final String name;
+
+    private final Parameter parameter;
 
     private void constructIndex(){
         switch (indexType){
@@ -24,55 +29,47 @@ public class Collection {
                 constructIncidenceMatrix();
                 break;
             case INVERTED_INDEX:
-                constructInvertedIndex();
+                constructInvertedIndex(false);
+                if (parameter.isBiWordIndex()){
+                    constructInvertedIndex(true);
+                }
                 break;
         }
     }
 
     public Collection(String directory,
-                      IndexType indexType,
-                      WordComparator comparator){
+                      Parameter parameter){
         int i = 0;
-        this.indexType = indexType;
-        this.comparator = comparator;
-        documents = new ArrayList<Document>();
+        this.name = directory;
+        this.indexType = parameter.getIndexType();
+        this.comparator = parameter.getWordComparator();
+        this.parameter = parameter;
+        documents = new ArrayList<>();
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
-        Arrays.sort(listOfFiles);
         if (listOfFiles != null) {
-            for (File file : listOfFiles) {
-                if (file.isFile() && file.getName().endsWith(".txt")) {
-                    documents.add(new Document(file.getAbsolutePath(), file.getName(), i));
-                    i++;
-                }
-            }
-        }
-        constructIndex();
-    }
-
-    public Collection(String directory,
-                      IndexType indexType,
-                      WordComparator comparator,
-                      MorphologicalDisambiguator disambiguator,
-                      FsmMorphologicalAnalyzer fsm){
-        int i = 0;
-        this.indexType = indexType;
-        this.comparator = comparator;
-        documents = new ArrayList<Document>();
-        File folder = new File(directory);
-        File[] listOfFiles = folder.listFiles();
-        Arrays.sort(listOfFiles);
-        if (listOfFiles != null) {
+            Arrays.sort(listOfFiles);
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().endsWith(".txt")) {
                     Document document = new Document(file.getAbsolutePath(), file.getName(), i);
-                    document.normalizeDocument(disambiguator, fsm);
+                    if (parameter.isNormalizeDocument()){
+                        document.normalizeDocument(parameter.getDisambiguator(), parameter.getFsm());
+                    }
                     documents.add(document);
                     i++;
                 }
             }
         }
-        constructIndex();
+        if (parameter.isFromFile()){
+            dictionary = new TermDictionary(comparator, directory);
+            invertedIndex = new InvertedIndex(directory, dictionary.size());
+            if (parameter.isBiWordIndex()){
+                biWordDictionary = new TermDictionary(comparator, directory + "-biWord");
+                biWordIndex = new InvertedIndex(directory + "-biWord", biWordDictionary.size());
+            }
+        } else {
+            constructIndex();
+        }
     }
 
     public int size(){
@@ -91,18 +88,38 @@ public class Collection {
         return previousTerm.getTerm().getName().hashCode() != currentTerm.getTerm().getName().hashCode();
     }
 
-    private ArrayList<TermOccurrence> constructDictionary(){
-        int i;
+    public void save(){
+        if (indexType == IndexType.INVERTED_INDEX){
+            dictionary.save(name);
+            invertedIndex.save(name);
+            if (parameter.isBiWordIndex()){
+                biWordDictionary.save(name + "-biWord");
+                biWordIndex.save(name + "-biWord");
+            }
+        }
+    }
+
+    private ArrayList<TermOccurrence> constructTerms(boolean biWord){
         TermOccurrenceComparator termComparator = new TermOccurrenceComparator(comparator);
-        ArrayList<TermOccurrence> terms = new ArrayList<TermOccurrence>();
+        ArrayList<TermOccurrence> terms = new ArrayList<>();
         ArrayList<TermOccurrence> docTerms;
-        TermOccurrence term, previousTerm;
-        dictionary = new TermDictionary(comparator);
         for (Document doc : documents){
-            docTerms = doc.getTerms();
+            if (biWord){
+                docTerms = doc.getBiWordTerms();
+            } else {
+                docTerms = doc.getTerms();
+            }
             terms.addAll(docTerms);
         }
-        Collections.sort(terms, termComparator);
+        terms.sort(termComparator);
+        return terms;
+    }
+
+    private TermDictionary constructDictionary(ArrayList<TermOccurrence> terms){
+        int i;
+        TermOccurrence term, previousTerm;
+        TermDictionary dictionary;
+        dictionary = new TermDictionary(comparator);
         if (terms.size() > 0){
             term = terms.get(0);
             dictionary.addTerm(term.getTerm());
@@ -117,14 +134,15 @@ public class Collection {
                 previousTerm = term;
             }
         }
-        return terms;
+        return dictionary;
     }
 
     private void constructIncidenceMatrix(){
         int i;
         ArrayList<TermOccurrence> terms;
         TermOccurrence term;
-        terms = constructDictionary();
+        terms = constructTerms(false);
+        dictionary = constructDictionary(terms);
         incidenceMatrix = new IncidenceMatrix(dictionary.size(), documents.size());
         if (terms.size() > 0){
             term = terms.get(0);
@@ -138,11 +156,13 @@ public class Collection {
         }
     }
 
-    private void constructInvertedIndex(){
+    private void constructInvertedIndex(boolean biWord){
         int i, termId, prevDocId;
-        ArrayList<TermOccurrence> terms;
         TermOccurrence term, previousTerm;
-        terms = constructDictionary();
+        TermDictionary dictionary;
+        InvertedIndex invertedIndex;
+        ArrayList<TermOccurrence> terms = constructTerms(biWord);
+        dictionary = constructDictionary(terms);
         invertedIndex = new InvertedIndex(dictionary.size());
         if (terms.size() > 0){
             term = terms.get(0);
@@ -171,6 +191,13 @@ public class Collection {
                 i++;
                 previousTerm = term;
             }
+        }
+        if (biWord){
+            biWordIndex = invertedIndex;
+            biWordDictionary = dictionary;
+        } else {
+            this.invertedIndex = invertedIndex;
+            this.dictionary = dictionary;
         }
     }
 
@@ -218,7 +245,7 @@ public class Collection {
 
     public ArrayList<String> sharedWordList(Collection collection2, VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
         int index1, index2;
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         for (index1 = 0; index1 < dictionary.size(); index1++){
             if (spaceModel1.get(index1) > 0.0){
                 index2 = collection2.dictionary.getWordIndex(dictionary.getWord(index1).getName());

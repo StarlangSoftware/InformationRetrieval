@@ -3,12 +3,12 @@ package InformationRetrieval.Index;
 import java.util.ArrayList;
 
 public class PositionalPosting {
-    private ArrayList<Posting> positions;
-    private int docId;
+    private final ArrayList<Posting> positions;
+    private final int docId;
 
     public PositionalPosting(int docId){
         this.docId = docId;
-        positions = new ArrayList<Posting>();
+        positions = new ArrayList<>();
     }
 
     public void add(int position){
@@ -25,5 +25,13 @@ public class PositionalPosting {
 
     public int size(){
         return positions.size();
+    }
+
+    public String toString(){
+        String result = docId + " " + positions.size();
+        for (Posting posting : positions){
+            result += " " + posting.getId();
+        }
+        return result;
     }
 }

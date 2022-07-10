@@ -6,13 +6,17 @@ import InformationRetrieval.Query.Query;
 import InformationRetrieval.Query.QueryResult;
 import InformationRetrieval.Query.VectorSpaceModel;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class InvertedIndex {
-    private PostingList[] index;
-    private PositionalPostingList[] positionalIndex;
-    private int dictionarySize;
+    private final PostingList[] index;
+    private final PositionalPostingList[] positionalIndex;
+    private final int dictionarySize;
 
     public InvertedIndex(int dictionarySize){
         this.dictionarySize = dictionarySize;
@@ -23,6 +27,96 @@ public class InvertedIndex {
         }
         for (int i = 0; i < dictionarySize; i++){
             positionalIndex[i] = new PositionalPostingList();
+        }
+    }
+
+    private void readPostingList(String fileName){
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-postings.txt")), StandardCharsets.UTF_8));
+            String line = br.readLine();
+            int wordId = 0;
+            while (line != null){
+                String[] items = line.split(" ");
+                if (wordId == Integer.parseInt(items[0])){
+                    index[wordId] = new PostingList();
+                    line = br.readLine();
+                    String[] ids = line.split(" ");
+                    int numberOfPostings = Integer.parseInt(items[1]);
+                    if (ids.length == numberOfPostings){
+                        for (String id : ids){
+                            int docId = Integer.parseInt(id);
+                            index[wordId].add(docId);
+                        }
+                    } else {
+                        System.out.println("Mismatch in the number of postings for word " + wordId);
+                    }
+                } else {
+                    System.out.println("Word Id's do not follow for word " + wordId);
+                }
+                wordId++;
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readPositionalPostingList(String fileName){
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-positionalPostings.txt")), StandardCharsets.UTF_8));
+            String line = br.readLine();
+            int wordId = 0;
+            while (line != null){
+                String[] items = line.split(" ");
+                if (wordId == Integer.parseInt(items[0])){
+                    positionalIndex[wordId] = new PositionalPostingList();
+                    for (int i = 0; i < Integer.parseInt(items[1]); i++){
+                        line = br.readLine().trim();
+                        String[] ids = line.split(" ");
+                        int numberOfPositionalPostings = Integer.parseInt(ids[1]);
+                        if (ids.length == numberOfPositionalPostings + 2){
+                            int docId = Integer.parseInt(ids[0]);
+                            for (int j = 0; j < numberOfPositionalPostings; j++){
+                                int positionalPosting = Integer.parseInt(ids[j + 2]);
+                                positionalIndex[wordId].add(docId, positionalPosting);
+                            }
+                        } else {
+                            System.out.println("Mismatch in the number of postings for word " + wordId);
+                        }
+                    }
+                } else {
+                    System.out.println("Word Id's do not follow for word " + wordId);
+                }
+                wordId++;
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public InvertedIndex(String fileName, int dictionarySize){
+        this.dictionarySize = dictionarySize;
+        index = new PostingList[dictionarySize];
+        positionalIndex = new PositionalPostingList[dictionarySize];
+        readPostingList(fileName);
+        readPositionalPostingList(fileName);
+    }
+
+    public void save(String fileName){
+        try {
+            PrintWriter printWriter1 = new PrintWriter(fileName + "-postings.txt", "UTF-8");
+            PrintWriter printWriter2 = new PrintWriter(fileName + "-positionalPostings.txt", "UTF-8");
+            for (int i = 0; i < dictionarySize; i++){
+                printWriter1.write(i + " " + index[i].size() + "\n");
+                printWriter1.write(index[i].toString());
+                printWriter2.write(i + " " + positionalIndex[i].size() + "\n");
+                printWriter2.write(positionalIndex[i].toString());
+            }
+            printWriter1.close();
+            printWriter2.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -38,14 +132,14 @@ public class InvertedIndex {
         int i, termIndex;
         PostingList result;
         PostingListComparator comparator = new PostingListComparator();
-        ArrayList<PostingList> queryTerms = new ArrayList<PostingList>();
+        ArrayList<PostingList> queryTerms = new ArrayList<>();
         for (i = 0; i < query.size(); i++){
             termIndex = dictionary.getWordIndex(query.getTerm(i).getName());
             if (termIndex != -1){
                 queryTerms.add(index[termIndex]);
             }
         }
-        Collections.sort(queryTerms, comparator);
+        queryTerms.sort(comparator);
         result = queryTerms.get(0);
         for (i = 1; i < queryTerms.size(); i++){
             result = result.intersection(queryTerms.get(i));

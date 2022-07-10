@@ -7,10 +7,10 @@ import java.util.Iterator;
 
 public class PositionalPostingList {
 
-    private ArrayList<PositionalPosting> postings;
+    private final ArrayList<PositionalPosting> postings;
 
     public PositionalPostingList(){
-        postings = new ArrayList<PositionalPosting>();
+        postings = new ArrayList<>();
     }
 
     public int size(){
@@ -90,6 +90,14 @@ public class PositionalPostingList {
                     p2 = iterator2.next();
                 }
             }
+        }
+        return result;
+    }
+
+    public String toString(){
+        String result = "";
+        for (PositionalPosting positionalPosting : postings){
+            result += "\t" + positionalPosting.toString() + "\n";
         }
         return result;
     }

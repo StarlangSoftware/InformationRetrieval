@@ -1,4 +1,5 @@
 import Dictionary.TurkishWordComparator;
+import InformationRetrieval.Document.Parameter;
 import InformationRetrieval.Performance.ConfusionMatrix;
 import InformationRetrieval.Document.Collection;
 import InformationRetrieval.Document.DocumentWeighting;
@@ -20,9 +21,10 @@ import java.util.Scanner;
 
 public class Traceability {
 
-    private Collection requirements, classInfo;
-    private int[][] traceability;
-    private double[][] similarities;
+    private final Collection requirements;
+    private final Collection classInfo;
+    private final int[][] traceability;
+    private final double[][] similarities;
     private double[] thresholds;
 
     /**
@@ -37,8 +39,9 @@ public class Traceability {
      */
     public Traceability(String requirementsDirectory, String classDirectory, String traceabilityFile){
         FsmMorphologicalAnalyzer fsm = new FsmMorphologicalAnalyzer();
-        classInfo = new Collection(classDirectory, IndexType.INVERTED_INDEX, new TurkishWordComparator());
-        requirements = new Collection(requirementsDirectory, IndexType.INVERTED_INDEX, new TurkishWordComparator());
+        Parameter parameter = new Parameter();
+        classInfo = new Collection(classDirectory, parameter);
+        requirements = new Collection(requirementsDirectory, parameter);
         traceability = new int[classInfo.size()][requirements.size()];
         similarities = new double[classInfo.size()][requirements.size()];
         try {
@@ -161,7 +164,7 @@ public class Traceability {
      */
     public void sharedWordList(String wordListFile, TermWeighting termWeighting, DocumentWeighting documentWeighting){
         try {
-            FileWriter fw = new FileWriter(new File(wordListFile));
+            FileWriter fw = new FileWriter(wordListFile);
             fw.write("Documents/Requirements\t");
             for (int j = 0; j < requirements.size(); j++){
                 fw.write(requirements.getDocument(j).getFileName() + "\t");
