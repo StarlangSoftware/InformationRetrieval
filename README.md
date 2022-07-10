@@ -1,4 +1,4 @@
-InformationRetrieval
+Information Retrieval
 ============
 
 Video Lectures
