@@ -17,7 +17,11 @@ public class Collection {
     private IncidenceMatrix incidenceMatrix;
     private InvertedIndex invertedIndex;
 
+    private PositionalIndex positionalIndex;
+
     private InvertedIndex biWordIndex;
+
+    private PositionalIndex biWordPositionalIndex;
     private final WordComparator comparator;
     private final String name;
 
@@ -29,9 +33,15 @@ public class Collection {
                 constructIncidenceMatrix();
                 break;
             case INVERTED_INDEX:
-                constructInvertedIndex(false);
+                ArrayList<TermOccurrence> terms = constructTerms(false);
+                dictionary = constructDictionary(terms);
+                invertedIndex = constructInvertedIndex(dictionary, terms, dictionary.size());
+                positionalIndex = constructPositionalIndex(dictionary, terms, dictionary.size());
                 if (parameter.isBiWordIndex()){
-                    constructInvertedIndex(true);
+                    terms = constructTerms(true);
+                    biWordDictionary = constructDictionary(terms);
+                    biWordIndex = constructInvertedIndex(biWordDictionary, terms, biWordDictionary.size());
+                    biWordPositionalIndex = constructPositionalIndex(biWordDictionary, terms, biWordDictionary.size());
                 }
                 break;
         }
@@ -63,9 +73,11 @@ public class Collection {
         if (parameter.isFromFile()){
             dictionary = new TermDictionary(comparator, directory);
             invertedIndex = new InvertedIndex(directory, dictionary.size());
+            positionalIndex = new PositionalIndex(directory, dictionary.size());
             if (parameter.isBiWordIndex()){
                 biWordDictionary = new TermDictionary(comparator, directory + "-biWord");
                 biWordIndex = new InvertedIndex(directory + "-biWord", biWordDictionary.size());
+                biWordPositionalIndex = new PositionalIndex(directory + "-biWord", biWordDictionary.size());
             }
         } else {
             constructIndex();
@@ -156,53 +168,72 @@ public class Collection {
         }
     }
 
-    private void constructInvertedIndex(boolean biWord){
+    private InvertedIndex constructInvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;
-        TermDictionary dictionary;
         InvertedIndex invertedIndex;
-        ArrayList<TermOccurrence> terms = constructTerms(biWord);
-        dictionary = constructDictionary(terms);
-        invertedIndex = new InvertedIndex(dictionary.size());
+        invertedIndex = new InvertedIndex(size);
         if (terms.size() > 0){
             term = terms.get(0);
             i = 1;
             previousTerm = term;
             termId = dictionary.getWordIndex(term.getTerm().getName());
             invertedIndex.add(termId, term.getDocID());
-            invertedIndex.addPosition(termId, term.getDocID(), term.getPosition());
             prevDocId = term.getDocID();
             while (i < terms.size()){
                 term = terms.get(i);
                 termId = dictionary.getWordIndex(term.getTerm().getName());
                 if (areTermsDifferent(term, previousTerm)){
                     invertedIndex.add(termId, term.getDocID());
-                    invertedIndex.addPosition(termId, term.getDocID(), term.getPosition());
                     prevDocId = term.getDocID();
                 } else {
                     if (prevDocId != term.getDocID()){
                         invertedIndex.add(termId, term.getDocID());
-                        invertedIndex.addPosition(termId, term.getDocID(), term.getPosition());
                         prevDocId = term.getDocID();
-                    } else {
-                        invertedIndex.addPosition(termId, term.getDocID(), term.getPosition());
                     }
                 }
                 i++;
                 previousTerm = term;
             }
         }
-        if (biWord){
-            biWordIndex = invertedIndex;
-            biWordDictionary = dictionary;
-        } else {
-            this.invertedIndex = invertedIndex;
-            this.dictionary = dictionary;
+        return invertedIndex;
+    }
+
+    private PositionalIndex constructPositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){
+        int i, termId, prevDocId;
+        TermOccurrence term, previousTerm;
+        PositionalIndex positionalIndex;
+        positionalIndex = new PositionalIndex(size);
+        if (terms.size() > 0){
+            term = terms.get(0);
+            i = 1;
+            previousTerm = term;
+            termId = dictionary.getWordIndex(term.getTerm().getName());
+            positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
+            prevDocId = term.getDocID();
+            while (i < terms.size()){
+                term = terms.get(i);
+                termId = dictionary.getWordIndex(term.getTerm().getName());
+                if (areTermsDifferent(term, previousTerm)){
+                    positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
+                    prevDocId = term.getDocID();
+                } else {
+                    if (prevDocId != term.getDocID()){
+                        positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
+                        prevDocId = term.getDocID();
+                    } else {
+                        positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
+                    }
+                }
+                i++;
+                previousTerm = term;
+            }
         }
+        return positionalIndex;
     }
 
     public VectorSpaceModel getVectorSpaceModel(int docId, TermWeighting termWeighting, DocumentWeighting documentWeighting){
-        return new VectorSpaceModel(invertedIndex.getTermFrequencies(docId), invertedIndex.getDocumentFrequencies(), documents.size(), termWeighting, documentWeighting);
+        return new VectorSpaceModel(positionalIndex.getTermFrequencies(docId), positionalIndex.getDocumentFrequencies(), documents.size(), termWeighting, documentWeighting);
     }
 
     public double cosineSimilarity(Collection collection2, VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
@@ -264,15 +295,15 @@ public class Collection {
             case   INVERTED_INDEX:
                 switch (retrievalType){
                     case    BOOLEAN:return invertedIndex.search(query, dictionary);
-                    case POSITIONAL:return invertedIndex.positionalSearch(query, dictionary);
-                    case     RANKED:return invertedIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
-                    default        :return invertedIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
+                    case POSITIONAL:return positionalIndex.positionalSearch(query, dictionary);
+                    case     RANKED:return positionalIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
+                    default        :return positionalIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
                 }
             default				  :
                 switch (retrievalType){
                     case    BOOLEAN:return invertedIndex.search(query, dictionary);
-                    case POSITIONAL:return invertedIndex.positionalSearch(query, dictionary);
-                    case     RANKED:return invertedIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
+                    case POSITIONAL:return positionalIndex.positionalSearch(query, dictionary);
+                    case     RANKED:return positionalIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
                     default        :return invertedIndex.search(query, dictionary);
             }
         }
