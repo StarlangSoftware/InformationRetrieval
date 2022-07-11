@@ -12,16 +12,16 @@ public class Collection {
     private final IndexType indexType;
     private TermDictionary dictionary;
 
-    private TermDictionary biWordDictionary;
+    private TermDictionary phraseDictionary;
     private final ArrayList<Document> documents;
     private IncidenceMatrix incidenceMatrix;
     private InvertedIndex invertedIndex;
 
     private PositionalIndex positionalIndex;
 
-    private InvertedIndex biWordIndex;
+    private InvertedIndex phraseIndex;
 
-    private PositionalIndex biWordPositionalIndex;
+    private PositionalIndex phrasePositionalIndex;
     private final WordComparator comparator;
     private final String name;
 
@@ -35,16 +35,16 @@ public class Collection {
             case INVERTED_INDEX:
                 ArrayList<TermOccurrence> terms = constructTerms(false);
                 dictionary = constructDictionary(terms);
-                invertedIndex = constructInvertedIndex(dictionary, terms, dictionary.size());
-                if (parameter.isPositionalIndex()){
-                    positionalIndex = constructPositionalIndex(dictionary, terms, dictionary.size());
+                invertedIndex = constructInvertedIndex(dictionary, terms, vocabularySize());
+                if (parameter.constructPositionalIndex()){
+                    positionalIndex = constructPositionalIndex(dictionary, terms, vocabularySize());
                 }
-                if (parameter.isBiWordIndex()){
+                if (parameter.constructPhraseIndex()){
                     terms = constructTerms(true);
-                    biWordDictionary = constructDictionary(terms);
-                    biWordIndex = constructInvertedIndex(biWordDictionary, terms, biWordDictionary.size());
-                    if (parameter.isPositionalIndex()){
-                        biWordPositionalIndex = constructPositionalIndex(biWordDictionary, terms, biWordDictionary.size());
+                    phraseDictionary = constructDictionary(terms);
+                    phraseIndex = constructInvertedIndex(phraseDictionary, terms, phraseSize());
+                    if (parameter.constructPositionalIndex()){
+                        phrasePositionalIndex = constructPositionalIndex(phraseDictionary, terms, phraseSize());
                     }
                 }
                 break;
@@ -66,7 +66,7 @@ public class Collection {
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().endsWith(".txt")) {
                     Document document = new Document(file.getAbsolutePath(), file.getName(), i);
-                    if (parameter.isNormalizeDocument()){
+                    if (parameter.normalizeDocument()){
                         document.normalizeDocument(parameter.getDisambiguator(), parameter.getFsm());
                     }
                     documents.add(document);
@@ -74,17 +74,17 @@ public class Collection {
                 }
             }
         }
-        if (parameter.isFromFile()){
+        if (parameter.constructFromFile()){
             dictionary = new TermDictionary(comparator, directory);
-            invertedIndex = new InvertedIndex(directory, dictionary.size());
-            if (parameter.isPositionalIndex()){
-                positionalIndex = new PositionalIndex(directory, dictionary.size());
+            invertedIndex = new InvertedIndex(directory, vocabularySize());
+            if (parameter.constructPositionalIndex()){
+                positionalIndex = new PositionalIndex(directory, vocabularySize());
             }
-            if (parameter.isBiWordIndex()){
-                biWordDictionary = new TermDictionary(comparator, directory + "-biWord");
-                biWordIndex = new InvertedIndex(directory + "-biWord", biWordDictionary.size());
-                if (parameter.isPositionalIndex()){
-                    biWordPositionalIndex = new PositionalIndex(directory + "-biWord", biWordDictionary.size());
+            if (parameter.constructPhraseIndex()){
+                phraseDictionary = new TermDictionary(comparator, directory + "-biWord");
+                phraseIndex = new InvertedIndex(directory + "-biWord", phraseSize());
+                if (parameter.constructPositionalIndex()){
+                    phrasePositionalIndex = new PositionalIndex(directory + "-biWord", phraseSize());
                 }
             }
         } else {
@@ -100,6 +100,9 @@ public class Collection {
         return dictionary.size();
     }
 
+    public int phraseSize(){
+        return phraseDictionary.size();
+    }
     public Document getDocument(int index){
         return documents.get(index);
     }
@@ -112,9 +115,9 @@ public class Collection {
         if (indexType == IndexType.INVERTED_INDEX){
             dictionary.save(name);
             invertedIndex.save(name);
-            if (parameter.isBiWordIndex()){
-                biWordDictionary.save(name + "-biWord");
-                biWordIndex.save(name + "-biWord");
+            if (parameter.constructPhraseIndex()){
+                phraseDictionary.save(name + "-biWord");
+                phraseIndex.save(name + "-biWord");
             }
         }
     }
@@ -163,7 +166,7 @@ public class Collection {
         TermOccurrence term;
         terms = constructTerms(false);
         dictionary = constructDictionary(terms);
-        incidenceMatrix = new IncidenceMatrix(dictionary.size(), documents.size());
+        incidenceMatrix = new IncidenceMatrix(vocabularySize(), documents.size());
         if (terms.size() > 0){
             term = terms.get(0);
             i = 1;
@@ -247,7 +250,7 @@ public class Collection {
     public double cosineSimilarity(Collection collection2, VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
         int index1, index2;
         double sum = 0.0;
-        for (index1 = 0; index1 < dictionary.size(); index1++){
+        for (index1 = 0; index1 < vocabularySize(); index1++){
             if (spaceModel1.get(index1) > 0.0){
                 index2 = collection2.dictionary.getWordIndex(dictionary.getWord(index1).getName());
                 if (index2 != -1 && spaceModel2.get(index2) > 0.0){
@@ -261,7 +264,7 @@ public class Collection {
     private double cosineSimilarity(VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
         int index;
         double sum = 0.0;
-        for (index = 0; index < dictionary.size(); index++){
+        for (index = 0; index < vocabularySize(); index++){
             sum += spaceModel1.get(index) * spaceModel2.get(index);
         }
         return sum;
@@ -285,7 +288,7 @@ public class Collection {
     public ArrayList<String> sharedWordList(Collection collection2, VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
         int index1, index2;
         ArrayList<String> list = new ArrayList<>();
-        for (index1 = 0; index1 < dictionary.size(); index1++){
+        for (index1 = 0; index1 < vocabularySize(); index1++){
             if (spaceModel1.get(index1) > 0.0){
                 index2 = collection2.dictionary.getWordIndex(dictionary.getWord(index1).getName());
                 if (index2 != -1 && spaceModel2.get(index2) > 0.0){

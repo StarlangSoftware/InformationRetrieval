@@ -13,7 +13,7 @@ public class Parameter {
     private MorphologicalDisambiguator disambiguator;
     private FsmMorphologicalAnalyzer fsm;
     private boolean normalizeDocument = false;
-    private boolean biWordIndex = true;
+    private boolean phraseIndex = true;
 
     private boolean positionalIndex = true;
 
@@ -28,7 +28,7 @@ public class Parameter {
         return wordComparator;
     }
 
-    public boolean isFromFile() {
+    public boolean constructFromFile() {
         return fromFile;
     }
 
@@ -40,14 +40,14 @@ public class Parameter {
         return fsm;
     }
 
-    public boolean isBiWordIndex() {
-        return biWordIndex;
+    public boolean constructPhraseIndex() {
+        return phraseIndex;
     }
-    public boolean isNormalizeDocument() {
+    public boolean normalizeDocument() {
         return normalizeDocument;
     }
 
-    public boolean isPositionalIndex() {
+    public boolean constructPositionalIndex() {
         return positionalIndex;
     }
 
@@ -75,8 +75,8 @@ public class Parameter {
         this.normalizeDocument = normalizeDocument;
     }
 
-    public void setBiWordIndex(boolean biWordIndex) {
-        this.biWordIndex = biWordIndex;
+    public void setPhraseIndex(boolean phraseIndex) {
+        this.phraseIndex = phraseIndex;
     }
 
     public void setPositionalIndex(boolean positionalIndex) {
