@@ -15,6 +15,8 @@ public class Parameter {
     private boolean normalizeDocument = false;
     private boolean biWordIndex = true;
 
+    private boolean positionalIndex = true;
+
     public Parameter(){
     }
 
@@ -44,6 +46,11 @@ public class Parameter {
     public boolean isNormalizeDocument() {
         return normalizeDocument;
     }
+
+    public boolean isPositionalIndex() {
+        return positionalIndex;
+    }
+
     public void setIndexType(IndexType indexType) {
         this.indexType = indexType;
     }
@@ -70,6 +77,10 @@ public class Parameter {
 
     public void setBiWordIndex(boolean biWordIndex) {
         this.biWordIndex = biWordIndex;
+    }
+
+    public void setPositionalIndex(boolean positionalIndex) {
+        this.positionalIndex = positionalIndex;
     }
 
 }

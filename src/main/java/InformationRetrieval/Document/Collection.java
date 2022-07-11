@@ -36,12 +36,16 @@ public class Collection {
                 ArrayList<TermOccurrence> terms = constructTerms(false);
                 dictionary = constructDictionary(terms);
                 invertedIndex = constructInvertedIndex(dictionary, terms, dictionary.size());
-                positionalIndex = constructPositionalIndex(dictionary, terms, dictionary.size());
+                if (parameter.isPositionalIndex()){
+                    positionalIndex = constructPositionalIndex(dictionary, terms, dictionary.size());
+                }
                 if (parameter.isBiWordIndex()){
                     terms = constructTerms(true);
                     biWordDictionary = constructDictionary(terms);
                     biWordIndex = constructInvertedIndex(biWordDictionary, terms, biWordDictionary.size());
-                    biWordPositionalIndex = constructPositionalIndex(biWordDictionary, terms, biWordDictionary.size());
+                    if (parameter.isPositionalIndex()){
+                        biWordPositionalIndex = constructPositionalIndex(biWordDictionary, terms, biWordDictionary.size());
+                    }
                 }
                 break;
         }
@@ -73,11 +77,15 @@ public class Collection {
         if (parameter.isFromFile()){
             dictionary = new TermDictionary(comparator, directory);
             invertedIndex = new InvertedIndex(directory, dictionary.size());
-            positionalIndex = new PositionalIndex(directory, dictionary.size());
+            if (parameter.isPositionalIndex()){
+                positionalIndex = new PositionalIndex(directory, dictionary.size());
+            }
             if (parameter.isBiWordIndex()){
                 biWordDictionary = new TermDictionary(comparator, directory + "-biWord");
                 biWordIndex = new InvertedIndex(directory + "-biWord", biWordDictionary.size());
-                biWordPositionalIndex = new PositionalIndex(directory + "-biWord", biWordDictionary.size());
+                if (parameter.isPositionalIndex()){
+                    biWordPositionalIndex = new PositionalIndex(directory + "-biWord", biWordDictionary.size());
+                }
             }
         } else {
             constructIndex();
