@@ -55,7 +55,7 @@ public class Document {
         return corpus.numberOfWords();
     }
 
-    ArrayList<TermOccurrence> getTerms(){
+    ArrayList<TermOccurrence> getTokens(){
         ArrayList<TermOccurrence> terms = new ArrayList<>();
         int size = 0;
         for (int i = 0; i < corpus.sentenceCount(); i++){
@@ -67,7 +67,7 @@ public class Document {
         return terms;
     }
 
-    ArrayList<TermOccurrence> getBiWordTerms(){
+    ArrayList<TermOccurrence> getPhrases(){
         ArrayList<TermOccurrence> terms = new ArrayList<>();
         int size = 0;
         for (int i = 0; i < corpus.sentenceCount(); i++){

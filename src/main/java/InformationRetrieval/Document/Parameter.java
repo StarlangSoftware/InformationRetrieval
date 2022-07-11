@@ -14,8 +14,8 @@ public class Parameter {
     private FsmMorphologicalAnalyzer fsm;
     private boolean normalizeDocument = false;
     private boolean phraseIndex = true;
-
     private boolean positionalIndex = true;
+    private boolean kGramIndex = true;
 
     public Parameter(){
     }
@@ -51,6 +51,10 @@ public class Parameter {
         return positionalIndex;
     }
 
+    public boolean constructKGramIndex() {
+        return kGramIndex;
+    }
+
     public void setIndexType(IndexType indexType) {
         this.indexType = indexType;
     }
@@ -81,6 +85,10 @@ public class Parameter {
 
     public void setPositionalIndex(boolean positionalIndex) {
         this.positionalIndex = positionalIndex;
+    }
+
+    public void setKGramIndex(boolean kGramIndex) {
+        this.kGramIndex = kGramIndex;
     }
 
 }

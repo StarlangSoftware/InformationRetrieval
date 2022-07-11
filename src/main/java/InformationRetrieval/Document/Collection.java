@@ -1,6 +1,7 @@
 package InformationRetrieval.Document;
 
 import Dictionary.WordComparator;
+import Dictionary.Word;
 import InformationRetrieval.Index.*;
 import InformationRetrieval.Query.*;
 import Math.Matrix;
@@ -13,39 +14,51 @@ public class Collection {
     private TermDictionary dictionary;
 
     private TermDictionary phraseDictionary;
+
+    private TermDictionary biGramDictionary;
+
+    private TermDictionary triGramDictionary;
     private final ArrayList<Document> documents;
     private IncidenceMatrix incidenceMatrix;
     private InvertedIndex invertedIndex;
 
+    private InvertedIndex biGramIndex;
+
+    private InvertedIndex triGramIndex;
     private PositionalIndex positionalIndex;
-
     private InvertedIndex phraseIndex;
-
     private PositionalIndex phrasePositionalIndex;
     private final WordComparator comparator;
     private final String name;
-
     private final Parameter parameter;
 
-    private void constructIndex(){
+    private void constructIndexes(){
         switch (indexType){
             case INCIDENCE_MATRIX:
                 constructIncidenceMatrix();
                 break;
             case INVERTED_INDEX:
-                ArrayList<TermOccurrence> terms = constructTerms(false);
+                ArrayList<TermOccurrence> terms = constructTerms(TermType.TOKEN);
                 dictionary = constructDictionary(terms);
                 invertedIndex = constructInvertedIndex(dictionary, terms, vocabularySize());
                 if (parameter.constructPositionalIndex()){
                     positionalIndex = constructPositionalIndex(dictionary, terms, vocabularySize());
                 }
                 if (parameter.constructPhraseIndex()){
-                    terms = constructTerms(true);
+                    terms = constructTerms(TermType.PHRASE);
                     phraseDictionary = constructDictionary(terms);
                     phraseIndex = constructInvertedIndex(phraseDictionary, terms, phraseSize());
                     if (parameter.constructPositionalIndex()){
                         phrasePositionalIndex = constructPositionalIndex(phraseDictionary, terms, phraseSize());
                     }
+                }
+                if (parameter.constructKGramIndex()){
+                    terms = constructTermsFromDictionary(dictionary, 2);
+                    biGramDictionary = constructDictionary(terms);
+                    biGramIndex = constructInvertedIndex(biGramDictionary, terms, biGramSize());
+                    terms = constructTermsFromDictionary(dictionary, 3);
+                    triGramDictionary = constructDictionary(terms);
+                    triGramIndex = constructInvertedIndex(triGramDictionary, terms, triGramSize());
                 }
                 break;
         }
@@ -81,14 +94,20 @@ public class Collection {
                 positionalIndex = new PositionalIndex(directory, vocabularySize());
             }
             if (parameter.constructPhraseIndex()){
-                phraseDictionary = new TermDictionary(comparator, directory + "-biWord");
-                phraseIndex = new InvertedIndex(directory + "-biWord", phraseSize());
+                phraseDictionary = new TermDictionary(comparator, directory + "-phrase");
+                phraseIndex = new InvertedIndex(directory + "-phrase", phraseSize());
                 if (parameter.constructPositionalIndex()){
-                    phrasePositionalIndex = new PositionalIndex(directory + "-biWord", phraseSize());
+                    phrasePositionalIndex = new PositionalIndex(directory + "-phrase", phraseSize());
                 }
             }
+            if (parameter.constructKGramIndex()){
+                biGramDictionary = new TermDictionary(comparator, directory + "-biGram");
+                triGramDictionary = new TermDictionary(comparator, directory + "-triGram");
+                biGramIndex = new InvertedIndex(directory + "-biGram", biGramSize());
+                triGramIndex = new InvertedIndex(directory + "-triGram", triGramSize());
+            }
         } else {
-            constructIndex();
+            constructIndexes();
         }
     }
 
@@ -98,6 +117,14 @@ public class Collection {
 
     public int vocabularySize(){
         return dictionary.size();
+    }
+
+    public int biGramSize(){
+        return biGramDictionary.size();
+    }
+
+    public int triGramSize(){
+        return triGramDictionary.size();
     }
 
     public int phraseSize(){
@@ -115,24 +142,65 @@ public class Collection {
         if (indexType == IndexType.INVERTED_INDEX){
             dictionary.save(name);
             invertedIndex.save(name);
+            if (parameter.constructPositionalIndex()){
+                positionalIndex.save(name);
+            }
             if (parameter.constructPhraseIndex()){
-                phraseDictionary.save(name + "-biWord");
-                phraseIndex.save(name + "-biWord");
+                phraseDictionary.save(name + "-phrase");
+                phraseIndex.save(name + "-phrase");
+                if (parameter.constructPositionalIndex()){
+                    phrasePositionalIndex.save(name + "-phrase");
+                }
+            }
+            if (parameter.constructKGramIndex()){
+                biGramDictionary.save(name + "-biGram");
+                triGramDictionary.save(name + "-triGram");
+                biGramIndex.save(name + "-biGram");
+                triGramIndex.save(name + "-triGram");
             }
         }
     }
 
-    private ArrayList<TermOccurrence> constructTerms(boolean biWord){
+    private ArrayList<TermOccurrence> constructTerms(TermType termType){
         TermOccurrenceComparator termComparator = new TermOccurrenceComparator(comparator);
         ArrayList<TermOccurrence> terms = new ArrayList<>();
         ArrayList<TermOccurrence> docTerms;
         for (Document doc : documents){
-            if (biWord){
-                docTerms = doc.getBiWordTerms();
-            } else {
-                docTerms = doc.getTerms();
+            switch (termType){
+                case PHRASE:
+                    docTerms = doc.getPhrases();
+                    break;
+                case TOKEN:
+                default:
+                    docTerms = doc.getTokens();
+                    break;
             }
             terms.addAll(docTerms);
+        }
+        terms.sort(termComparator);
+        return terms;
+    }
+
+    private ArrayList<TermOccurrence> constructTermsFromDictionary(TermDictionary dictionary, int k){
+        TermOccurrenceComparator termComparator = new TermOccurrenceComparator(comparator);
+        ArrayList<TermOccurrence> terms = new ArrayList<>();
+        for (int i = 0; i < dictionary.size(); i++){
+            String word = dictionary.getWord(i).getName();
+            if (word.length() >= k - 1){
+                for (int l = -1; l < word.length() - k + 2; l++){
+                    String term;
+                    if (l == -1){
+                        term = "$" + word.substring(0, k - 1);
+                    } else {
+                        if (l == word.length() - k + 1){
+                            term = word.substring(l, l + k - 1) + "$";
+                        } else {
+                            term = word.substring(l, l + k);
+                        }
+                    }
+                    terms.add(new TermOccurrence(new Word(term), i, l));
+                }
+            }
         }
         terms.sort(termComparator);
         return terms;
@@ -164,7 +232,7 @@ public class Collection {
         int i;
         ArrayList<TermOccurrence> terms;
         TermOccurrence term;
-        terms = constructTerms(false);
+        terms = constructTerms(TermType.TOKEN);
         dictionary = constructDictionary(terms);
         incidenceMatrix = new IncidenceMatrix(vocabularySize(), documents.size());
         if (terms.size() > 0){
@@ -194,14 +262,18 @@ public class Collection {
             while (i < terms.size()){
                 term = terms.get(i);
                 termId = dictionary.getWordIndex(term.getTerm().getName());
-                if (areTermsDifferent(term, previousTerm)){
-                    invertedIndex.add(termId, term.getDocID());
-                    prevDocId = term.getDocID();
-                } else {
-                    if (prevDocId != term.getDocID()){
+                if (termId != -1){
+                    if (areTermsDifferent(term, previousTerm)){
                         invertedIndex.add(termId, term.getDocID());
                         prevDocId = term.getDocID();
+                    } else {
+                        if (prevDocId != term.getDocID()){
+                            invertedIndex.add(termId, term.getDocID());
+                            prevDocId = term.getDocID();
+                        }
                     }
+                } else {
+                    System.out.println("Error: Term " + term.getTerm().getName() + " does not exist");
                 }
                 i++;
                 previousTerm = term;
@@ -225,16 +297,20 @@ public class Collection {
             while (i < terms.size()){
                 term = terms.get(i);
                 termId = dictionary.getWordIndex(term.getTerm().getName());
-                if (areTermsDifferent(term, previousTerm)){
-                    positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
-                    prevDocId = term.getDocID();
-                } else {
-                    if (prevDocId != term.getDocID()){
+                if (termId != -1){
+                    if (areTermsDifferent(term, previousTerm)){
                         positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
                         prevDocId = term.getDocID();
                     } else {
-                        positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
+                        if (prevDocId != term.getDocID()){
+                            positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
+                            prevDocId = term.getDocID();
+                        } else {
+                            positionalIndex.addPosition(termId, term.getDocID(), term.getPosition());
+                        }
                     }
+                } else {
+                    System.out.println("Error: Term " + term.getTerm().getName() + " does not exist");
                 }
                 i++;
                 previousTerm = term;
