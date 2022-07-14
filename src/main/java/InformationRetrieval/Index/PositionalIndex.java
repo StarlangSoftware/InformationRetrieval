@@ -61,6 +61,7 @@ public class PositionalIndex {
                 wordId++;
                 line = br.readLine();
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,8 +71,10 @@ public class PositionalIndex {
         try {
             PrintWriter printWriter = new PrintWriter(fileName + "-positionalPostings.txt", "UTF-8");
             for (int i = 0; i < dictionarySize; i++){
-                printWriter.write(i + " " + positionalIndex[i].size() + "\n");
-                printWriter.write(positionalIndex[i].toString());
+                if (positionalIndex[i].size() > 0){
+                    printWriter.write(i + " " + positionalIndex[i].size() + "\n");
+                    printWriter.write(positionalIndex[i].toString());
+                }
             }
             printWriter.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {

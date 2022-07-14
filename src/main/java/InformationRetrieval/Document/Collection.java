@@ -1,29 +1,28 @@
 package InformationRetrieval.Document;
 
+import Corpus.*;
 import Dictionary.WordComparator;
 import Dictionary.Word;
 import InformationRetrieval.Index.*;
 import InformationRetrieval.Query.*;
 import Math.Matrix;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Collection {
     private final IndexType indexType;
     private TermDictionary dictionary;
-
     private TermDictionary phraseDictionary;
-
     private TermDictionary biGramDictionary;
-
     private TermDictionary triGramDictionary;
     private final ArrayList<Document> documents;
     private IncidenceMatrix incidenceMatrix;
     private InvertedIndex invertedIndex;
-
     private InvertedIndex biGramIndex;
-
     private InvertedIndex triGramIndex;
     private PositionalIndex positionalIndex;
     private InvertedIndex phraseIndex;
@@ -31,38 +30,6 @@ public class Collection {
     private final WordComparator comparator;
     private final String name;
     private final Parameter parameter;
-
-    private void constructIndexes(){
-        switch (indexType){
-            case INCIDENCE_MATRIX:
-                constructIncidenceMatrix();
-                break;
-            case INVERTED_INDEX:
-                ArrayList<TermOccurrence> terms = constructTerms(TermType.TOKEN);
-                dictionary = constructDictionary(terms);
-                invertedIndex = constructInvertedIndex(dictionary, terms, vocabularySize());
-                if (parameter.constructPositionalIndex()){
-                    positionalIndex = constructPositionalIndex(dictionary, terms, vocabularySize());
-                }
-                if (parameter.constructPhraseIndex()){
-                    terms = constructTerms(TermType.PHRASE);
-                    phraseDictionary = constructDictionary(terms);
-                    phraseIndex = constructInvertedIndex(phraseDictionary, terms, phraseSize());
-                    if (parameter.constructPositionalIndex()){
-                        phrasePositionalIndex = constructPositionalIndex(phraseDictionary, terms, phraseSize());
-                    }
-                }
-                if (parameter.constructKGramIndex()){
-                    terms = constructTermsFromDictionary(dictionary, 2);
-                    biGramDictionary = constructDictionary(terms);
-                    biGramIndex = constructInvertedIndex(biGramDictionary, terms, biGramSize());
-                    terms = constructTermsFromDictionary(dictionary, 3);
-                    triGramDictionary = constructDictionary(terms);
-                    triGramIndex = constructInvertedIndex(triGramDictionary, terms, triGramSize());
-                }
-                break;
-        }
-    }
 
     public Collection(String directory,
                       Parameter parameter){
@@ -78,8 +45,8 @@ public class Collection {
             Arrays.sort(listOfFiles);
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().endsWith(".txt")) {
-                    Document document = new Document(file.getAbsolutePath(), file.getName(), i);
-                    if (parameter.normalizeDocument()){
+                    Document document = new Document(file.getAbsolutePath(), file.getName(), i, !parameter.loadIndexesFromFile() && parameter.constructIndexInMemory(), parameter.tokenizeDocument());
+                    if (parameter.normalizeDocument() && !parameter.loadIndexesFromFile()){
                         document.normalizeDocument(parameter.getDisambiguator(), parameter.getFsm());
                     }
                     documents.add(document);
@@ -87,7 +54,7 @@ public class Collection {
                 }
             }
         }
-        if (parameter.constructFromFile()){
+        if (parameter.loadIndexesFromFile()){
             dictionary = new TermDictionary(comparator, directory);
             invertedIndex = new InvertedIndex(directory, vocabularySize());
             if (parameter.constructPositionalIndex()){
@@ -107,7 +74,11 @@ public class Collection {
                 triGramIndex = new InvertedIndex(directory + "-triGram", triGramSize());
             }
         } else {
-            constructIndexes();
+            if (parameter.constructIndexInMemory()){
+                constructIndexesInMemory();
+            } else {
+                constructIndexesInDisk();
+            }
         }
     }
 
@@ -161,6 +132,46 @@ public class Collection {
         }
     }
 
+    private void constructIndexesInDisk(){
+        HashSet<String> wordList = constructDistinctWordList(TermType.TOKEN);
+        dictionary = constructDictionaryFromDistinctWordList(wordList);
+        constructInvertedIndexInDisk(dictionary, TermType.TOKEN);
+        if (parameter.constructPhraseIndex()){
+            wordList = constructDistinctWordList(TermType.PHRASE);
+            phraseDictionary = constructDictionaryFromDistinctWordList(wordList);
+            constructInvertedIndexInDisk(phraseDictionary, TermType.PHRASE);
+        }
+        if (parameter.constructKGramIndex()){
+            constructKGramIndex();
+        }
+    }
+
+    private void constructIndexesInMemory(){
+        switch (indexType){
+            case INCIDENCE_MATRIX:
+                constructIncidenceMatrix();
+                break;
+            case INVERTED_INDEX:
+                ArrayList<TermOccurrence> terms = constructTerms(TermType.TOKEN);
+                dictionary = constructDictionaryFromTerms(terms);
+                invertedIndex = constructInvertedIndex(dictionary, terms, vocabularySize());
+                if (parameter.constructPositionalIndex()){
+                    positionalIndex = constructPositionalIndex(dictionary, terms, vocabularySize());
+                }
+                if (parameter.constructPhraseIndex()){
+                    terms = constructTerms(TermType.PHRASE);
+                    phraseDictionary = constructDictionaryFromTerms(terms);
+                    phraseIndex = constructInvertedIndex(phraseDictionary, terms, phraseSize());
+                    if (parameter.constructPositionalIndex()){
+                        phrasePositionalIndex = constructPositionalIndex(phraseDictionary, terms, phraseSize());
+                    }
+                }
+                if (parameter.constructKGramIndex()){
+                    constructKGramIndex();
+                }
+                break;
+        }
+    }
     private ArrayList<TermOccurrence> constructTerms(TermType termType){
         TermOccurrenceComparator termComparator = new TermOccurrenceComparator(comparator);
         ArrayList<TermOccurrence> terms = new ArrayList<>();
@@ -206,7 +217,48 @@ public class Collection {
         return terms;
     }
 
-    private TermDictionary constructDictionary(ArrayList<TermOccurrence> terms){
+    private HashSet<String> constructDistinctWordList(Corpus corpus, TermType termType){
+        HashSet<String> words = new HashSet<>();
+        for (int i = 0; i < corpus.sentenceCount(); i++){
+            Sentence sentence = corpus.getSentence(i);
+            for (int j = 0; j < sentence.wordCount(); j++){
+                switch (termType){
+                    case TOKEN:
+                        words.add(sentence.getWord(j).getName());
+                        break;
+                    case PHRASE:
+                        if (j < sentence.wordCount() - 1){
+                            words.add(sentence.getWord(j).getName() + " " + sentence.getWord(j + 1).getName());
+                        }
+                }
+            }
+        }
+        return words;
+    }
+
+    private HashSet<String> constructDistinctWordList(TermType termType){
+        HashSet<String> words = new HashSet<>();
+        for (Document doc : documents){
+            Corpus corpus = doc.loadDocument(parameter.tokenizeDocument());
+            words.addAll(constructDistinctWordList(corpus, termType));
+        }
+        return words;
+    }
+
+    private TermDictionary constructDictionaryFromDistinctWordList(HashSet<String> words){
+        TermDictionary dictionary = new TermDictionary(parameter.getWordComparator());
+        ArrayList<Word> wordList = new ArrayList<>();
+        for (String word : words){
+            wordList.add(new Word(word));
+        }
+        wordList.sort(comparator);
+        for (Word term : wordList){
+            dictionary.addTerm(term);
+        }
+        return dictionary;
+    }
+
+    private TermDictionary constructDictionaryFromTerms(ArrayList<TermOccurrence> terms){
         int i;
         TermOccurrence term, previousTerm;
         TermDictionary dictionary;
@@ -233,7 +285,7 @@ public class Collection {
         ArrayList<TermOccurrence> terms;
         TermOccurrence term;
         terms = constructTerms(TermType.TOKEN);
-        dictionary = constructDictionary(terms);
+        dictionary = constructDictionaryFromTerms(terms);
         incidenceMatrix = new IncidenceMatrix(vocabularySize(), documents.size());
         if (terms.size() > 0){
             term = terms.get(0);
@@ -247,6 +299,105 @@ public class Collection {
         }
     }
 
+    private boolean finishedCombination(int[] currentIdList){
+        for (int id : currentIdList){
+            if (id != -1){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private ArrayList<Integer> selectIdFromCombination(int[] currentIdList){
+        ArrayList<Integer> result = new ArrayList<>();
+        int min = Integer.MAX_VALUE;
+        for (int id : currentIdList){
+            if (id != -1 && id < min){
+                min = id;
+            }
+        }
+        for (int i = 0; i < currentIdList.length; i++){
+            if (currentIdList[i] == min){
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+    private void combineMultipleInvertedIndexesInDisk(String name, int blockCount){
+        BufferedReader[] files;
+        int[] currentIdList;
+        PostingList[] currentPostingLists;
+        currentIdList = new int[blockCount];
+        currentPostingLists = new PostingList[blockCount];
+        files = new BufferedReader[blockCount];
+        try{
+            PrintWriter printWriter = new PrintWriter(name + "-postings.txt", "UTF-8");
+            for (int i = 0; i < blockCount; i++){
+                files[i] = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("tmp-" + i + "-postings.txt")), StandardCharsets.UTF_8));
+                String line = files[i].readLine();
+                String[] items = line.split(" ");
+                currentIdList[i] = Integer.parseInt(items[0]);
+                line = files[i].readLine();
+                currentPostingLists[i] = new PostingList(line);
+            }
+            while (!finishedCombination(currentIdList)){
+                ArrayList<Integer> indexesToCombine = selectIdFromCombination(currentIdList);
+                PostingList mergedPostingList = currentPostingLists[indexesToCombine.get(0)];
+                for (int i = 1; i < indexesToCombine.size(); i++){
+                    mergedPostingList = mergedPostingList.union(currentPostingLists[indexesToCombine.get(i)]);
+                }
+                mergedPostingList.writeToFile(printWriter, currentIdList[indexesToCombine.get(0)]);
+                for (int i : indexesToCombine) {
+                    String line = files[i].readLine();
+                    if (line != null) {
+                        String[] items = line.split(" ");
+                        currentIdList[i] = Integer.parseInt(items[0]);
+                        line = files[i].readLine();
+                        currentPostingLists[i] = new PostingList(line);
+                    } else {
+                        currentIdList[i] = -1;
+                    }
+                }
+            }
+            for (int i = 0; i < blockCount; i++){
+                files[i].close();
+            }
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void constructInvertedIndexInDisk(TermDictionary dictionary, TermType termType){
+        int i = 0, blockCount = 0;
+        InvertedIndex invertedIndex = new InvertedIndex(dictionary.size());
+        for (Document doc : documents){
+            if (i < parameter.getBlockSize()){
+                i++;
+            } else {
+                invertedIndex.save("tmp-" + blockCount);
+                invertedIndex = new InvertedIndex(dictionary.size());
+                blockCount++;
+                i = 0;
+            }
+            Corpus corpus = doc.loadDocument(parameter.tokenizeDocument());
+            HashSet<String> wordList = constructDistinctWordList(corpus, termType);
+            for (String word : wordList){
+                int termId = dictionary.getWordIndex(word);
+                invertedIndex.add(termId, doc.getDocId());
+            }
+        }
+        if (i != 0){
+            invertedIndex.save("tmp-" + blockCount);
+            blockCount++;
+        }
+        if (termType == TermType.TOKEN){
+            combineMultipleInvertedIndexesInDisk(name, blockCount);
+        } else {
+            combineMultipleInvertedIndexesInDisk(name + "-phrase", blockCount);
+        }
+    }
     private InvertedIndex constructInvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;
@@ -319,6 +470,15 @@ public class Collection {
         return positionalIndex;
     }
 
+    private void constructKGramIndex(){
+        ArrayList<TermOccurrence> terms = constructTermsFromDictionary(dictionary, 2);
+        biGramDictionary = constructDictionaryFromTerms(terms);
+        biGramIndex = constructInvertedIndex(biGramDictionary, terms, biGramSize());
+        terms = constructTermsFromDictionary(dictionary, 3);
+        triGramDictionary = constructDictionaryFromTerms(terms);
+        triGramIndex = constructInvertedIndex(triGramDictionary, terms, triGramSize());
+    }
+
     public VectorSpaceModel getVectorSpaceModel(int docId, TermWeighting termWeighting, DocumentWeighting documentWeighting){
         return new VectorSpaceModel(positionalIndex.getTermFrequencies(docId), positionalIndex.getDocumentFrequencies(), documents.size(), termWeighting, documentWeighting);
     }
@@ -384,16 +544,9 @@ public class Collection {
                     case    BOOLEAN:return invertedIndex.search(query, dictionary);
                     case POSITIONAL:return positionalIndex.positionalSearch(query, dictionary);
                     case     RANKED:return positionalIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
-                    default        :return positionalIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
                 }
-            default				  :
-                switch (retrievalType){
-                    case    BOOLEAN:return invertedIndex.search(query, dictionary);
-                    case POSITIONAL:return positionalIndex.positionalSearch(query, dictionary);
-                    case     RANKED:return positionalIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
-                    default        :return invertedIndex.search(query, dictionary);
-            }
         }
+        return new QueryResult();
     }
 
 }

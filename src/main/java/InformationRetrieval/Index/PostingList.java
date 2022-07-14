@@ -2,6 +2,7 @@ package InformationRetrieval.Index;
 
 import InformationRetrieval.Query.QueryResult;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,6 +11,14 @@ public class PostingList {
 
     public PostingList(){
         postings = new ArrayList<>();
+    }
+
+    public PostingList(String line){
+        postings = new ArrayList<>();
+        String[] ids = line.split(" ");
+        for (String id : ids){
+            add(Integer.parseInt(id));
+        }
     }
 
     public void add(int docId){
@@ -40,12 +49,27 @@ public class PostingList {
         return result;
     }
 
+    public PostingList union(PostingList secondList){
+        PostingList result = new PostingList();
+        result.postings = new ArrayList<>();
+        result.postings.addAll(postings);
+        result.postings.addAll(secondList.postings);
+        return result;
+    }
+
     public QueryResult toQueryResult(){
         QueryResult result = new QueryResult();
         for (Posting posting:postings){
             result.add(posting.getId());
         }
         return result;
+    }
+
+    public void writeToFile(PrintWriter printWriter, int index){
+        if (size() > 0){
+            printWriter.write(index + " " + size() + "\n");
+            printWriter.write(toString());
+        }
     }
 
     public String toString(){

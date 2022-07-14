@@ -25,28 +25,14 @@ public class InvertedIndex {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-postings.txt")), StandardCharsets.UTF_8));
             String line = br.readLine();
-            int wordId = 0;
             while (line != null){
                 String[] items = line.split(" ");
-                if (wordId == Integer.parseInt(items[0])){
-                    index[wordId] = new PostingList();
-                    line = br.readLine();
-                    String[] ids = line.split(" ");
-                    int numberOfPostings = Integer.parseInt(items[1]);
-                    if (ids.length == numberOfPostings){
-                        for (String id : ids){
-                            int docId = Integer.parseInt(id);
-                            index[wordId].add(docId);
-                        }
-                    } else {
-                        System.out.println("Mismatch in the number of postings for word " + wordId);
-                    }
-                } else {
-                    System.out.println("Word Id's do not follow for word " + wordId);
-                }
-                wordId++;
+                int wordId = Integer.parseInt(items[0]);
+                line = br.readLine();
+                index[wordId] = new PostingList(line);
                 line = br.readLine();
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,8 +48,7 @@ public class InvertedIndex {
         try {
             PrintWriter printWriter = new PrintWriter(fileName + "-postings.txt", "UTF-8");
             for (int i = 0; i < dictionarySize; i++){
-                printWriter.write(i + " " + index[i].size() + "\n");
-                printWriter.write(index[i].toString());
+                index[i].writeToFile(printWriter, i);
             }
             printWriter.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {

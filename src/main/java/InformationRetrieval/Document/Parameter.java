@@ -9,13 +9,16 @@ public class Parameter {
 
     private IndexType indexType = IndexType.INVERTED_INDEX;
     private WordComparator wordComparator = new TurkishWordComparator();
-    private boolean fromFile = false;
+    private boolean loadIndexesFromFile = false;
     private MorphologicalDisambiguator disambiguator;
     private FsmMorphologicalAnalyzer fsm;
+    private boolean tokenizeDocument = false;
     private boolean normalizeDocument = false;
     private boolean phraseIndex = true;
     private boolean positionalIndex = true;
     private boolean kGramIndex = true;
+    private boolean constructIndexInMemory = true;
+    private int blockSize = 1000;
 
     public Parameter(){
     }
@@ -28,8 +31,8 @@ public class Parameter {
         return wordComparator;
     }
 
-    public boolean constructFromFile() {
-        return fromFile;
+    public boolean loadIndexesFromFile() {
+        return loadIndexesFromFile;
     }
 
     public MorphologicalDisambiguator getDisambiguator() {
@@ -55,6 +58,18 @@ public class Parameter {
         return kGramIndex;
     }
 
+    public boolean constructIndexInMemory() {
+        return constructIndexInMemory;
+    }
+
+    public int getBlockSize() {
+        return blockSize;
+    }
+
+    public boolean tokenizeDocument() {
+        return tokenizeDocument;
+    }
+
     public void setIndexType(IndexType indexType) {
         this.indexType = indexType;
     }
@@ -63,8 +78,8 @@ public class Parameter {
         this.wordComparator = wordComparator;
     }
 
-    public void setFromFile(boolean fromFile) {
-        this.fromFile = fromFile;
+    public void setLoadIndexesFromFile(boolean loadIndexesFromFile) {
+        this.loadIndexesFromFile = loadIndexesFromFile;
     }
 
     public void setDisambiguator(MorphologicalDisambiguator disambiguator) {
@@ -89,6 +104,18 @@ public class Parameter {
 
     public void setKGramIndex(boolean kGramIndex) {
         this.kGramIndex = kGramIndex;
+    }
+
+    public void setConstructIndexInMemory(boolean constructIndexInMemory) {
+        this.constructIndexInMemory = constructIndexInMemory;
+    }
+
+    public void setBlockSize(int blockSize) {
+        this.blockSize = blockSize;
+    }
+
+    public void setTokenizeDocument(boolean tokenizeDocument) {
+        this.tokenizeDocument = tokenizeDocument;
     }
 
 }

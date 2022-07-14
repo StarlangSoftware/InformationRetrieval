@@ -17,11 +17,21 @@ public class Document {
     private Corpus corpus;
     private final int docId;
 
-    public Document(String absoluteFileName, String fileName, int docId){
+    public Document(String absoluteFileName, String fileName, int docId, boolean loadInMemory, boolean tokenizeDocument){
         this.docId = docId;
         this.absoluteFileName = absoluteFileName;
         this.fileName = fileName;
-        corpus = new Corpus(absoluteFileName);
+        if (loadInMemory){
+            corpus = loadDocument(tokenizeDocument);
+        }
+    }
+
+    public Corpus loadDocument(boolean tokenizeDocument){
+        if (tokenizeDocument){
+            return new Corpus(absoluteFileName, new TurkishSplitter());
+        } else {
+            return new Corpus(absoluteFileName);
+        }
     }
 
     public void normalizeDocument(MorphologicalDisambiguator disambiguator, FsmMorphologicalAnalyzer fsm){

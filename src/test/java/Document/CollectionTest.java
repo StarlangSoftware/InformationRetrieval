@@ -17,6 +17,10 @@ public class CollectionTest {
     @Test
     public void testInvertedIndex() {
         Parameter parameter = new Parameter();
+        parameter.setConstructIndexInMemory(true);
+        parameter.setPositionalIndex(false);
+        parameter.setKGramIndex(false);
+        parameter.setPhraseIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         collection.save();
     }
@@ -24,7 +28,17 @@ public class CollectionTest {
     @Test
     public void testInvertedIndex2() {
         Parameter parameter = new Parameter();
-        parameter.setFromFile(true);
+        parameter.setLoadIndexesFromFile(true);
+        Collection collection = new Collection("testCollection", parameter);
+        System.out.println();
+    }
+
+    @Test
+    public void testInvertedIndex3() {
+        Parameter parameter = new Parameter();
+        parameter.setConstructIndexInMemory(false);
+        parameter.setPositionalIndex(false);
+        parameter.setKGramIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         System.out.println();
     }
