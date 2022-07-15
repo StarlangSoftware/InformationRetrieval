@@ -18,9 +18,7 @@ public class CollectionTest {
     public void testInvertedIndex() {
         Parameter parameter = new Parameter();
         parameter.setConstructIndexInMemory(true);
-        parameter.setPositionalIndex(false);
         parameter.setKGramIndex(false);
-        parameter.setPhraseIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         collection.save();
     }
