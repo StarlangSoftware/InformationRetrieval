@@ -136,10 +136,16 @@ public class Collection {
         HashSet<String> wordList = constructDistinctWordList(TermType.TOKEN);
         dictionary = constructDictionaryFromDistinctWordList(wordList);
         constructInvertedIndexInDisk(dictionary, TermType.TOKEN);
+        if (parameter.constructPositionalIndex()){
+            constructPositionalIndexInDisk(dictionary, TermType.TOKEN);
+        }
         if (parameter.constructPhraseIndex()){
             wordList = constructDistinctWordList(TermType.PHRASE);
             phraseDictionary = constructDictionaryFromDistinctWordList(wordList);
             constructInvertedIndexInDisk(phraseDictionary, TermType.PHRASE);
+            if (parameter.constructPositionalIndex()){
+                constructPositionalIndexInDisk(phraseDictionary, TermType.PHRASE);
+            }
         }
         if (parameter.constructKGramIndex()){
             constructKGramIndex();
@@ -234,6 +240,28 @@ public class Collection {
             }
         }
         return words;
+    }
+
+    private ArrayList<TermOccurrence> constructTermList(Corpus corpus, Document doc, TermType termType){
+        ArrayList<TermOccurrence> terms = new ArrayList<>();
+        int size = 0;
+        for (int i = 0; i < corpus.sentenceCount(); i++){
+            Sentence sentence = corpus.getSentence(i);
+            for (int j = 0; j < sentence.wordCount(); j++){
+                switch (termType){
+                    case TOKEN:
+                        terms.add(new TermOccurrence(sentence.getWord(j), doc.getDocId(), size));
+                        size++;
+                        break;
+                    case PHRASE:
+                        if (j < sentence.wordCount() - 1){
+                            terms.add(new TermOccurrence(new Word(sentence.getWord(j).getName() + " " + sentence.getWord(j + 1).getName()), doc.getDocId(), size));
+                            size++;
+                        }
+                }
+            }
+        }
+        return terms;
     }
 
     private HashSet<String> constructDistinctWordList(TermType termType){
@@ -431,6 +459,79 @@ public class Collection {
             }
         }
         return invertedIndex;
+    }
+
+    private void combineMultiplePositionalIndexesInDisk(String name, int blockCount){
+        BufferedReader[] files;
+        int[] currentIdList;
+        PositionalPostingList[] currentPostingLists;
+        currentIdList = new int[blockCount];
+        currentPostingLists = new PositionalPostingList[blockCount];
+        files = new BufferedReader[blockCount];
+        try{
+            PrintWriter printWriter = new PrintWriter(name + "-positionalPostings.txt", "UTF-8");
+            for (int i = 0; i < blockCount; i++){
+                files[i] = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("tmp-" + i + "-positionalPostings.txt")), StandardCharsets.UTF_8));
+                String line = files[i].readLine();
+                String[] items = line.split(" ");
+                currentIdList[i] = Integer.parseInt(items[0]);
+                currentPostingLists[i] = new PositionalPostingList(files[i], Integer.parseInt(items[1]));
+            }
+            while (!finishedCombination(currentIdList)){
+                ArrayList<Integer> indexesToCombine = selectIdFromCombination(currentIdList);
+                PositionalPostingList mergedPostingList = currentPostingLists[indexesToCombine.get(0)];
+                for (int i = 1; i < indexesToCombine.size(); i++){
+                    mergedPostingList = mergedPostingList.union(currentPostingLists[indexesToCombine.get(i)]);
+                }
+                mergedPostingList.writeToFile(printWriter, currentIdList[indexesToCombine.get(0)]);
+                for (int i : indexesToCombine) {
+                    String line = files[i].readLine();
+                    if (line != null) {
+                        String[] items = line.split(" ");
+                        currentIdList[i] = Integer.parseInt(items[0]);
+                        currentPostingLists[i] = new PositionalPostingList(files[i], Integer.parseInt(items[1]));
+                    } else {
+                        currentIdList[i] = -1;
+                    }
+                }
+            }
+            for (int i = 0; i < blockCount; i++){
+                files[i].close();
+            }
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void constructPositionalIndexInDisk(TermDictionary dictionary, TermType termType){
+        int i = 0, blockCount = 0;
+        PositionalIndex positionalIndex = new PositionalIndex(dictionary.size());
+        for (Document doc : documents){
+            if (i < parameter.getBlockSize()){
+                i++;
+            } else {
+                positionalIndex.save("tmp-" + blockCount);
+                positionalIndex = new PositionalIndex(dictionary.size());
+                blockCount++;
+                i = 0;
+            }
+            Corpus corpus = doc.loadDocument(parameter.tokenizeDocument());
+            ArrayList<TermOccurrence> terms = constructTermList(corpus, doc, termType);
+            for (TermOccurrence termOccurrence : terms){
+                int termId = dictionary.getWordIndex(termOccurrence.getTerm().getName());
+                positionalIndex.addPosition(termId, termOccurrence.getDocID(), termOccurrence.getPosition());
+            }
+        }
+        if (i != 0){
+            positionalIndex.save("tmp-" + blockCount);
+            blockCount++;
+        }
+        if (termType == TermType.TOKEN){
+            combineMultiplePositionalIndexesInDisk(name, blockCount);
+        } else {
+            combineMultiplePositionalIndexesInDisk(name + "-phrase", blockCount);
+        }
     }
 
     private PositionalIndex constructPositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){

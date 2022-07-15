@@ -37,7 +37,6 @@ public class CollectionTest {
     public void testInvertedIndex3() {
         Parameter parameter = new Parameter();
         parameter.setConstructIndexInMemory(false);
-        parameter.setPositionalIndex(false);
         parameter.setKGramIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         System.out.println();

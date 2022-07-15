@@ -2,15 +2,40 @@ package InformationRetrieval.Index;
 
 import InformationRetrieval.Query.QueryResult;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class PositionalPostingList {
 
-    private final ArrayList<PositionalPosting> postings;
+    private ArrayList<PositionalPosting> postings;
 
     public PositionalPostingList(){
         postings = new ArrayList<>();
+    }
+
+    public PositionalPostingList(BufferedReader br, int count){
+        postings = new ArrayList<>();
+        try {
+            for (int i = 0; i < count; i++){
+                String line = br.readLine().trim();
+                String[] ids = line.split(" ");
+                int numberOfPositionalPostings = Integer.parseInt(ids[1]);
+                if (ids.length == numberOfPositionalPostings + 2){
+                    int docId = Integer.parseInt(ids[0]);
+                    for (int j = 0; j < numberOfPositionalPostings; j++){
+                        int positionalPosting = Integer.parseInt(ids[j + 2]);
+                        add(docId, positionalPosting);
+                    }
+                } else {
+                    System.out.println("Mismatch in the number of postings for word");
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int size(){
@@ -34,7 +59,7 @@ public class PositionalPostingList {
         return -1;
     }
 
-    QueryResult toQueryResult(){
+    public QueryResult toQueryResult(){
         QueryResult result = new QueryResult();
         for (PositionalPosting posting: postings){
             result.add(posting.getDocId());
@@ -42,7 +67,7 @@ public class PositionalPostingList {
         return result;
     }
 
-    void add(int docId, int position){
+    public void add(int docId, int position){
         int index = getIndex(docId);
         if (index == -1){
             postings.add(new PositionalPosting(docId));
@@ -52,11 +77,19 @@ public class PositionalPostingList {
         }
     }
 
-    PositionalPosting get(int index){
+    public PositionalPosting get(int index){
         return postings.get(index);
     }
 
-    PositionalPostingList intersection(PositionalPostingList secondList){
+    public PositionalPostingList union(PositionalPostingList secondList){
+        PositionalPostingList result = new PositionalPostingList();
+        result.postings = new ArrayList<>();
+        result.postings.addAll(postings);
+        result.postings.addAll(secondList.postings);
+        return result;
+    }
+
+    public PositionalPostingList intersection(PositionalPostingList secondList){
         Iterator<PositionalPosting> iterator1 = postings.iterator(), iterator2 = secondList.postings.iterator();
         PositionalPosting p1 = iterator1.next(), p2 = iterator2.next();
         PositionalPostingList result = new PositionalPostingList();
@@ -92,6 +125,13 @@ public class PositionalPostingList {
             }
         }
         return result;
+    }
+
+    public void writeToFile(PrintWriter printWriter, int index){
+        if (size() > 0){
+            printWriter.write(index + " " + size() + "\n");
+            printWriter.write(toString());
+        }
     }
 
     public String toString(){

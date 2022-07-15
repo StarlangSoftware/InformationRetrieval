@@ -36,29 +36,10 @@ public class PositionalIndex {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-positionalPostings.txt")), StandardCharsets.UTF_8));
             String line = br.readLine();
-            int wordId = 0;
             while (line != null){
                 String[] items = line.split(" ");
-                if (wordId == Integer.parseInt(items[0])){
-                    positionalIndex[wordId] = new PositionalPostingList();
-                    for (int i = 0; i < Integer.parseInt(items[1]); i++){
-                        line = br.readLine().trim();
-                        String[] ids = line.split(" ");
-                        int numberOfPositionalPostings = Integer.parseInt(ids[1]);
-                        if (ids.length == numberOfPositionalPostings + 2){
-                            int docId = Integer.parseInt(ids[0]);
-                            for (int j = 0; j < numberOfPositionalPostings; j++){
-                                int positionalPosting = Integer.parseInt(ids[j + 2]);
-                                positionalIndex[wordId].add(docId, positionalPosting);
-                            }
-                        } else {
-                            System.out.println("Mismatch in the number of postings for word " + wordId);
-                        }
-                    }
-                } else {
-                    System.out.println("Word Id's do not follow for word " + wordId);
-                }
-                wordId++;
+                int wordId = Integer.parseInt(items[0]);
+                positionalIndex[wordId] = new PositionalPostingList(br, Integer.parseInt(items[1]));
                 line = br.readLine();
             }
             br.close();
@@ -71,10 +52,7 @@ public class PositionalIndex {
         try {
             PrintWriter printWriter = new PrintWriter(fileName + "-positionalPostings.txt", "UTF-8");
             for (int i = 0; i < dictionarySize; i++){
-                if (positionalIndex[i].size() > 0){
-                    printWriter.write(i + " " + positionalIndex[i].size() + "\n");
-                    printWriter.write(positionalIndex[i].toString());
-                }
+                positionalIndex[i].writeToFile(printWriter, i);
             }
             printWriter.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
