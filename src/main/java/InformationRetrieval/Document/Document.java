@@ -22,15 +22,15 @@ public class Document {
         this.fileName = fileName;
     }
 
-    public Corpus loadDocument(boolean tokenizeDocument){
-        Corpus corpus;
+    public DocumentText loadDocument(boolean tokenizeDocument){
+        DocumentText documentText;
         if (tokenizeDocument){
-            corpus = new Corpus(absoluteFileName, new TurkishSplitter());
+            documentText = new DocumentText(absoluteFileName, new TurkishSplitter());
         } else {
-            corpus = new Corpus(absoluteFileName);
+            documentText = new DocumentText(absoluteFileName);
         }
-        size = corpus.numberOfWords();
-        return corpus;
+        size = documentText.numberOfWords();
+        return documentText;
     }
 
     public Corpus normalizeDocument(MorphologicalDisambiguator disambiguator, FsmMorphologicalAnalyzer fsm){

@@ -32,6 +32,41 @@ public class PositionalIndex {
         readPositionalPostingList(fileName);
     }
 
+    public PositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){
+        this(size);
+        int i, termId, prevDocId;
+        TermOccurrence term, previousTerm;
+        if (terms.size() > 0){
+            term = terms.get(0);
+            i = 1;
+            previousTerm = term;
+            termId = dictionary.getWordIndex(term.getTerm().getName());
+            addPosition(termId, term.getDocID(), term.getPosition());
+            prevDocId = term.getDocID();
+            while (i < terms.size()){
+                term = terms.get(i);
+                termId = dictionary.getWordIndex(term.getTerm().getName());
+                if (termId != -1){
+                    if (term.isDifferent(previousTerm)){
+                        addPosition(termId, term.getDocID(), term.getPosition());
+                        prevDocId = term.getDocID();
+                    } else {
+                        if (prevDocId != term.getDocID()){
+                            addPosition(termId, term.getDocID(), term.getPosition());
+                            prevDocId = term.getDocID();
+                        } else {
+                            addPosition(termId, term.getDocID(), term.getPosition());
+                        }
+                    }
+                } else {
+                    System.out.println("Error: Term " + term.getTerm().getName() + " does not exist");
+                }
+                i++;
+                previousTerm = term;
+            }
+        }
+    }
+
     private void readPositionalPostingList(String fileName){
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-positionalPostings.txt")), StandardCharsets.UTF_8));

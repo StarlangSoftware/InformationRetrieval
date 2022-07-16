@@ -20,6 +20,38 @@ public class InvertedIndex {
             index[i] = new PostingList();
         }
     }
+    public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){
+        this(size);
+        int i, termId, prevDocId;
+        TermOccurrence term, previousTerm;
+        if (terms.size() > 0){
+            term = terms.get(0);
+            i = 1;
+            previousTerm = term;
+            termId = dictionary.getWordIndex(term.getTerm().getName());
+            add(termId, term.getDocID());
+            prevDocId = term.getDocID();
+            while (i < terms.size()){
+                term = terms.get(i);
+                termId = dictionary.getWordIndex(term.getTerm().getName());
+                if (termId != -1){
+                    if (term.isDifferent(previousTerm)){
+                        add(termId, term.getDocID());
+                        prevDocId = term.getDocID();
+                    } else {
+                        if (prevDocId != term.getDocID()){
+                            add(termId, term.getDocID());
+                            prevDocId = term.getDocID();
+                        }
+                    }
+                } else {
+                    System.out.println("Error: Term " + term.getTerm().getName() + " does not exist");
+                }
+                i++;
+                previousTerm = term;
+            }
+        }
+    }
 
     private void readPostingList(String fileName){
         try {

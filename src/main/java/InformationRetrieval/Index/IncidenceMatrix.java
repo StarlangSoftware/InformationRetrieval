@@ -3,10 +3,12 @@ package InformationRetrieval.Index;
 import InformationRetrieval.Query.Query;
 import InformationRetrieval.Query.QueryResult;
 
+import java.util.ArrayList;
+
 public class IncidenceMatrix {
-    private boolean[][] incidenceMatrix;
-    private int dictionarySize;
-    private int documentSize;
+    private final boolean[][] incidenceMatrix;
+    private final int dictionarySize;
+    private final int documentSize;
 
     public IncidenceMatrix(int dictionarySize, int documentSize){
         this.dictionarySize = dictionarySize;
@@ -14,6 +16,21 @@ public class IncidenceMatrix {
         incidenceMatrix = new boolean[dictionarySize][documentSize];
     }
 
+    public IncidenceMatrix(ArrayList<TermOccurrence> terms, TermDictionary dictionary, int documentSize){
+        this(dictionary.size(), documentSize);
+        int i;
+        TermOccurrence term;
+        if (terms.size() > 0){
+            term = terms.get(0);
+            i = 1;
+            set(dictionary.getWordIndex(term.getTerm().getName()), term.getDocID());
+            while (i < terms.size()){
+                term = terms.get(i);
+                set(dictionary.getWordIndex(term.getTerm().getName()), term.getDocID());
+                i++;
+            }
+        }
+    }
     public void set(int row, int col){
         if (row < 0 || row >= dictionarySize){
             System.out.println("The term with index " + row + " is out of incidence matrix\n");

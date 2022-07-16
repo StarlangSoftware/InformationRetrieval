@@ -3,9 +3,9 @@ package InformationRetrieval.Index;
 import Dictionary.Word;
 
 public class TermOccurrence {
-    private Word term;
-    private int docID;
-    private int position;
+    private final Word term;
+    private final int docID;
+    private final int position;
 
     public TermOccurrence(Word term, int docID, int position){
         this.term = term;
@@ -23,5 +23,9 @@ public class TermOccurrence {
 
     public int getPosition(){
         return position;
+    }
+
+    public boolean isDifferent(TermOccurrence currentTerm){
+        return term.getName().hashCode() != currentTerm.getTerm().getName().hashCode();
     }
 }
