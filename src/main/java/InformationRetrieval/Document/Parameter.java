@@ -18,7 +18,9 @@ public class Parameter {
     private boolean positionalIndex = true;
     private boolean kGramIndex = true;
     private boolean constructIndexInMemory = true;
+    private boolean limitNumberOfDocumentsLoaded = false;
     private int blockSize = 1000;
+    private int documentLimit = blockSize;
 
     public Parameter(){
     }
@@ -70,6 +72,14 @@ public class Parameter {
         return tokenizeDocument;
     }
 
+    public boolean limitNumberOfDocumentsLoaded() {
+        return limitNumberOfDocumentsLoaded;
+    }
+
+    public int getDocumentLimit() {
+        return documentLimit;
+    }
+
     public void setIndexType(IndexType indexType) {
         this.indexType = indexType;
     }
@@ -116,6 +126,14 @@ public class Parameter {
 
     public void setTokenizeDocument(boolean tokenizeDocument) {
         this.tokenizeDocument = tokenizeDocument;
+    }
+
+    public void setLimitNumberOfDocumentsLoaded(boolean limitNumberOfDocumentsLoaded) {
+        this.limitNumberOfDocumentsLoaded = limitNumberOfDocumentsLoaded;
+    }
+
+    public void setDocumentLimit(int documentLimit) {
+        this.documentLimit = documentLimit;
     }
 
 }

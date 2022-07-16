@@ -40,4 +40,15 @@ public class CollectionTest {
         System.out.println();
     }
 
+    @Test
+    public void testInvertedIndex4() {
+        Parameter parameter = new Parameter();
+        parameter.setConstructIndexInMemory(true);
+        parameter.setKGramIndex(false);
+        parameter.setLimitNumberOfDocumentsLoaded(true);
+        parameter.setDocumentLimit(10);
+        Collection collection = new Collection("testCollection", parameter);
+        System.out.println();
+    }
+
 }

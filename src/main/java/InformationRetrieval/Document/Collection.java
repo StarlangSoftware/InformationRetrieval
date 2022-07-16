@@ -33,7 +33,6 @@ public class Collection {
 
     public Collection(String directory,
                       Parameter parameter){
-        int i = 0;
         this.name = directory;
         this.indexType = parameter.getIndexType();
         this.comparator = parameter.getWordComparator();
@@ -43,12 +42,20 @@ public class Collection {
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
             Arrays.sort(listOfFiles);
-            for (File file : listOfFiles) {
+            int fileLimit = listOfFiles.length;
+            if (parameter.limitNumberOfDocumentsLoaded()){
+                fileLimit = parameter.getDocumentLimit();
+            }
+            int i = 0;
+            int j = 0;
+            while (i < listOfFiles.length && j < fileLimit) {
+                File file = listOfFiles[i];
                 if (file.isFile() && file.getName().endsWith(".txt")) {
-                    Document document = new Document(file.getAbsolutePath(), file.getName(), i);
+                    Document document = new Document(file.getAbsolutePath(), file.getName(), j);
                     documents.add(document);
-                    i++;
+                    j++;
                 }
+                i++;
             }
         }
         if (parameter.loadIndexesFromFile()){
