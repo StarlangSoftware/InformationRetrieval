@@ -45,10 +45,7 @@ public class Collection {
             Arrays.sort(listOfFiles);
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().endsWith(".txt")) {
-                    Document document = new Document(file.getAbsolutePath(), file.getName(), i, !parameter.loadIndexesFromFile() && parameter.constructIndexInMemory(), parameter.tokenizeDocument());
-                    if (parameter.normalizeDocument() && !parameter.loadIndexesFromFile()){
-                        document.normalizeDocument(parameter.getDisambiguator(), parameter.getFsm());
-                    }
+                    Document document = new Document(file.getAbsolutePath(), file.getName(), i);
                     documents.add(document);
                     i++;
                 }
@@ -183,15 +180,8 @@ public class Collection {
         ArrayList<TermOccurrence> terms = new ArrayList<>();
         ArrayList<TermOccurrence> docTerms;
         for (Document doc : documents){
-            switch (termType){
-                case PHRASE:
-                    docTerms = doc.getPhrases();
-                    break;
-                case TOKEN:
-                default:
-                    docTerms = doc.getTokens();
-                    break;
-            }
+            Corpus corpus = doc.loadDocument(parameter.tokenizeDocument());
+            docTerms = constructTermList(corpus, doc, termType);
             terms.addAll(docTerms);
         }
         terms.sort(termComparator);
@@ -327,13 +317,13 @@ public class Collection {
         }
     }
 
-    private boolean finishedCombination(int[] currentIdList){
+    private boolean notFinishedCombination(int[] currentIdList){
         for (int id : currentIdList){
             if (id != -1){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private ArrayList<Integer> selectIdFromCombination(int[] currentIdList){
@@ -369,7 +359,7 @@ public class Collection {
                 line = files[i].readLine();
                 currentPostingLists[i] = new PostingList(line);
             }
-            while (!finishedCombination(currentIdList)){
+            while (notFinishedCombination(currentIdList)){
                 ArrayList<Integer> indexesToCombine = selectIdFromCombination(currentIdList);
                 PostingList mergedPostingList = currentPostingLists[indexesToCombine.get(0)];
                 for (int i = 1; i < indexesToCombine.size(); i++){
@@ -477,7 +467,7 @@ public class Collection {
                 currentIdList[i] = Integer.parseInt(items[0]);
                 currentPostingLists[i] = new PositionalPostingList(files[i], Integer.parseInt(items[1]));
             }
-            while (!finishedCombination(currentIdList)){
+            while (notFinishedCombination(currentIdList)){
                 ArrayList<Integer> indexesToCombine = selectIdFromCombination(currentIdList);
                 PositionalPostingList mergedPostingList = currentPostingLists[indexesToCombine.get(0)];
                 for (int i = 1; i < indexesToCombine.size(); i++){

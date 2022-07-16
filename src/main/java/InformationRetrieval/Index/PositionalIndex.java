@@ -136,7 +136,7 @@ public class PositionalIndex {
             }
         }
         for (i = 0; i < N; i++){
-            scores[i] /= documents.get(i).size();
+            scores[i] /= documents.get(i).getSize();
             if (scores[i] > 0.0){
                 result.add(i, scores[i]);
             }

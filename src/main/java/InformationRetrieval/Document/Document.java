@@ -2,7 +2,6 @@ package InformationRetrieval.Document;
 
 import Corpus.*;
 import Dictionary.Word;
-import InformationRetrieval.Index.TermOccurrence;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
 import MorphologicalAnalysis.FsmParse;
 import MorphologicalAnalysis.FsmParseList;
@@ -14,28 +13,28 @@ public class Document {
 
     private final String absoluteFileName;
     private final String fileName;
-    private Corpus corpus;
     private final int docId;
+    private int size = 0;
 
-    public Document(String absoluteFileName, String fileName, int docId, boolean loadInMemory, boolean tokenizeDocument){
+    public Document(String absoluteFileName, String fileName, int docId){
         this.docId = docId;
         this.absoluteFileName = absoluteFileName;
         this.fileName = fileName;
-        if (loadInMemory){
-            corpus = loadDocument(tokenizeDocument);
-        }
     }
 
     public Corpus loadDocument(boolean tokenizeDocument){
+        Corpus corpus;
         if (tokenizeDocument){
-            return new Corpus(absoluteFileName, new TurkishSplitter());
+            corpus = new Corpus(absoluteFileName, new TurkishSplitter());
         } else {
-            return new Corpus(absoluteFileName);
+            corpus = new Corpus(absoluteFileName);
         }
+        size = corpus.numberOfWords();
+        return corpus;
     }
 
-    public void normalizeDocument(MorphologicalDisambiguator disambiguator, FsmMorphologicalAnalyzer fsm){
-        Corpus tmpCorpus = new Corpus();
+    public Corpus normalizeDocument(MorphologicalDisambiguator disambiguator, FsmMorphologicalAnalyzer fsm){
+        Corpus corpus = new Corpus(absoluteFileName);
         for (int i = 0; i < corpus.sentenceCount(); i++){
             Sentence sentence = corpus.getSentence(i);
             FsmParseList[] parses = fsm.robustMorphologicalAnalysis(sentence);
@@ -44,9 +43,10 @@ public class Document {
             for (FsmParse fsmParse : correctParses){
                 newSentence.addWord(new Word(fsmParse.getWord().getName()));
             }
-            tmpCorpus.addSentence(newSentence);
+            corpus.addSentence(newSentence);
         }
-        corpus = tmpCorpus;
+        size = corpus.numberOfWords();
+        return corpus;
     }
 
     public int getDocId(){
@@ -61,32 +61,8 @@ public class Document {
         return absoluteFileName;
     }
 
-    public int size(){
-        return corpus.numberOfWords();
-    }
-
-    ArrayList<TermOccurrence> getTokens(){
-        ArrayList<TermOccurrence> terms = new ArrayList<>();
-        int size = 0;
-        for (int i = 0; i < corpus.sentenceCount(); i++){
-            for (int j = 0; j < corpus.getSentence(i).wordCount(); j++){
-                terms.add(new TermOccurrence(corpus.getSentence(i).getWord(j), docId, size));
-                size++;
-            }
-        }
-        return terms;
-    }
-
-    ArrayList<TermOccurrence> getPhrases(){
-        ArrayList<TermOccurrence> terms = new ArrayList<>();
-        int size = 0;
-        for (int i = 0; i < corpus.sentenceCount(); i++){
-            for (int j = 0; j < corpus.getSentence(i).wordCount() - 1; j++){
-                terms.add(new TermOccurrence(new Word(corpus.getSentence(i).getWord(j).getName() + " " + corpus.getSentence(i).getWord(j + 1).getName()), docId, size));
-                size++;
-            }
-        }
-        return terms;
+    public int getSize(){
+        return size;
     }
 
 }
