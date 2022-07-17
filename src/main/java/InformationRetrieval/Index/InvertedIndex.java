@@ -1,5 +1,6 @@
 package InformationRetrieval.Index;
 
+import Dictionary.WordComparator;
 import InformationRetrieval.Query.Query;
 import InformationRetrieval.Query.QueryResult;
 
@@ -20,7 +21,7 @@ public class InvertedIndex {
             index[i] = new PostingList();
         }
     }
-    public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){
+    public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size, WordComparator comparator){
         this(size);
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;
@@ -35,7 +36,7 @@ public class InvertedIndex {
                 term = terms.get(i);
                 termId = dictionary.getWordIndex(term.getTerm().getName());
                 if (termId != -1){
-                    if (term.isDifferent(previousTerm)){
+                    if (term.isDifferent(previousTerm, comparator)){
                         add(termId, term.getDocID());
                         prevDocId = term.getDocID();
                     } else {

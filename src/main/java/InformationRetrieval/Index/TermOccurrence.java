@@ -1,6 +1,7 @@
 package InformationRetrieval.Index;
 
 import Dictionary.Word;
+import Dictionary.WordComparator;
 
 public class TermOccurrence {
     private final Word term;
@@ -25,7 +26,7 @@ public class TermOccurrence {
         return position;
     }
 
-    public boolean isDifferent(TermOccurrence currentTerm){
-        return term.getName().hashCode() != currentTerm.getTerm().getName().hashCode();
+    public boolean isDifferent(TermOccurrence currentTerm, WordComparator comparator){
+        return comparator.compare(term, currentTerm.getTerm()) != 0;
     }
 }

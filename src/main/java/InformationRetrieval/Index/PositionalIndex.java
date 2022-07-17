@@ -1,5 +1,6 @@
 package InformationRetrieval.Index;
 
+import Dictionary.WordComparator;
 import InformationRetrieval.Document.Document;
 import InformationRetrieval.Document.DocumentWeighting;
 import InformationRetrieval.Query.Query;
@@ -32,7 +33,7 @@ public class PositionalIndex {
         readPositionalPostingList(fileName);
     }
 
-    public PositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size){
+    public PositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size, WordComparator comparator){
         this(size);
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;
@@ -47,7 +48,7 @@ public class PositionalIndex {
                 term = terms.get(i);
                 termId = dictionary.getWordIndex(term.getTerm().getName());
                 if (termId != -1){
-                    if (term.isDifferent(previousTerm)){
+                    if (term.isDifferent(previousTerm, comparator)){
                         addPosition(termId, term.getDocID(), term.getPosition());
                         prevDocId = term.getDocID();
                     } else {

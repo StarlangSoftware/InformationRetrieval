@@ -155,16 +155,16 @@ public class Collection {
                 incidenceMatrix = new IncidenceMatrix(terms, dictionary, documents.size());
                 break;
             case INVERTED_INDEX:
-                invertedIndex = new InvertedIndex(dictionary, terms, vocabularySize());
+                invertedIndex = new InvertedIndex(dictionary, terms, vocabularySize(), comparator);
                 if (parameter.constructPositionalIndex()){
-                    positionalIndex = new PositionalIndex(dictionary, terms, vocabularySize());
+                    positionalIndex = new PositionalIndex(dictionary, terms, vocabularySize(), comparator);
                 }
                 if (parameter.constructPhraseIndex()){
                     terms = constructTerms(TermType.PHRASE);
                     phraseDictionary = new TermDictionary(comparator, terms);
-                    phraseIndex = new InvertedIndex(phraseDictionary, terms, phraseSize());
+                    phraseIndex = new InvertedIndex(phraseDictionary, terms, phraseSize(), comparator);
                     if (parameter.constructPositionalIndex()){
-                        phrasePositionalIndex = new PositionalIndex(phraseDictionary, terms, phraseSize());
+                        phrasePositionalIndex = new PositionalIndex(phraseDictionary, terms, phraseSize(), comparator);
                     }
                 }
                 if (parameter.constructKGramIndex()){
@@ -370,10 +370,10 @@ public class Collection {
     private void constructKGramIndex(){
         ArrayList<TermOccurrence> terms = dictionary.constructTermsFromDictionary(2);
         biGramDictionary = new TermDictionary(comparator, terms);
-        biGramIndex = new NGramIndex(biGramDictionary, terms, biGramSize());
+        biGramIndex = new NGramIndex(biGramDictionary, terms, biGramSize(), comparator);
         terms = dictionary.constructTermsFromDictionary(3);
         triGramDictionary = new TermDictionary(comparator, terms);
-        triGramIndex = new NGramIndex(triGramDictionary, terms, triGramSize());
+        triGramIndex = new NGramIndex(triGramDictionary, terms, triGramSize(), comparator);
     }
 
     public VectorSpaceModel getVectorSpaceModel(int docId, TermWeighting termWeighting, DocumentWeighting documentWeighting){

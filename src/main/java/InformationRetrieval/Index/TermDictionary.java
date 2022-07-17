@@ -22,7 +22,8 @@ public class TermDictionary extends Dictionary{
             BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-dictionary.txt")), StandardCharsets.UTF_8));
             String line = br.readLine();
             while (line != null){
-                words.add(new Word(line.substring(line.indexOf(" ") + 1)));
+                int termId = Integer.parseInt(line.substring(0, line.indexOf(" ")));
+                words.add(new Term(line.substring(line.indexOf(" ") + 1), termId));
                 line = br.readLine();
             }
         } catch (IOException e) {
@@ -32,17 +33,19 @@ public class TermDictionary extends Dictionary{
 
     public TermDictionary(WordComparator comparator, ArrayList<TermOccurrence> terms){
         super(comparator);
-        int i;
+        int i, termId = 0;
         TermOccurrence term, previousTerm;
         if (terms.size() > 0){
             term = terms.get(0);
-            addTerm(term.getTerm());
+            addTerm(term.getTerm().getName(), termId);
+            termId++;
             previousTerm = term;
             i = 1;
             while (i < terms.size()){
                 term = terms.get(i);
-                if (term.isDifferent(previousTerm)){
-                    addTerm(term.getTerm());
+                if (term.isDifferent(previousTerm, comparator)){
+                    addTerm(term.getTerm().getName(), termId);
+                    termId++;
                 }
                 i++;
                 previousTerm = term;
@@ -56,25 +59,28 @@ public class TermDictionary extends Dictionary{
             wordList.add(new Word(word));
         }
         wordList.sort(comparator);
+        int termID = 0;
         for (Word term : wordList){
-            addTerm(term);
+            addTerm(term.getName(), termID);
+            termID++;
         }
     }
 
-    public void addTerm(Word term){
-        int middle = Collections.binarySearch(words, new Word(term.getName()), comparator);
+    public void addTerm(String name, int termId){
+        int middle = Collections.binarySearch(words, new Word(name), comparator);
         if (middle < 0){
-            words.add(-middle - 1, term);
+            words.add(-middle - 1, new Term(name, termId));
+        } else {
+            System.out.println(name);
         }
     }
 
     public void save(String fileName){
         try {
             PrintWriter printWriter = new PrintWriter(fileName + "-dictionary.txt", "UTF-8");
-            int i = 0;
             for (Word word : words) {
-                printWriter.write(i + " " + word + "\n");
-                i++;
+                Term term = (Term) word;
+                printWriter.write(term.getTermId() + " " + term.getName() + "\n");
             }
             printWriter.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
