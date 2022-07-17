@@ -9,20 +9,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class InvertedIndex {
-    private final PostingList[] index;
-    private final int dictionarySize;
+    private final LinkedHashMap<Integer, PostingList> index;
 
-    public InvertedIndex(int dictionarySize){
-        this.dictionarySize = dictionarySize;
-        index = new PostingList[dictionarySize];
-        for (int i = 0; i < dictionarySize; i++){
-            index[i] = new PostingList();
-        }
+    public InvertedIndex(){
+        index = new LinkedHashMap<>();
     }
     public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size, WordComparator comparator){
-        this(size);
+        this();
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;
         if (terms.size() > 0){
@@ -62,7 +58,7 @@ public class InvertedIndex {
                 String[] items = line.split(" ");
                 int wordId = Integer.parseInt(items[0]);
                 line = br.readLine();
-                index[wordId] = new PostingList(line);
+                index.put(wordId, new PostingList(line));
                 line = br.readLine();
             }
             br.close();
@@ -71,17 +67,16 @@ public class InvertedIndex {
         }
     }
 
-    public InvertedIndex(String fileName, int dictionarySize){
-        this.dictionarySize = dictionarySize;
-        index = new PostingList[dictionarySize];
+    public InvertedIndex(String fileName){
+        index = new LinkedHashMap<>();
         readPostingList(fileName);
     }
 
     public void save(String fileName){
         try {
             PrintWriter printWriter = new PrintWriter(fileName + "-postings.txt", "UTF-8");
-            for (int i = 0; i < dictionarySize; i++){
-                index[i].writeToFile(printWriter, i);
+            for (Integer key : index.keySet()){
+                index.get(key).writeToFile(printWriter, key);
             }
             printWriter.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -90,7 +85,14 @@ public class InvertedIndex {
     }
 
     public void add(int termId, int docId){
-        index[termId].add(docId);
+        PostingList postingList;
+        if (!index.containsKey(termId)){
+            postingList = new PostingList();
+        } else {
+            postingList = index.get(termId);
+        }
+        postingList.add(docId);
+        index.put(termId, postingList);
     }
 
     public QueryResult search(Query query, TermDictionary dictionary){
@@ -101,7 +103,7 @@ public class InvertedIndex {
         for (i = 0; i < query.size(); i++){
             termIndex = dictionary.getWordIndex(query.getTerm(i).getName());
             if (termIndex != -1){
-                queryTerms.add(index[termIndex]);
+                queryTerms.add(index.get(termIndex));
             }
         }
         queryTerms.sort(comparator);

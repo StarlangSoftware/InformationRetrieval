@@ -12,29 +12,23 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class PositionalIndex {
 
-    private final PositionalPostingList[] positionalIndex;
+    private final LinkedHashMap<Integer, PositionalPostingList> positionalIndex;
 
-    private final int dictionarySize;
-
-    public PositionalIndex(int dictionarySize){
-        this.dictionarySize = dictionarySize;
-        positionalIndex = new PositionalPostingList[dictionarySize];
-        for (int i = 0; i < dictionarySize; i++){
-            positionalIndex[i] = new PositionalPostingList();
-        }
+    public PositionalIndex(){
+        positionalIndex = new LinkedHashMap<>();
     }
 
-    public PositionalIndex(String fileName, int dictionarySize){
-        this.dictionarySize = dictionarySize;
-        positionalIndex = new PositionalPostingList[dictionarySize];
+    public PositionalIndex(String fileName){
+        positionalIndex = new LinkedHashMap<>();
         readPositionalPostingList(fileName);
     }
 
     public PositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size, WordComparator comparator){
-        this(size);
+        this();
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;
         if (terms.size() > 0){
@@ -75,7 +69,7 @@ public class PositionalIndex {
             while (line != null){
                 String[] items = line.split(" ");
                 int wordId = Integer.parseInt(items[0]);
-                positionalIndex[wordId] = new PositionalPostingList(br, Integer.parseInt(items[1]));
+                positionalIndex.put(wordId, new PositionalPostingList(br, Integer.parseInt(items[1])));
                 line = br.readLine();
             }
             br.close();
@@ -87,8 +81,8 @@ public class PositionalIndex {
     public void save(String fileName){
         try {
             PrintWriter printWriter = new PrintWriter(fileName + "-positionalPostings.txt", "UTF-8");
-            for (int i = 0; i < dictionarySize; i++){
-                positionalIndex[i].writeToFile(printWriter, i);
+            for (Integer key : positionalIndex.keySet()){
+                positionalIndex.get(key).writeToFile(printWriter, key);
             }
             printWriter.close();
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -97,7 +91,14 @@ public class PositionalIndex {
     }
 
     public void addPosition(int termId, int docId, int position){
-        positionalIndex[termId].add(docId, position);
+        PositionalPostingList positionalPostingList;
+        if (!positionalIndex.containsKey(termId)){
+            positionalPostingList = new PositionalPostingList();
+        } else {
+            positionalPostingList = positionalIndex.get(termId);
+        }
+        positionalPostingList.add(docId, position);
+        positionalIndex.put(termId, positionalPostingList);
     }
 
     public QueryResult positionalSearch(Query query, TermDictionary dictionary){
@@ -107,10 +108,10 @@ public class PositionalIndex {
             term = dictionary.getWordIndex(query.getTerm(i).getName());
             if (term != -1){
                 if (i == 0){
-                    postingResult = positionalIndex[term];
+                    postingResult = positionalIndex.get(term);
                 } else {
                     if (postingResult != null){
-                        postingResult = postingResult.intersection(positionalIndex[term]);
+                        postingResult = postingResult.intersection(positionalIndex.get(term));
                     } else {
                         return null;
                     }
@@ -129,24 +130,28 @@ public class PositionalIndex {
         int[] tf;
         int index;
         PositionalPostingList positionalPostingList;
-        tf = new int[dictionarySize];
-        for (int i = 0; i < dictionarySize; i++){
-            positionalPostingList = positionalIndex[i];
+        tf = new int[positionalIndex.size()];
+        int i = 0;
+        for (Integer key : positionalIndex.keySet()){
+            positionalPostingList = positionalIndex.get(key);
             index = positionalPostingList.getIndex(docId);
             if (index != -1){
                 tf[i] = positionalPostingList.get(index).size();
             } else {
                 tf[i] = 0;
             }
+            i++;
         }
         return tf;
     }
 
     public int[] getDocumentFrequencies(){
         int[] df;
-        df = new int[dictionarySize];
-        for (int i = 0; i < dictionarySize; i++){
-            df[i] = positionalIndex[i].size();
+        df = new int[positionalIndex.size()];
+        int i = 0;
+        for (Integer key : positionalIndex.keySet()){
+            df[i] = positionalIndex.get(key).size();
+            i++;
         }
         return df;
     }
@@ -159,12 +164,12 @@ public class PositionalIndex {
         for (i = 0; i < query.size(); i++){
             term = dictionary.getWordIndex(query.getTerm(i).getName());
             if (term != -1){
-                positionalPostingList = positionalIndex[term];
+                positionalPostingList = positionalIndex.get(term);
                 for (j = 0; j < positionalPostingList.size(); j++){
                     PositionalPosting positionalPosting = positionalPostingList.get(j);
                     docID = positionalPosting.getDocId();
                     tf = positionalPosting.size();
-                    df = positionalIndex[term].size();
+                    df = positionalIndex.get(term).size();
                     if (tf > 0 && df > 0){
                         scores[docID] += VectorSpaceModel.weighting(tf, df, N, termWeighting, documentWeighting);
                     }

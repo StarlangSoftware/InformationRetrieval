@@ -58,15 +58,15 @@ public class Collection {
         }
         if (parameter.loadIndexesFromFile()){
             dictionary = new TermDictionary(comparator, directory);
-            invertedIndex = new InvertedIndex(directory, vocabularySize());
+            invertedIndex = new InvertedIndex(directory);
             if (parameter.constructPositionalIndex()){
-                positionalIndex = new PositionalIndex(directory, vocabularySize());
+                positionalIndex = new PositionalIndex(directory);
             }
             if (parameter.constructPhraseIndex()){
                 phraseDictionary = new TermDictionary(comparator, directory + "-phrase");
-                phraseIndex = new InvertedIndex(directory + "-phrase", phraseSize());
+                phraseIndex = new InvertedIndex(directory + "-phrase");
                 if (parameter.constructPositionalIndex()){
-                    phrasePositionalIndex = new PositionalIndex(directory + "-phrase", phraseSize());
+                    phrasePositionalIndex = new PositionalIndex(directory + "-phrase");
                 }
             }
             if (parameter.constructKGramIndex()){
@@ -267,13 +267,13 @@ public class Collection {
 
     private void constructInvertedIndexInDisk(TermDictionary dictionary, TermType termType){
         int i = 0, blockCount = 0;
-        InvertedIndex invertedIndex = new InvertedIndex(dictionary.size());
+        InvertedIndex invertedIndex = new InvertedIndex();
         for (Document doc : documents){
             if (i < parameter.getBlockSize()){
                 i++;
             } else {
                 invertedIndex.save("tmp-" + blockCount);
-                invertedIndex = new InvertedIndex(dictionary.size());
+                invertedIndex = new InvertedIndex();
                 blockCount++;
                 i = 0;
             }
@@ -339,13 +339,13 @@ public class Collection {
 
     private void constructPositionalIndexInDisk(TermDictionary dictionary, TermType termType){
         int i = 0, blockCount = 0;
-        PositionalIndex positionalIndex = new PositionalIndex(dictionary.size());
+        PositionalIndex positionalIndex = new PositionalIndex();
         for (Document doc : documents){
             if (i < parameter.getBlockSize()){
                 i++;
             } else {
                 positionalIndex.save("tmp-" + blockCount);
-                positionalIndex = new PositionalIndex(dictionary.size());
+                positionalIndex = new PositionalIndex();
                 blockCount++;
                 i = 0;
             }
