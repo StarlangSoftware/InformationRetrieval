@@ -1,6 +1,6 @@
 package InformationRetrieval.Document;
 
-import Dictionary.WordComparator;
+import Dictionary.*;
 import InformationRetrieval.Index.*;
 import InformationRetrieval.Query.*;
 import Math.Matrix;
@@ -76,10 +76,14 @@ public class Collection {
                 triGramIndex = new NGramIndex(directory + "-triGram");
             }
         } else {
-            if (parameter.constructIndexInMemory()){
-                constructIndexesInMemory();
+            if (parameter.constructDictionaryInDisk()){
+                constructDictionaryInDisk();
             } else {
-                constructIndexesInDisk();
+                if (parameter.constructIndexInDisk()){
+                    constructIndexesInDisk();
+                } else {
+                    constructIndexesInMemory();
+                }
             }
         }
     }
@@ -90,18 +94,6 @@ public class Collection {
 
     public int vocabularySize(){
         return dictionary.size();
-    }
-
-    public int biGramSize(){
-        return biGramDictionary.size();
-    }
-
-    public int triGramSize(){
-        return triGramDictionary.size();
-    }
-
-    public int phraseSize(){
-        return phraseDictionary.size();
     }
 
     public void save(){
@@ -123,6 +115,19 @@ public class Collection {
                 triGramDictionary.save(name + "-triGram");
                 biGramIndex.save(name + "-biGram");
                 triGramIndex.save(name + "-triGram");
+            }
+        }
+    }
+
+    private void constructDictionaryInDisk(){
+        constructDictionaryAndInvertedIndexInDisk(TermType.TOKEN);
+        if (parameter.constructPositionalIndex()){
+            constructDictionaryAndPositionalIndexInDisk(TermType.TOKEN);
+        }
+        if (parameter.constructPhraseIndex()){
+            constructDictionaryAndInvertedIndexInDisk(TermType.PHRASE);
+            if (parameter.constructPositionalIndex()){
+                constructDictionaryAndPositionalIndexInDisk(TermType.PHRASE);
             }
         }
     }
@@ -155,16 +160,16 @@ public class Collection {
                 incidenceMatrix = new IncidenceMatrix(terms, dictionary, documents.size());
                 break;
             case INVERTED_INDEX:
-                invertedIndex = new InvertedIndex(dictionary, terms, vocabularySize(), comparator);
+                invertedIndex = new InvertedIndex(dictionary, terms, comparator);
                 if (parameter.constructPositionalIndex()){
-                    positionalIndex = new PositionalIndex(dictionary, terms, vocabularySize(), comparator);
+                    positionalIndex = new PositionalIndex(dictionary, terms, comparator);
                 }
                 if (parameter.constructPhraseIndex()){
                     terms = constructTerms(TermType.PHRASE);
                     phraseDictionary = new TermDictionary(comparator, terms);
-                    phraseIndex = new InvertedIndex(phraseDictionary, terms, phraseSize(), comparator);
+                    phraseIndex = new InvertedIndex(phraseDictionary, terms, comparator);
                     if (parameter.constructPositionalIndex()){
-                        phrasePositionalIndex = new PositionalIndex(phraseDictionary, terms, phraseSize(), comparator);
+                        phrasePositionalIndex = new PositionalIndex(phraseDictionary, terms, comparator);
                     }
                 }
                 if (parameter.constructKGramIndex()){
@@ -195,7 +200,7 @@ public class Collection {
         return words;
     }
 
-    private boolean notFinishedCombination(int[] currentIdList){
+    private boolean notCombinedAllIndexes(int[] currentIdList){
         for (int id : currentIdList){
             if (id != -1){
                 return true;
@@ -204,7 +209,16 @@ public class Collection {
         return false;
     }
 
-    private ArrayList<Integer> selectIdFromCombination(int[] currentIdList){
+    private boolean notCombinedAllDictionaries(String[] currentWords){
+        for (String word : currentWords){
+            if (word != null){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private ArrayList<Integer> selectIndexesWithMinimumTermIds(int[] currentIdList){
         ArrayList<Integer> result = new ArrayList<>();
         int min = Integer.MAX_VALUE;
         for (int id : currentIdList){
@@ -218,6 +232,64 @@ public class Collection {
             }
         }
         return result;
+    }
+
+    private ArrayList<Integer> selectDictionariesWithMinimumWords(String[] currentWords){
+        ArrayList<Integer> result = new ArrayList<>();
+        String min = null;
+        for (String word: currentWords){
+            if (word != null){
+                min = word;
+                break;
+            }
+        }
+        for (String word: currentWords){
+            if (word != null && comparator.compare(new Word(word), new Word(min)) < 0){
+                min = word;
+            }
+        }
+        for (int i = 0; i < currentWords.length; i++){
+            if (currentWords[i] != null && currentWords[i].equals(min)){
+                result.add(i);
+            }
+        }
+        return result;
+    }
+    private void combineMultipleDictionariesInDisk(String name, int blockCount){
+        BufferedReader[] files;
+        int[] currentIdList;
+        String[] currentWords;
+        currentIdList = new int[blockCount];
+        currentWords = new String[blockCount];
+        files = new BufferedReader[blockCount];
+        try{
+            PrintWriter printWriter = new PrintWriter(name + "-dictionary.txt", "UTF-8");
+            for (int i = 0; i < blockCount; i++){
+                files[i] = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("tmp-" + i + "-dictionary.txt")), StandardCharsets.UTF_8));
+                String line = files[i].readLine();
+                currentIdList[i] = Integer.parseInt(line.substring(0, line.indexOf(" ")));
+                currentWords[i] = line.substring(line.indexOf(" ") + 1);
+            }
+            while (notCombinedAllDictionaries(currentWords)){
+                ArrayList<Integer> indexesToCombine = selectDictionariesWithMinimumWords(currentWords);
+                printWriter.write(currentIdList[indexesToCombine.get(0)] + " " + currentWords[indexesToCombine.get(0)] + "\n");
+                for (int i : indexesToCombine) {
+                    String line = files[i].readLine();
+                    if (line != null) {
+                        currentIdList[i] = Integer.parseInt(line.substring(0, line.indexOf(" ")));
+                        currentWords[i] = line.substring(line.indexOf(" ") + 1);
+                    } else {
+                        currentWords[i] = null;
+                    }
+                }
+            }
+            for (int i = 0; i < blockCount; i++){
+                files[i].close();
+            }
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void combineMultipleInvertedIndexesInDisk(String name, int blockCount){
@@ -237,8 +309,8 @@ public class Collection {
                 line = files[i].readLine();
                 currentPostingLists[i] = new PostingList(line);
             }
-            while (notFinishedCombination(currentIdList)){
-                ArrayList<Integer> indexesToCombine = selectIdFromCombination(currentIdList);
+            while (notCombinedAllIndexes(currentIdList)){
+                ArrayList<Integer> indexesToCombine = selectIndexesWithMinimumTermIds(currentIdList);
                 PostingList mergedPostingList = currentPostingLists[indexesToCombine.get(0)];
                 for (int i = 1; i < indexesToCombine.size(); i++){
                     mergedPostingList = mergedPostingList.union(currentPostingLists[indexesToCombine.get(i)]);
@@ -294,6 +366,50 @@ public class Collection {
             combineMultipleInvertedIndexesInDisk(name + "-phrase", blockCount);
         }
     }
+
+    private void constructDictionaryAndInvertedIndexInDisk(TermType termType){
+        int i = 0, blockCount = 0;
+        InvertedIndex invertedIndex = new InvertedIndex();
+        TermDictionary dictionary = new TermDictionary(comparator);
+        for (Document doc : documents){
+            if (i < parameter.getBlockSize()){
+                i++;
+            } else {
+                dictionary.save("tmp-" + blockCount);
+                dictionary = new TermDictionary(comparator);
+                invertedIndex.save("tmp-" + blockCount);
+                invertedIndex = new InvertedIndex();
+                blockCount++;
+                i = 0;
+            }
+            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            HashSet<String> wordList = documentText.constructDistinctWordList(termType);
+            for (String word : wordList){
+                int termId;
+                int wordIndex = dictionary.getWordIndex(word);
+                if (wordIndex != -1){
+                    termId = ((Term) dictionary.getWord(wordIndex)).getTermId();
+                } else {
+                    termId = Math.abs(word.hashCode());
+                    dictionary.addTerm(word, termId);
+                }
+                invertedIndex.add(termId, doc.getDocId());
+            }
+        }
+        if (i != 0){
+            dictionary.save("tmp-" + blockCount);
+            invertedIndex.save("tmp-" + blockCount);
+            blockCount++;
+        }
+        if (termType == TermType.TOKEN){
+            combineMultipleDictionariesInDisk(name, blockCount);
+            combineMultipleInvertedIndexesInDisk(name, blockCount);
+        } else {
+            combineMultipleDictionariesInDisk(name + "-phrase", blockCount);
+            combineMultipleInvertedIndexesInDisk(name + "-phrase", blockCount);
+        }
+    }
+
     private void combineMultiplePositionalIndexesInDisk(String name, int blockCount){
         BufferedReader[] files;
         int[] currentIdList;
@@ -310,8 +426,8 @@ public class Collection {
                 currentIdList[i] = Integer.parseInt(items[0]);
                 currentPostingLists[i] = new PositionalPostingList(files[i], Integer.parseInt(items[1]));
             }
-            while (notFinishedCombination(currentIdList)){
-                ArrayList<Integer> indexesToCombine = selectIdFromCombination(currentIdList);
+            while (notCombinedAllIndexes(currentIdList)){
+                ArrayList<Integer> indexesToCombine = selectIndexesWithMinimumTermIds(currentIdList);
                 PositionalPostingList mergedPostingList = currentPostingLists[indexesToCombine.get(0)];
                 for (int i = 1; i < indexesToCombine.size(); i++){
                     mergedPostingList = mergedPostingList.union(currentPostingLists[indexesToCombine.get(i)]);
@@ -334,6 +450,49 @@ public class Collection {
             printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void constructDictionaryAndPositionalIndexInDisk(TermType termType){
+        int i = 0, blockCount = 0;
+        PositionalIndex positionalIndex = new PositionalIndex();
+        TermDictionary dictionary = new TermDictionary(comparator);
+        for (Document doc : documents){
+            if (i < parameter.getBlockSize()){
+                i++;
+            } else {
+                dictionary.save("tmp-" + blockCount);
+                dictionary = new TermDictionary(comparator);
+                positionalIndex.save("tmp-" + blockCount);
+                positionalIndex = new PositionalIndex();
+                blockCount++;
+                i = 0;
+            }
+            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            ArrayList<TermOccurrence> terms = documentText.constructTermList(doc, termType);
+            for (TermOccurrence termOccurrence : terms){
+                int termId;
+                int wordIndex = dictionary.getWordIndex(termOccurrence.getTerm().getName());
+                if (wordIndex != -1){
+                    termId = ((Term) dictionary.getWord(wordIndex)).getTermId();
+                } else {
+                    termId = Math.abs(termOccurrence.getTerm().getName().hashCode());
+                    dictionary.addTerm(termOccurrence.getTerm().getName(), termId);
+                }
+                positionalIndex.addPosition(termId, termOccurrence.getDocID(), termOccurrence.getPosition());
+            }
+        }
+        if (i != 0){
+            dictionary.save("tmp-" + blockCount);
+            positionalIndex.save("tmp-" + blockCount);
+            blockCount++;
+        }
+        if (termType == TermType.TOKEN){
+            combineMultipleDictionariesInDisk(name, blockCount);
+            combineMultiplePositionalIndexesInDisk(name, blockCount);
+        } else {
+            combineMultipleDictionariesInDisk(name + "-phrase", blockCount);
+            combineMultiplePositionalIndexesInDisk(name + "-phrase", blockCount);
         }
     }
 
@@ -370,10 +529,10 @@ public class Collection {
     private void constructKGramIndex(){
         ArrayList<TermOccurrence> terms = dictionary.constructTermsFromDictionary(2);
         biGramDictionary = new TermDictionary(comparator, terms);
-        biGramIndex = new NGramIndex(biGramDictionary, terms, biGramSize(), comparator);
+        biGramIndex = new NGramIndex(biGramDictionary, terms, comparator);
         terms = dictionary.constructTermsFromDictionary(3);
         triGramDictionary = new TermDictionary(comparator, terms);
-        triGramIndex = new NGramIndex(triGramDictionary, terms, triGramSize(), comparator);
+        triGramIndex = new NGramIndex(triGramDictionary, terms, comparator);
     }
 
     public VectorSpaceModel getVectorSpaceModel(int docId, TermWeighting termWeighting, DocumentWeighting documentWeighting){

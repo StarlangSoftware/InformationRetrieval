@@ -17,7 +17,7 @@ public class InvertedIndex {
     public InvertedIndex(){
         index = new TreeMap<>();
     }
-    public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size, WordComparator comparator){
+    public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, WordComparator comparator){
         this();
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;

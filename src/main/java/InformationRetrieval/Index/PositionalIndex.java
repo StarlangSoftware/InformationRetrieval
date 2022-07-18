@@ -27,7 +27,7 @@ public class PositionalIndex {
         readPositionalPostingList(fileName);
     }
 
-    public PositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size, WordComparator comparator){
+    public PositionalIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, WordComparator comparator){
         this();
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;

@@ -17,8 +17,7 @@ public class CollectionTest {
     @Test
     public void testInvertedIndex() {
         Parameter parameter = new Parameter();
-        parameter.setConstructIndexInMemory(true);
-        parameter.setKGramIndex(false);
+        parameter.setNGramIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         collection.save();
     }
@@ -34,8 +33,8 @@ public class CollectionTest {
     @Test
     public void testInvertedIndex3() {
         Parameter parameter = new Parameter();
-        parameter.setConstructIndexInMemory(false);
-        parameter.setKGramIndex(false);
+        parameter.setConstructIndexInDisk(true);
+        parameter.setNGramIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         System.out.println();
     }
@@ -43,10 +42,18 @@ public class CollectionTest {
     @Test
     public void testInvertedIndex4() {
         Parameter parameter = new Parameter();
-        parameter.setConstructIndexInMemory(true);
-        parameter.setKGramIndex(false);
+        parameter.setNGramIndex(false);
         parameter.setLimitNumberOfDocumentsLoaded(true);
         parameter.setDocumentLimit(10);
+        Collection collection = new Collection("testCollection", parameter);
+        System.out.println();
+    }
+
+    @Test
+    public void testInvertedIndex5() {
+        Parameter parameter = new Parameter();
+        parameter.setConstructDictionaryInDisk(true);
+        parameter.setNGramIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         System.out.println();
     }

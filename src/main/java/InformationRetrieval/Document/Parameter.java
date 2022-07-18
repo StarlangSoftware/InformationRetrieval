@@ -16,8 +16,9 @@ public class Parameter {
     private boolean normalizeDocument = false;
     private boolean phraseIndex = true;
     private boolean positionalIndex = true;
-    private boolean kGramIndex = true;
-    private boolean constructIndexInMemory = true;
+    private boolean constructNGramIndex = true;
+    private boolean constructIndexInDisk = false;
+    private boolean constructDictionaryInDisk = false;
     private boolean limitNumberOfDocumentsLoaded = false;
     private int blockSize = 1000;
     private int documentLimit = blockSize;
@@ -57,11 +58,11 @@ public class Parameter {
     }
 
     public boolean constructKGramIndex() {
-        return kGramIndex;
+        return constructNGramIndex;
     }
 
-    public boolean constructIndexInMemory() {
-        return constructIndexInMemory;
+    public boolean constructIndexInDisk() {
+        return constructIndexInDisk;
     }
 
     public int getBlockSize() {
@@ -78,6 +79,10 @@ public class Parameter {
 
     public int getDocumentLimit() {
         return documentLimit;
+    }
+
+    public boolean constructDictionaryInDisk() {
+        return constructDictionaryInDisk;
     }
 
     public void setIndexType(IndexType indexType) {
@@ -112,12 +117,12 @@ public class Parameter {
         this.positionalIndex = positionalIndex;
     }
 
-    public void setKGramIndex(boolean kGramIndex) {
-        this.kGramIndex = kGramIndex;
+    public void setNGramIndex(boolean nGramIndex) {
+        this.constructNGramIndex = nGramIndex;
     }
 
-    public void setConstructIndexInMemory(boolean constructIndexInMemory) {
-        this.constructIndexInMemory = constructIndexInMemory;
+    public void setConstructIndexInDisk(boolean constructIndexInDisk) {
+        this.constructIndexInDisk = constructIndexInDisk;
     }
 
     public void setBlockSize(int blockSize) {
@@ -134,6 +139,14 @@ public class Parameter {
 
     public void setDocumentLimit(int documentLimit) {
         this.documentLimit = documentLimit;
+    }
+
+    public void setConstructDictionaryInDisk(boolean constructDictionaryInDisk) {
+        this.constructDictionaryInDisk = constructDictionaryInDisk;
+        if (constructDictionaryInDisk){
+            constructIndexInDisk = true;
+            constructNGramIndex = false;
+        }
     }
 
 }
