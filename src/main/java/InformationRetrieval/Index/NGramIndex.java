@@ -9,7 +9,7 @@ public class NGramIndex extends InvertedIndex{
         super(dictionary, terms, size, comparator);
     }
 
-    public NGramIndex(String fileName, int dictionarySize) {
+    public NGramIndex(String fileName) {
         super(fileName);
     }
 }

@@ -72,8 +72,8 @@ public class Collection {
             if (parameter.constructKGramIndex()){
                 biGramDictionary = new TermDictionary(comparator, directory + "-biGram");
                 triGramDictionary = new TermDictionary(comparator, directory + "-triGram");
-                biGramIndex = new NGramIndex(directory + "-biGram", biGramSize());
-                triGramIndex = new NGramIndex(directory + "-triGram", triGramSize());
+                biGramIndex = new NGramIndex(directory + "-biGram");
+                triGramIndex = new NGramIndex(directory + "-triGram");
             }
         } else {
             if (parameter.constructIndexInMemory()){

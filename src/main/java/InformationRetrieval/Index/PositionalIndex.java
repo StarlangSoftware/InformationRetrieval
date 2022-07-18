@@ -12,18 +12,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 public class PositionalIndex {
 
-    private final LinkedHashMap<Integer, PositionalPostingList> positionalIndex;
+    private final TreeMap<Integer, PositionalPostingList> positionalIndex;
 
     public PositionalIndex(){
-        positionalIndex = new LinkedHashMap<>();
+        positionalIndex = new TreeMap<>();
     }
 
     public PositionalIndex(String fileName){
-        positionalIndex = new LinkedHashMap<>();
+        positionalIndex = new TreeMap<>();
         readPositionalPostingList(fileName);
     }
 

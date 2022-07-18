@@ -9,13 +9,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 public class InvertedIndex {
-    private final LinkedHashMap<Integer, PostingList> index;
+    private final TreeMap<Integer, PostingList> index;
 
     public InvertedIndex(){
-        index = new LinkedHashMap<>();
+        index = new TreeMap<>();
     }
     public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, int size, WordComparator comparator){
         this();
@@ -68,7 +68,7 @@ public class InvertedIndex {
     }
 
     public InvertedIndex(String fileName){
-        index = new LinkedHashMap<>();
+        index = new TreeMap<>();
         readPostingList(fileName);
     }
 
