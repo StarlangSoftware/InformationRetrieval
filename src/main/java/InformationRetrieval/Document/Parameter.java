@@ -57,7 +57,7 @@ public class Parameter {
         return positionalIndex;
     }
 
-    public boolean constructKGramIndex() {
+    public boolean constructNGramIndex() {
         return constructNGramIndex;
     }
 

@@ -69,7 +69,7 @@ public class Collection {
                     phrasePositionalIndex = new PositionalIndex(directory + "-phrase");
                 }
             }
-            if (parameter.constructKGramIndex()){
+            if (parameter.constructNGramIndex()){
                 biGramDictionary = new TermDictionary(comparator, directory + "-biGram");
                 triGramDictionary = new TermDictionary(comparator, directory + "-triGram");
                 biGramIndex = new NGramIndex(directory + "-biGram");
@@ -110,7 +110,7 @@ public class Collection {
                     phrasePositionalIndex.save(name + "-phrase");
                 }
             }
-            if (parameter.constructKGramIndex()){
+            if (parameter.constructNGramIndex()){
                 biGramDictionary.save(name + "-biGram");
                 triGramDictionary.save(name + "-triGram");
                 biGramIndex.save(name + "-biGram");
@@ -147,8 +147,8 @@ public class Collection {
                 constructPositionalIndexInDisk(phraseDictionary, TermType.PHRASE);
             }
         }
-        if (parameter.constructKGramIndex()){
-            constructKGramIndex();
+        if (parameter.constructNGramIndex()){
+            constructNGramIndex();
         }
     }
 
@@ -172,8 +172,8 @@ public class Collection {
                         phrasePositionalIndex = new PositionalIndex(phraseDictionary, terms, comparator);
                     }
                 }
-                if (parameter.constructKGramIndex()){
-                    constructKGramIndex();
+                if (parameter.constructNGramIndex()){
+                    constructNGramIndex();
                 }
                 break;
         }
@@ -526,7 +526,7 @@ public class Collection {
         }
     }
 
-    private void constructKGramIndex(){
+    private void constructNGramIndex(){
         ArrayList<TermOccurrence> terms = dictionary.constructTermsFromDictionary(2);
         biGramDictionary = new TermDictionary(comparator, terms);
         biGramIndex = new NGramIndex(biGramDictionary, terms, comparator);

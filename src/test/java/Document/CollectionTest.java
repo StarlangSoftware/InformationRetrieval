@@ -15,7 +15,7 @@ public class CollectionTest {
     }
 
     @Test
-    public void testInvertedIndex() {
+    public void testSaveIndexesToFile() {
         Parameter parameter = new Parameter();
         parameter.setNGramIndex(false);
         Collection collection = new Collection("testCollection", parameter);
@@ -23,7 +23,7 @@ public class CollectionTest {
     }
 
     @Test
-    public void testInvertedIndex2() {
+    public void testLoadIndexesFromFile() {
         Parameter parameter = new Parameter();
         parameter.setLoadIndexesFromFile(true);
         Collection collection = new Collection("testCollection", parameter);
@@ -31,7 +31,7 @@ public class CollectionTest {
     }
 
     @Test
-    public void testInvertedIndex3() {
+    public void testConstructIndexesInDisk() {
         Parameter parameter = new Parameter();
         parameter.setConstructIndexInDisk(true);
         parameter.setNGramIndex(false);
@@ -40,7 +40,7 @@ public class CollectionTest {
     }
 
     @Test
-    public void testInvertedIndex4() {
+    public void testLimitNumberOfDocuments() {
         Parameter parameter = new Parameter();
         parameter.setNGramIndex(false);
         parameter.setLimitNumberOfDocumentsLoaded(true);
@@ -50,7 +50,7 @@ public class CollectionTest {
     }
 
     @Test
-    public void testInvertedIndex5() {
+    public void testConstructDictionaryAndIndexesInDisk() {
         Parameter parameter = new Parameter();
         parameter.setConstructDictionaryInDisk(true);
         parameter.setNGramIndex(false);
