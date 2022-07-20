@@ -318,7 +318,7 @@ public class Collection {
         TermDictionary triGramDictionary = new TermDictionary(comparator);
         NGramIndex biGramIndex = new NGramIndex();
         NGramIndex triGramIndex = new NGramIndex();
-        BufferedReader br = null;
+        BufferedReader br;
         try {
             br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(name + "-dictionary.txt")), StandardCharsets.UTF_8));
             String line = br.readLine();
