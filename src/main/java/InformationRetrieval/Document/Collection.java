@@ -130,6 +130,9 @@ public class Collection {
                 constructDictionaryAndPositionalIndexInDisk(TermType.PHRASE);
             }
         }
+        if (parameter.constructNGramIndex()){
+            constructNGramDictionaryAndIndexInDisk();
+        }
     }
 
     private void constructIndexesInDisk(){
@@ -183,7 +186,7 @@ public class Collection {
         ArrayList<TermOccurrence> terms = new ArrayList<>();
         ArrayList<TermOccurrence> docTerms;
         for (Document doc : documents){
-            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            DocumentText documentText = doc.loadDocument();
             docTerms = documentText.constructTermList(doc, termType);
             terms.addAll(docTerms);
         }
@@ -194,7 +197,7 @@ public class Collection {
     private HashSet<String> constructDistinctWordList(TermType termType){
         HashSet<String> words = new HashSet<>();
         for (Document doc : documents){
-            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            DocumentText documentText = doc.loadDocument();
             words.addAll(documentText.constructDistinctWordList(termType));
         }
         return words;
@@ -255,7 +258,7 @@ public class Collection {
         }
         return result;
     }
-    private void combineMultipleDictionariesInDisk(String name, int blockCount){
+    private void combineMultipleDictionariesInDisk(String name, String tmpName, int blockCount){
         BufferedReader[] files;
         int[] currentIdList;
         String[] currentWords;
@@ -265,7 +268,7 @@ public class Collection {
         try{
             PrintWriter printWriter = new PrintWriter(name + "-dictionary.txt", "UTF-8");
             for (int i = 0; i < blockCount; i++){
-                files[i] = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("tmp-" + i + "-dictionary.txt")), StandardCharsets.UTF_8));
+                files[i] = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("tmp-" + tmpName + i + "-dictionary.txt")), StandardCharsets.UTF_8));
                 String line = files[i].readLine();
                 currentIdList[i] = Integer.parseInt(line.substring(0, line.indexOf(" ")));
                 currentWords[i] = line.substring(line.indexOf(" ") + 1);
@@ -292,7 +295,69 @@ public class Collection {
         }
     }
 
-    private void combineMultipleInvertedIndexesInDisk(String name, int blockCount){
+    private void addNGramsToDictionaryAndIndex(String line, int k, TermDictionary nGramDictionary, NGramIndex nGramIndex){
+        int wordId = Integer.parseInt(line.substring(0, line.indexOf(" ")));
+        String word = line.substring(line.indexOf(" ") + 1);
+        ArrayList<TermOccurrence> biGrams = NGramIndex.constructNGrams(word, wordId, k);
+        for (TermOccurrence term : biGrams){
+            int termId;
+            int wordIndex = nGramDictionary.getWordIndex(term.getTerm().getName());
+            if (wordIndex != -1){
+                termId = ((Term) nGramDictionary.getWord(wordIndex)).getTermId();
+            } else {
+                termId = Math.abs(term.getTerm().getName().hashCode());
+                nGramDictionary.addTerm(term.getTerm().getName(), termId);
+            }
+            nGramIndex.add(termId, wordId);
+        }
+    }
+
+    private void constructNGramDictionaryAndIndexInDisk(){
+        int i = 0, blockCount = 0;
+        TermDictionary biGramDictionary = new TermDictionary(comparator);
+        TermDictionary triGramDictionary = new TermDictionary(comparator);
+        NGramIndex biGramIndex = new NGramIndex();
+        NGramIndex triGramIndex = new NGramIndex();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(name + "-dictionary.txt")), StandardCharsets.UTF_8));
+            String line = br.readLine();
+            while (line != null) {
+                if (i < parameter.getWordLimit()){
+                    i++;
+                } else {
+                    biGramDictionary.save("tmp-biGram-" + blockCount);
+                    triGramDictionary.save("tmp-triGram-" + blockCount);
+                    biGramDictionary = new TermDictionary(comparator);
+                    triGramDictionary = new TermDictionary(comparator);
+                    biGramIndex.save("tmp-biGram-" + blockCount);
+                    biGramIndex = new NGramIndex();
+                    triGramIndex.save("tmp-triGram-" + blockCount);
+                    triGramIndex = new NGramIndex();
+                    blockCount++;
+                    i = 0;
+                }
+                addNGramsToDictionaryAndIndex(line, 2, biGramDictionary, biGramIndex);
+                addNGramsToDictionaryAndIndex(line, 3, triGramDictionary, triGramIndex);
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (documents.size() != 0){
+            biGramDictionary.save("tmp-biGram-" + blockCount);
+            triGramDictionary.save("tmp-triGram-" + blockCount);
+            biGramIndex.save("tmp-biGram-" + blockCount);
+            triGramIndex.save("tmp-triGram-" + blockCount);
+            blockCount++;
+        }
+        combineMultipleDictionariesInDisk(name + "-biGram", "biGram-", blockCount);
+        combineMultipleDictionariesInDisk(name + "-triGram", "triGram-", blockCount);
+        combineMultipleInvertedIndexesInDisk(name + "-biGram", "biGram-", blockCount);
+        combineMultipleInvertedIndexesInDisk(name + "-triGram", "triGram-", blockCount);
+    }
+
+    private void combineMultipleInvertedIndexesInDisk(String name, String tmpName, int blockCount){
         BufferedReader[] files;
         int[] currentIdList;
         PostingList[] currentPostingLists;
@@ -302,7 +367,7 @@ public class Collection {
         try{
             PrintWriter printWriter = new PrintWriter(name + "-postings.txt", "UTF-8");
             for (int i = 0; i < blockCount; i++){
-                files[i] = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("tmp-" + i + "-postings.txt")), StandardCharsets.UTF_8));
+                files[i] = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get("tmp-" + tmpName + i + "-postings.txt")), StandardCharsets.UTF_8));
                 String line = files[i].readLine();
                 String[] items = line.split(" ");
                 currentIdList[i] = Integer.parseInt(items[0]);
@@ -341,7 +406,7 @@ public class Collection {
         int i = 0, blockCount = 0;
         InvertedIndex invertedIndex = new InvertedIndex();
         for (Document doc : documents){
-            if (i < parameter.getBlockSize()){
+            if (i < parameter.getDocumentLimit()){
                 i++;
             } else {
                 invertedIndex.save("tmp-" + blockCount);
@@ -349,21 +414,21 @@ public class Collection {
                 blockCount++;
                 i = 0;
             }
-            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            DocumentText documentText = doc.loadDocument();
             HashSet<String> wordList = documentText.constructDistinctWordList(termType);
             for (String word : wordList){
                 int termId = dictionary.getWordIndex(word);
                 invertedIndex.add(termId, doc.getDocId());
             }
         }
-        if (i != 0){
+        if (documents.size() != 0){
             invertedIndex.save("tmp-" + blockCount);
             blockCount++;
         }
         if (termType == TermType.TOKEN){
-            combineMultipleInvertedIndexesInDisk(name, blockCount);
+            combineMultipleInvertedIndexesInDisk(name, "", blockCount);
         } else {
-            combineMultipleInvertedIndexesInDisk(name + "-phrase", blockCount);
+            combineMultipleInvertedIndexesInDisk(name + "-phrase", "", blockCount);
         }
     }
 
@@ -372,7 +437,7 @@ public class Collection {
         InvertedIndex invertedIndex = new InvertedIndex();
         TermDictionary dictionary = new TermDictionary(comparator);
         for (Document doc : documents){
-            if (i < parameter.getBlockSize()){
+            if (i < parameter.getDocumentLimit()){
                 i++;
             } else {
                 dictionary.save("tmp-" + blockCount);
@@ -382,7 +447,7 @@ public class Collection {
                 blockCount++;
                 i = 0;
             }
-            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            DocumentText documentText = doc.loadDocument();
             HashSet<String> wordList = documentText.constructDistinctWordList(termType);
             for (String word : wordList){
                 int termId;
@@ -396,17 +461,17 @@ public class Collection {
                 invertedIndex.add(termId, doc.getDocId());
             }
         }
-        if (i != 0){
+        if (documents.size() != 0){
             dictionary.save("tmp-" + blockCount);
             invertedIndex.save("tmp-" + blockCount);
             blockCount++;
         }
         if (termType == TermType.TOKEN){
-            combineMultipleDictionariesInDisk(name, blockCount);
-            combineMultipleInvertedIndexesInDisk(name, blockCount);
+            combineMultipleDictionariesInDisk(name, "", blockCount);
+            combineMultipleInvertedIndexesInDisk(name, "", blockCount);
         } else {
-            combineMultipleDictionariesInDisk(name + "-phrase", blockCount);
-            combineMultipleInvertedIndexesInDisk(name + "-phrase", blockCount);
+            combineMultipleDictionariesInDisk(name + "-phrase", "", blockCount);
+            combineMultipleInvertedIndexesInDisk(name + "-phrase", "", blockCount);
         }
     }
 
@@ -458,7 +523,7 @@ public class Collection {
         PositionalIndex positionalIndex = new PositionalIndex();
         TermDictionary dictionary = new TermDictionary(comparator);
         for (Document doc : documents){
-            if (i < parameter.getBlockSize()){
+            if (i < parameter.getDocumentLimit()){
                 i++;
             } else {
                 dictionary.save("tmp-" + blockCount);
@@ -468,7 +533,7 @@ public class Collection {
                 blockCount++;
                 i = 0;
             }
-            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            DocumentText documentText = doc.loadDocument();
             ArrayList<TermOccurrence> terms = documentText.constructTermList(doc, termType);
             for (TermOccurrence termOccurrence : terms){
                 int termId;
@@ -482,16 +547,16 @@ public class Collection {
                 positionalIndex.addPosition(termId, termOccurrence.getDocID(), termOccurrence.getPosition());
             }
         }
-        if (i != 0){
+        if (documents.size() != 0){
             dictionary.save("tmp-" + blockCount);
             positionalIndex.save("tmp-" + blockCount);
             blockCount++;
         }
         if (termType == TermType.TOKEN){
-            combineMultipleDictionariesInDisk(name, blockCount);
+            combineMultipleDictionariesInDisk(name, "", blockCount);
             combineMultiplePositionalIndexesInDisk(name, blockCount);
         } else {
-            combineMultipleDictionariesInDisk(name + "-phrase", blockCount);
+            combineMultipleDictionariesInDisk(name + "-phrase", "", blockCount);
             combineMultiplePositionalIndexesInDisk(name + "-phrase", blockCount);
         }
     }
@@ -500,7 +565,7 @@ public class Collection {
         int i = 0, blockCount = 0;
         PositionalIndex positionalIndex = new PositionalIndex();
         for (Document doc : documents){
-            if (i < parameter.getBlockSize()){
+            if (i < parameter.getDocumentLimit()){
                 i++;
             } else {
                 positionalIndex.save("tmp-" + blockCount);
@@ -508,14 +573,14 @@ public class Collection {
                 blockCount++;
                 i = 0;
             }
-            DocumentText documentText = doc.loadDocument(parameter.tokenizeDocument());
+            DocumentText documentText = doc.loadDocument();
             ArrayList<TermOccurrence> terms = documentText.constructTermList(doc, termType);
             for (TermOccurrence termOccurrence : terms){
                 int termId = dictionary.getWordIndex(termOccurrence.getTerm().getName());
                 positionalIndex.addPosition(termId, termOccurrence.getDocID(), termOccurrence.getPosition());
             }
         }
-        if (i != 0){
+        if (documents.size() != 0){
             positionalIndex.save("tmp-" + blockCount);
             blockCount++;
         }

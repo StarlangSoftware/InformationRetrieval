@@ -22,13 +22,9 @@ public class Document {
         this.fileName = fileName;
     }
 
-    public DocumentText loadDocument(boolean tokenizeDocument){
+    public DocumentText loadDocument(){
         DocumentText documentText;
-        if (tokenizeDocument){
-            documentText = new DocumentText(absoluteFileName, new TurkishSplitter());
-        } else {
-            documentText = new DocumentText(absoluteFileName);
-        }
+        documentText = new DocumentText(absoluteFileName, new TurkishSplitter());
         size = documentText.numberOfWords();
         return documentText;
     }

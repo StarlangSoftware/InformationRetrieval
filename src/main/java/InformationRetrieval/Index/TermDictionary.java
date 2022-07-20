@@ -93,21 +93,7 @@ public class TermDictionary extends Dictionary{
         ArrayList<TermOccurrence> terms = new ArrayList<>();
         for (int i = 0; i < size(); i++){
             String word = getWord(i).getName();
-            if (word.length() >= k - 1){
-                for (int l = -1; l < word.length() - k + 2; l++){
-                    String term;
-                    if (l == -1){
-                        term = "$" + word.substring(0, k - 1);
-                    } else {
-                        if (l == word.length() - k + 1){
-                            term = word.substring(l, l + k - 1) + "$";
-                        } else {
-                            term = word.substring(l, l + k);
-                        }
-                    }
-                    terms.add(new TermOccurrence(new Word(term), i, l));
-                }
-            }
+            terms.addAll(NGramIndex.constructNGrams(word, i, k));
         }
         terms.sort(termComparator);
         return terms;

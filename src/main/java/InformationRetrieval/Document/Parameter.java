@@ -12,7 +12,6 @@ public class Parameter {
     private boolean loadIndexesFromFile = false;
     private MorphologicalDisambiguator disambiguator;
     private FsmMorphologicalAnalyzer fsm;
-    private boolean tokenizeDocument = false;
     private boolean normalizeDocument = false;
     private boolean phraseIndex = true;
     private boolean positionalIndex = true;
@@ -20,8 +19,8 @@ public class Parameter {
     private boolean constructIndexInDisk = false;
     private boolean constructDictionaryInDisk = false;
     private boolean limitNumberOfDocumentsLoaded = false;
-    private int blockSize = 1000;
-    private int documentLimit = blockSize;
+    private int documentLimit = 1000;
+    private int wordLimit = 10000;
 
     public Parameter(){
     }
@@ -65,14 +64,6 @@ public class Parameter {
         return constructIndexInDisk;
     }
 
-    public int getBlockSize() {
-        return blockSize;
-    }
-
-    public boolean tokenizeDocument() {
-        return tokenizeDocument;
-    }
-
     public boolean limitNumberOfDocumentsLoaded() {
         return limitNumberOfDocumentsLoaded;
     }
@@ -83,6 +74,10 @@ public class Parameter {
 
     public boolean constructDictionaryInDisk() {
         return constructDictionaryInDisk;
+    }
+
+    public int getWordLimit() {
+        return wordLimit;
     }
 
     public void setIndexType(IndexType indexType) {
@@ -125,14 +120,6 @@ public class Parameter {
         this.constructIndexInDisk = constructIndexInDisk;
     }
 
-    public void setBlockSize(int blockSize) {
-        this.blockSize = blockSize;
-    }
-
-    public void setTokenizeDocument(boolean tokenizeDocument) {
-        this.tokenizeDocument = tokenizeDocument;
-    }
-
     public void setLimitNumberOfDocumentsLoaded(boolean limitNumberOfDocumentsLoaded) {
         this.limitNumberOfDocumentsLoaded = limitNumberOfDocumentsLoaded;
     }
@@ -145,8 +132,11 @@ public class Parameter {
         this.constructDictionaryInDisk = constructDictionaryInDisk;
         if (constructDictionaryInDisk){
             constructIndexInDisk = true;
-            constructNGramIndex = false;
         }
+    }
+
+    public void setWordLimit(int wordLimit) {
+        this.wordLimit = wordLimit;
     }
 
 }
