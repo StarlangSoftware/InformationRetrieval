@@ -187,7 +187,7 @@ public class Collection {
         ArrayList<TermOccurrence> docTerms;
         for (Document doc : documents){
             DocumentText documentText = doc.loadDocument();
-            docTerms = documentText.constructTermList(doc, termType);
+            docTerms = documentText.constructTermList(doc.getDocId(), termType);
             terms.addAll(docTerms);
         }
         terms.sort(termComparator);
@@ -241,13 +241,7 @@ public class Collection {
         ArrayList<Integer> result = new ArrayList<>();
         String min = null;
         for (String word: currentWords){
-            if (word != null){
-                min = word;
-                break;
-            }
-        }
-        for (String word: currentWords){
-            if (word != null && comparator.compare(new Word(word), new Word(min)) < 0){
+            if (word != null && (min == null || comparator.compare(new Word(word), new Word(min)) < 0)){
                 min = word;
             }
         }
@@ -341,6 +335,7 @@ public class Collection {
                 addNGramsToDictionaryAndIndex(line, 3, triGramDictionary, triGramIndex);
                 line = br.readLine();
             }
+            br.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -534,7 +529,7 @@ public class Collection {
                 i = 0;
             }
             DocumentText documentText = doc.loadDocument();
-            ArrayList<TermOccurrence> terms = documentText.constructTermList(doc, termType);
+            ArrayList<TermOccurrence> terms = documentText.constructTermList(doc.getDocId(), termType);
             for (TermOccurrence termOccurrence : terms){
                 int termId;
                 int wordIndex = dictionary.getWordIndex(termOccurrence.getTerm().getName());
@@ -574,7 +569,7 @@ public class Collection {
                 i = 0;
             }
             DocumentText documentText = doc.loadDocument();
-            ArrayList<TermOccurrence> terms = documentText.constructTermList(doc, termType);
+            ArrayList<TermOccurrence> terms = documentText.constructTermList(doc.getDocId(), termType);
             for (TermOccurrence termOccurrence : terms){
                 int termId = dictionary.getWordIndex(termOccurrence.getTerm().getName());
                 positionalIndex.addPosition(termId, termOccurrence.getDocID(), termOccurrence.getPosition());

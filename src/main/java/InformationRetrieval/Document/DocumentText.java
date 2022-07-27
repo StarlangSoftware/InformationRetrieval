@@ -37,7 +37,7 @@ public class DocumentText extends Corpus {
         return words;
     }
 
-    public ArrayList<TermOccurrence> constructTermList(Document doc, TermType termType){
+    public ArrayList<TermOccurrence> constructTermList(int docId, TermType termType){
         ArrayList<TermOccurrence> terms = new ArrayList<>();
         int size = 0;
         for (int i = 0; i < sentenceCount(); i++){
@@ -45,12 +45,12 @@ public class DocumentText extends Corpus {
             for (int j = 0; j < sentence.wordCount(); j++){
                 switch (termType){
                     case TOKEN:
-                        terms.add(new TermOccurrence(sentence.getWord(j), doc.getDocId(), size));
+                        terms.add(new TermOccurrence(sentence.getWord(j), docId, size));
                         size++;
                         break;
                     case PHRASE:
                         if (j < sentence.wordCount() - 1){
-                            terms.add(new TermOccurrence(new Word(sentence.getWord(j).getName() + " " + sentence.getWord(j + 1).getName()), doc.getDocId(), size));
+                            terms.add(new TermOccurrence(new Word(sentence.getWord(j).getName() + " " + sentence.getWord(j + 1).getName()), docId, size));
                             size++;
                         }
                 }
