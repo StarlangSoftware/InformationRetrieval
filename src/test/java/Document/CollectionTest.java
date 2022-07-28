@@ -3,7 +3,10 @@ package Document;
 import InformationRetrieval.Document.Collection;
 import InformationRetrieval.Document.IndexType;
 import InformationRetrieval.Document.Parameter;
+import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class CollectionTest {
 
@@ -12,6 +15,8 @@ public class CollectionTest {
         Parameter parameter = new Parameter();
         parameter.setIndexType(IndexType.INCIDENCE_MATRIX);
         Collection collection = new Collection("testCollection2", parameter);
+        assertEquals(2, collection.size());
+        assertEquals(26, collection.vocabularySize());
     }
 
     @Test
