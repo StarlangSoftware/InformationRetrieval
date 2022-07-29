@@ -3,7 +3,6 @@ package Document;
 import InformationRetrieval.Document.Collection;
 import InformationRetrieval.Document.IndexType;
 import InformationRetrieval.Document.Parameter;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -45,10 +44,11 @@ public class CollectionTest {
     @Test
     public void testLoadIndexesFromFileSmall() {
         Parameter parameter = new Parameter();
-        parameter.setNGramIndex(false);
+        parameter.setNGramIndex(true);
         parameter.setLoadIndexesFromFile(true);
         Collection collection = new Collection("testCollection2", parameter);
-        System.out.println();
+        assertEquals(2, collection.size());
+        assertEquals(26, collection.vocabularySize());
     }
 
     @Test
@@ -76,6 +76,17 @@ public class CollectionTest {
         parameter.setNGramIndex(false);
         Collection collection = new Collection("testCollection", parameter);
         System.out.println();
+    }
+
+    @Test
+    public void testLimitNumberOfDocumentsSmall() {
+        Parameter parameter = new Parameter();
+        parameter.setNGramIndex(false);
+        parameter.setLimitNumberOfDocumentsLoaded(true);
+        parameter.setDocumentLimit(1);
+        Collection collection = new Collection("testCollection2", parameter);
+        assertEquals(1, collection.size());
+        assertEquals(15, collection.vocabularySize());
     }
 
     @Test
