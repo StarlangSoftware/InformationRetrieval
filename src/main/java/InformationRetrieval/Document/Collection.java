@@ -3,7 +3,6 @@ package InformationRetrieval.Document;
 import Dictionary.*;
 import InformationRetrieval.Index.*;
 import InformationRetrieval.Query.*;
-import Math.Matrix;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -292,7 +291,7 @@ public class Collection {
     private void addNGramsToDictionaryAndIndex(String line, int k, TermDictionary nGramDictionary, NGramIndex nGramIndex){
         int wordId = Integer.parseInt(line.substring(0, line.indexOf(" ")));
         String word = line.substring(line.indexOf(" ") + 1);
-        ArrayList<TermOccurrence> biGrams = NGramIndex.constructNGrams(word, wordId, k);
+        ArrayList<TermOccurrence> biGrams = TermDictionary.constructNGrams(word, wordId, k);
         for (TermOccurrence term : biGrams){
             int termId;
             int wordIndex = nGramDictionary.getWordIndex(term.getTerm().getName());
