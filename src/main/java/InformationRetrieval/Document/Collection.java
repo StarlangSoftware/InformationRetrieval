@@ -595,62 +595,6 @@ public class Collection {
         triGramIndex = new NGramIndex(triGramDictionary, terms, comparator);
     }
 
-    public VectorSpaceModel getVectorSpaceModel(int docId, TermWeighting termWeighting, DocumentWeighting documentWeighting){
-        return new VectorSpaceModel(positionalIndex.getTermFrequencies(docId), positionalIndex.getDocumentFrequencies(), documents.size(), termWeighting, documentWeighting);
-    }
-
-    public double cosineSimilarity(Collection collection2, VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
-        int index1, index2;
-        double sum = 0.0;
-        for (index1 = 0; index1 < vocabularySize(); index1++){
-            if (spaceModel1.get(index1) > 0.0){
-                index2 = collection2.dictionary.getWordIndex(dictionary.getWord(index1).getName());
-                if (index2 != -1 && spaceModel2.get(index2) > 0.0){
-                    sum += spaceModel1.get(index1) * spaceModel2.get(index2);
-                }
-            }
-        }
-        return sum;
-    }
-
-    private double cosineSimilarity(VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
-        int index;
-        double sum = 0.0;
-        for (index = 0; index < vocabularySize(); index++){
-            sum += spaceModel1.get(index) * spaceModel2.get(index);
-        }
-        return sum;
-    }
-
-    public Matrix cosineSimilarity(TermWeighting termWeighting, DocumentWeighting documentWeighting){
-        Matrix result = new Matrix(size(), size());
-        VectorSpaceModel[] models;
-        models = new VectorSpaceModel[documents.size()];
-        for (int i = 0; i < documents.size(); i++){
-            models[i] = getVectorSpaceModel(i, termWeighting, documentWeighting);
-        }
-        for (int i = 0; i < documents.size(); i++){
-            for (int j = 0; j < documents.size(); j++){
-                result.setValue(i, j, cosineSimilarity(models[i], models[j]));
-            }
-        }
-        return result;
-    }
-
-    public ArrayList<String> sharedWordList(Collection collection2, VectorSpaceModel spaceModel1, VectorSpaceModel spaceModel2){
-        int index1, index2;
-        ArrayList<String> list = new ArrayList<>();
-        for (index1 = 0; index1 < vocabularySize(); index1++){
-            if (spaceModel1.get(index1) > 0.0){
-                index2 = collection2.dictionary.getWordIndex(dictionary.getWord(index1).getName());
-                if (index2 != -1 && spaceModel2.get(index2) > 0.0){
-                    list.add(dictionary.getWord(index1).getName());
-                }
-            }
-        }
-        return list;
-    }
-
     public QueryResult searchCollection(Query query, RetrievalType retrievalType, TermWeighting termWeighting, DocumentWeighting documentWeighting){
         switch (indexType){
             case INCIDENCE_MATRIX:

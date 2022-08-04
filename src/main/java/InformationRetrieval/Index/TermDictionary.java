@@ -26,6 +26,7 @@ public class TermDictionary extends Dictionary{
                 words.add(new Term(line.substring(line.indexOf(" ") + 1), termId));
                 line = br.readLine();
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
