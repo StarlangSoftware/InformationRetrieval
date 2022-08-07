@@ -90,37 +90,36 @@ public class PositionalPostingList {
     }
 
     public PositionalPostingList intersection(PositionalPostingList secondList){
-        Iterator<PositionalPosting> iterator1 = postings.iterator(), iterator2 = secondList.postings.iterator();
-        PositionalPosting p1 = iterator1.next(), p2 = iterator2.next();
+        int i = 0, j = 0;
         PositionalPostingList result = new PositionalPostingList();
-        Iterator<Posting> positions1, positions2;
-        Posting positionPointer1, positionPointer2;
-        while (iterator1.hasNext() && iterator2.hasNext()){
+        while (i < postings.size() && j < secondList.postings.size()){
+            PositionalPosting p1 = postings.get(i);
+            PositionalPosting p2 = secondList.postings.get(j);
             if (p1.getDocId() == p2.getDocId()){
-                positions1 = p1.getPositions().iterator();
-                positions2 = p2.getPositions().iterator();
-                positionPointer1 = positions1.next();
-                positionPointer2 = positions2.next();
-                while (positions1.hasNext() && positions2.hasNext()){
-                    if (positionPointer1.getId() + 1 == positionPointer2.getId()){
-                        result.add(p1.getDocId(), positionPointer2.getId());
-                        positionPointer1 = positions1.next();
-                        positionPointer2 = positions2.next();
+                int position1 = 0;
+                int position2 = 0;
+                ArrayList<Posting> postings1 = p1.getPositions();
+                ArrayList<Posting> postings2 = p2.getPositions();
+                while (position1 < postings1.size() && position2 < postings2.size()){
+                    if (postings1.get(position1).getId() + 1 == postings2.get(position2).getId()){
+                        result.add(p1.getDocId(), postings2.get(position2).getId());
+                        position1++;
+                        position2++;
                     } else {
-                        if (positionPointer1.getId() + 1 < positionPointer2.getId()){
-                            positionPointer1 = positions1.next();
+                        if (postings1.get(position1).getId() + 1 < postings2.get(position2).getId()){
+                            position1++;
                         } else {
-                            positionPointer2 = positions2.next();
+                            position2++;
                         }
                     }
                 }
-                p1 = iterator1.next();
-                p2 = iterator2.next();
+                i++;
+                j++;
             } else {
                 if (p1.getDocId() < p2.getDocId()){
-                    p1 = iterator1.next();
+                    i++;
                 } else {
-                    p2 = iterator2.next();
+                    j++;
                 }
             }
         }

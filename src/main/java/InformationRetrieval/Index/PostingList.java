@@ -30,19 +30,20 @@ public class PostingList {
     }
 
     public PostingList intersection(PostingList secondList){
-        Iterator<Posting> iterator1 = postings.iterator(), iterator2 = secondList.postings.iterator();
-        Posting p1 = iterator1.next(), p2 = iterator2.next();
+        int i = 0, j = 0;
         PostingList result = new PostingList();
-        while (iterator1.hasNext() && iterator2.hasNext()){
+        while (i < size() && j < secondList.size()){
+            Posting p1 = postings.get(i);
+            Posting p2 = secondList.postings.get(j);
             if (p1.getId() == p2.getId()){
                 result.add(p1.getId());
-                p1 = iterator1.next();
-                p2 = iterator2.next();
+                i++;
+                j++;
             } else {
                 if (p1.getId() < p2.getId()){
-                    p1 = iterator1.next();
+                    i++;
                 } else {
-                    p2 = iterator2.next();
+                    j++;
                 }
             }
         }

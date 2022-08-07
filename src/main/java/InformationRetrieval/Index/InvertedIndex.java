@@ -104,6 +104,8 @@ public class InvertedIndex {
             termIndex = dictionary.getWordIndex(query.getTerm(i).getName());
             if (termIndex != -1){
                 queryTerms.add(index.get(termIndex));
+            } else {
+                return new QueryResult();
             }
         }
         queryTerms.sort(comparator);

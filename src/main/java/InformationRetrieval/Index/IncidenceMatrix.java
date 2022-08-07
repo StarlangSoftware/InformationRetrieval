@@ -57,6 +57,8 @@ public class IncidenceMatrix {
                 for (j = 0; j < documentSize; j++){
                     resultRow[j] = resultRow[j] && incidenceMatrix[termIndex][j];
                 }
+            } else {
+                return result;
             }
         }
         for (i = 0; i < documentSize; i++){

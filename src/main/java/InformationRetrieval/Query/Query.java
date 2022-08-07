@@ -7,6 +7,7 @@ public class Query {
     private ArrayList<Word> terms;
 
     public Query(String query){
+        terms = new ArrayList<>();
         String[] terms = query.split(" ");
         for (String term: terms){
             this.terms.add(new Word(term));

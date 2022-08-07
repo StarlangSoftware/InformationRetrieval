@@ -113,17 +113,17 @@ public class PositionalIndex {
                     if (postingResult != null){
                         postingResult = postingResult.intersection(positionalIndex.get(term));
                     } else {
-                        return null;
+                        return new QueryResult();
                     }
                 }
             } else {
-                return null;
+                return new QueryResult();
             }
         }
         if (postingResult != null)
             return postingResult.toQueryResult();
         else
-            return null;
+            return new QueryResult();
     }
 
     public int[] getTermFrequencies(int docId){
