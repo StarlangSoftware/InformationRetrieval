@@ -2,8 +2,8 @@ package InformationRetrieval.Query;
 
 public class QueryResultItem {
 
-    private int docId;
-    private double score;
+    private final int docId;
+    private final double score;
 
     public QueryResultItem(int docId, double score){
         this.docId = docId;

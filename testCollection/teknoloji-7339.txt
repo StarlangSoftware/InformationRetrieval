@@ -1,7 +1,0 @@
-Basit bir matematik problemi gibi görünen ve internette gittikçe popülerleşen bu zeka testini 100 kişiden biri çözebiliyor .
-Bu soruyu yanıtlayanlar diğerlerinden farklı düşünüyor .
-Go Tumble tarafından yaratılan zeka testi internette kısa sürede büyük bir ilgi odağı oldu .
-Yayıncı kuruluş , sorunun iki tane doğru cevabı olduğunu açıkladı : \n\ " Öncelikle kişilerin bu soruyu çözebilmek için kalıpların dışında çözüm araması gerekiyor . Matematik basit bir bilmece değil . Genellikle matematik problemlerinin tek bir doğru yanıtı olmasına rağmen bu sorunun iki farklı sonucu olması tüm dünyada hararetli tartışmalara yol açtı\ " \nBununla birlikte , 10 kişiden sadece bir kişinin ikinci sonuca ulaşabildiğini açıkladı . \nBİRİNCİ ÇÖZÜM\n4 ile 1'i toplayın : 5\n2 ile 5'i toplayın . : 7 Ardından ilk işleminin sonucu olan 5'i 7 ile toplayın : 12\nAynı işlemi diğer adımlarda tekrar ettirin .
-3 + 6 = 9 + 12 = 21\nSonuç : 8 + 11 = 19 + 21 = 40\nİKİNCİ ÇÖZÜM\nBirinci ve ikinci çarpıp sonuçla birinci sayıyı toplayın .
-Yani ; \n1 * 4 + 1 = 5\n2 * 5 + 2 = 12\n3 * 6 + 3 = 21\n8 * 11 + 8 = 96\nEğer siz de bu soruya \ " 96\ " yanıtını verdiyseniz ayrıcalıklı kişilerdensiniz .
-Bu soruya sadece 10 kişiden biri ikinci çözümü kullanarak doğru cevabı verebiliyor .

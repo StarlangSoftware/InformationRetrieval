@@ -1,6 +1,0 @@
-Avustralyalı araştırmacılar , internet bağlantısı hızında dünya rekoru kırıp saniyede 44,2 terabayta ( TB ) ulaştı .
-Monash , Swinburne ve RMIT üniversitelerinin ortaklığında yürütülen proje kapsamında bugüne kadarki en yüksek internet hızına ulaşıldı .
-İngiliz yayın kuruluşu BBC’de yer alan habere göre bu deney kapsamında internet bağlantısı hızında dünya rekoru kırıp saniyede 44,2 terabayta ( TB ) ulaştı .
-Aynı habere göre , söz konusu hız ile 10 adet yüksek çözünürlüklü filmi bir saniyede cihazlara indirmek mümkün .
-Halihazırda gezegenimizdeki en hızlı internet hızına sahip olan ülke saniyede ortalama 197,3 MB ile Singapur .
-Hız rekoruna imza atılan Avustralya'daki ortalama internet hızı ise 43,4 MBi yani son testte ulaşılan hızın sadece milyonda biri .

@@ -1,9 +1,0 @@
-Uzay aracı OSIRIS - REx , topladığı göktaşı örneklerini Dünya'ya getirmek için bir kapsüle yerleştirdi .
-ABD Ulusal Havacılık ve Uzay Dairesinin ( NASA ) uzay aracı OSIRIS - REx , topladığı göktaşı örneklerini Dünya'ya getirmek için bir kapsüle yerleştirdi .
-Uçuş kontrolörleri , OSIRIS - REx'in 20 Ekim'de temas ettiği Bennu isimli göktaşından robot koluyla topladığı numunelerin uzaya sızmaya başlamasının ardından operasyona hız verdi .
-NASA'dan yapılan açıklamada , OSIRIS - REx görevinin , uzay aracının numune toplayıcı başlığını , Numune Teslim Kapsülü ( SRC ) içine başarıyla yerleştirdiği belirtildi .
-NASA'dan 21 Ekim'de yapılan açıklamada , uzay aracı OSIRIS - REx'in kum ve toz parçacıklarını toplamak için 500 metre çapındaki göktaşı Bennu'nun yüzeyine başarılı şekilde birkaç saniyelik iniş yaptığı bildirilmişti .
-OSIRIS - REx'in Bennu'dan topladığı numuneler , hedeflenen 60 gramdan fazla olması ve numune toplayıcı aparatın kapağının araya sıkışan kaya parçacıkları nedeniyle tam kapanmaması üzerine uzaya saçılmaya başlamıştı .
-NASA'nın uzay aracının toplayacağı örneklerin , Güneş Sistemi'nin oluşumuna ilişkin yeni bulgulara kapı açması bekleniyor .
-Aralık 2018'te Bennu'ya ulaşan OSIRIS - REx'in Eylül 2023'te Dünya'ya dönmesi planlanıyor .
-Japonya , \ " Hayabusa 2\ " uzay aracıyla \ " Ryugu\ " asteroidinden , ABD ise \ " OSIRIS - REx\ " uzay aracıyla \ " Bennu\ " asteroidinden kaya örnekleri toplamayı amaçlayan uzay görevleri yürütüyor .

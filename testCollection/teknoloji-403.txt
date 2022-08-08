@@ -1,9 +1,0 @@
-Türkiye'nin en büyük yemek siparişi platformu Yemeksepeti siber saldırıya uğradığını ve kullanıcılarının verilerinin çalındığını duyurdu .
-Yemeksepeti'nin Twitter hesabından yapılan açıklamaya göre 25 Mart tarihinde korsanlar tarafından siteye siber saldırı düzenlendi ve kullanıcıların bazı bilgileri çalındı .
-Kredi kartı bilgilerinin güvende olduğunu aktaran şirket ele geçirilen bilgileri şu şekilde açıkladı :
-- Ad - soyad bilgiler ,
-- Doğum tarihi bilgileri ,
-- Yemeksepeti'ne kayıtlı telefon numaraları ,
-- Yemeksepeti'ne kayıtlı e - posta adresleri
-- Yemeksepeti'ne kayıtlı adres bilgileri
-- Açık olarak görülemeyen , SHA - 256 algoritması ile maskelenmiş giriş ŞifreleriYemeksepetin’nden konuyla ilgli yapılan açıklamada şu ifadeler kullanıldı :

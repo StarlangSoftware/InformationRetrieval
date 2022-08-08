@@ -2,13 +2,13 @@ package InformationRetrieval.Index;
 
 public class Posting {
 
-    protected int Id;
+    protected int id;
 
     public Posting(int Id){
-        this.Id = Id;
+        this.id = Id;
     }
 
     public int getId(){
-        return Id;
+        return id;
     }
 }

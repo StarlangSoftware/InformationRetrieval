@@ -1,6 +1,0 @@
-Joe Biden'ın resmen ABD Başkanı olmasıyla birlikte yenilenen Beyaz Saray internet sitesinin HTML kodlarında gizlenmiş bir iş ilanı bulundu .
-ABD’de göreve başlayan yeni başkan Joe Biden , güncellenen Beyaz Saray internet sitesi içerisinde yer alan yazılım kodları içerisine yazılımcılar için gizli bir mesaj bıraktı .
-Uluslararası haber ajansı Reuters’ta yer alan habere göre , yenilenen Beyaz Saray internet sitesinin HTML kodlarında gizlenmiş bir iş ilanı bulundu .
-Beyaz Saray’ın yeni internet içerisindeki kodlara gizlenmiş ve bunu bulabilecek kadar arayan kişiler için olan notta , " Eğer bu mesajı okuyorsanız size ihtiyacımız var " mesajı verildi .
-Bu tarz ince ilanlar , özellikle internet sitelerin kodlarına girip bir açık aramayı seven tecrübeli kişilerin saptanması için teknoloji şirketleri tarafından başvurulan bir yöntem .
-BAŞVURU ABD VATANDAŞLARINA ÖZELAynı habere göre , Beyaz Saray'ın resmi internet sayfasında bulunan söz konusu gizli iş ilanına sadece ABD vatandaşları başvurabiliyor .
