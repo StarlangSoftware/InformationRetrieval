@@ -4,7 +4,7 @@ import Dictionary.Word;
 import java.util.ArrayList;
 
 public class Query {
-    private ArrayList<Word> terms;
+    private final ArrayList<Word> terms;
 
     public Query(String query){
         terms = new ArrayList<>();

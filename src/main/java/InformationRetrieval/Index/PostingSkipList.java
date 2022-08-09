@@ -30,7 +30,7 @@ public class PostingSkipList extends PostingList {
         }
     }
 
-    PostingSkipList intersection(PostingSkipList secondList){
+    public PostingSkipList intersection(PostingSkipList secondList){
         PostingSkip p1 = (PostingSkip) postings.get(0);
         PostingSkip p2 = (PostingSkip) secondList.postings.get(0);
         PostingSkipList result = new PostingSkipList();
