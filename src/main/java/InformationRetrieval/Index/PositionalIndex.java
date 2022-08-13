@@ -120,10 +120,11 @@ public class PositionalIndex {
                 return new QueryResult();
             }
         }
-        if (postingResult != null)
+        if (postingResult != null) {
             return postingResult.toQueryResult();
-        else
+        } else {
             return new QueryResult();
+        }
     }
 
     public int[] getTermFrequencies(int docId){

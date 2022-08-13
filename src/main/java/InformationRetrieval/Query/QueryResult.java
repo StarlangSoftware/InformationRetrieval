@@ -1,10 +1,9 @@
 package InformationRetrieval.Query;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class QueryResult {
-    private ArrayList<QueryResultItem> items;
+    private final ArrayList<QueryResultItem> items;
 
     public QueryResult(){
         items = new ArrayList<QueryResultItem>();
@@ -24,6 +23,6 @@ public class QueryResult {
 
     public void sort(){
         QueryResultItemComparator comparator = new QueryResultItemComparator();
-        Collections.sort(items, comparator);
+        items.sort(comparator);
     }
 }

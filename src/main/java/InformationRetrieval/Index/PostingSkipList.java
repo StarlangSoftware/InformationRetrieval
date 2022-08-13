@@ -1,7 +1,7 @@
 package InformationRetrieval.Index;
 
 public class PostingSkipList extends PostingList {
-    boolean skipped;
+    private boolean skipped;
 
     public PostingSkipList(){
         skipped = false;
