@@ -60,6 +60,7 @@ public class Collection {
             invertedIndex = new InvertedIndex(directory);
             if (parameter.constructPositionalIndex()){
                 positionalIndex = new PositionalIndex(directory);
+                positionalIndex.setDocumentSizes(documents);
             }
             if (parameter.constructPhraseIndex()){
                 phraseDictionary = new TermDictionary(comparator, directory + "-phrase");

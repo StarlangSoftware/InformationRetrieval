@@ -157,6 +157,21 @@ public class PositionalIndex {
         return df;
     }
 
+    public void setDocumentSizes(ArrayList<Document> documents){
+        int[] sizes = new int[documents.size()];
+        for (int key : positionalIndex.keySet()){
+            PositionalPostingList positionalPostingList = positionalIndex.get(key);
+            for (int j = 0; j < positionalPostingList.size(); j++) {
+                PositionalPosting positionalPosting = positionalPostingList.get(j);
+                int docID = positionalPosting.getDocId();
+                sizes[docID] += positionalPosting.size();
+            }
+        }
+        for (Document document : documents){
+            document.setSize(sizes[document.getDocId()]);
+        }
+    }
+
     public QueryResult rankedSearch(Query query, TermDictionary dictionary, ArrayList<Document> documents, TermWeighting termWeighting, DocumentWeighting documentWeighting){
         int i, j, term, docID, N = documents.size(), tf, df;
         QueryResult result = new QueryResult();

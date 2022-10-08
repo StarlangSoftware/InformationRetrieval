@@ -89,7 +89,7 @@ public class CollectionTest {
     @Test
     public void testPositionalIndexRankedQuery() {
         Parameter parameter = new Parameter();
-        parameter.setNGramIndex(true);
+        parameter.setLoadIndexesFromFile(true);
         Collection collection = new Collection("testCollection2", parameter);
         Query query = new Query("Caesar");
         QueryResult result = collection.searchCollection(query, RetrievalType.RANKED, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
