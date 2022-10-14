@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 public class PositionalIndex {
@@ -172,10 +173,10 @@ public class PositionalIndex {
         }
     }
 
-    public QueryResult rankedSearch(Query query, TermDictionary dictionary, ArrayList<Document> documents, TermWeighting termWeighting, DocumentWeighting documentWeighting){
+    public QueryResult rankedSearch(Query query, TermDictionary dictionary, ArrayList<Document> documents, TermWeighting termWeighting, DocumentWeighting documentWeighting, int documentsReturned){
         int i, j, term, docID, N = documents.size(), tf, df;
         QueryResult result = new QueryResult();
-        double[] scores = new double[N];
+        HashMap<Integer, Double> scores = new HashMap<>();
         PositionalPostingList positionalPostingList;
         for (i = 0; i < query.size(); i++){
             term = dictionary.getWordIndex(query.getTerm(i).getName());
@@ -187,18 +188,20 @@ public class PositionalIndex {
                     tf = positionalPosting.size();
                     df = positionalIndex.get(term).size();
                     if (tf > 0 && df > 0){
-                        scores[docID] += VectorSpaceModel.weighting(tf, df, N, termWeighting, documentWeighting);
+                        double score = VectorSpaceModel.weighting(tf, df, N, termWeighting, documentWeighting);
+                        if (scores.containsKey(docID)){
+                            scores.put(docID, scores.get(docID) + score);
+                        } else {
+                            scores.put(docID, score);
+                        }
                     }
                 }
             }
         }
-        for (i = 0; i < N; i++){
-            scores[i] /= documents.get(i).getSize();
-            if (scores[i] > 0.0){
-                result.add(i, scores[i]);
-            }
+        for (int docId : scores.keySet()){
+            result.add(docId, scores.get(docId) / documents.get(docId).getSize());
         }
-        result.sort();
+        result.getBest(documentsReturned);
         return result;
     }
 

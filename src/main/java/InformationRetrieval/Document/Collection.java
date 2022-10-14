@@ -595,15 +595,20 @@ public class Collection {
         triGramIndex = new NGramIndex(triGramDictionary, terms, comparator);
     }
 
-    public QueryResult searchCollection(Query query, RetrievalType retrievalType, TermWeighting termWeighting, DocumentWeighting documentWeighting){
+    public QueryResult searchCollection(Query query, SearchParameter parameter){
         switch (indexType){
             case INCIDENCE_MATRIX:
                 return incidenceMatrix.search(query, dictionary);
             case   INVERTED_INDEX:
-                switch (retrievalType){
+                switch (parameter.getRetrievalType()){
                     case    BOOLEAN:return invertedIndex.search(query, dictionary);
                     case POSITIONAL:return positionalIndex.positionalSearch(query, dictionary);
-                    case     RANKED:return positionalIndex.rankedSearch(query, dictionary, documents, termWeighting, documentWeighting);
+                    case RANKED:return positionalIndex.rankedSearch(query,
+                            dictionary,
+                            documents,
+                            parameter.getTermWeighting(),
+                            parameter.getDocumentWeighting(),
+                            parameter.getDocumentsRetrieved());
                 }
         }
         return new QueryResult();

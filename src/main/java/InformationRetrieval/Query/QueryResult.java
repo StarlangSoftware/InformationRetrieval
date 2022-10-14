@@ -1,5 +1,8 @@
 package InformationRetrieval.Query;
 
+import DataStructure.Heap.MaxHeap;
+import DataStructure.Heap.MinHeap;
+
 import java.util.ArrayList;
 
 public class QueryResult {
@@ -21,8 +24,15 @@ public class QueryResult {
         return items;
     }
 
-    public void sort(){
+    public void getBest(int K){
         QueryResultItemComparator comparator = new QueryResultItemComparator();
-        items.sort(comparator);
+        MinHeap<QueryResultItem> minHeap = new MinHeap<>(2 * K, comparator);
+        for (QueryResultItem queryResultItem : items){
+            minHeap.insert(queryResultItem);
+        }
+        items.clear();
+        for (int i = 0; i < K && !minHeap.isEmpty(); i++){
+            items.add(minHeap.delete());
+        }
     }
 }

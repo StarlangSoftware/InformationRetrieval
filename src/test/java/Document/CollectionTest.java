@@ -1,13 +1,12 @@
 package Document;
 
 import InformationRetrieval.Document.Collection;
-import InformationRetrieval.Document.DocumentWeighting;
 import InformationRetrieval.Document.IndexType;
 import InformationRetrieval.Document.Parameter;
-import InformationRetrieval.Index.TermWeighting;
 import InformationRetrieval.Query.Query;
 import InformationRetrieval.Query.QueryResult;
 import InformationRetrieval.Query.RetrievalType;
+import InformationRetrieval.Query.SearchParameter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -29,19 +28,21 @@ public class CollectionTest {
         parameter.setIndexType(IndexType.INCIDENCE_MATRIX);
         Collection collection = new Collection("testCollection2", parameter);
         Query query = new Query("Brutus");
-        QueryResult result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
+        QueryResult result = collection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("Brutus Caesar");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("enact");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("noble");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
@@ -51,19 +52,21 @@ public class CollectionTest {
         parameter.setNGramIndex(true);
         Collection collection = new Collection("testCollection2", parameter);
         Query query = new Query("Brutus");
-        QueryResult result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
+        QueryResult result = collection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("Brutus Caesar");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("enact");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("noble");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, RetrievalType.BOOLEAN, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
@@ -73,16 +76,18 @@ public class CollectionTest {
         parameter.setNGramIndex(true);
         Collection collection = new Collection("testCollection2", parameter);
         Query query = new Query("Julius Caesar");
-        QueryResult result = collection.searchCollection(query, RetrievalType.POSITIONAL, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.setRetrievalType(RetrievalType.POSITIONAL);
+        QueryResult result = collection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("I was killed");
-        result = collection.searchCollection(query, RetrievalType.POSITIONAL, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("The noble Brutus");
-        result = collection.searchCollection(query, RetrievalType.POSITIONAL, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, RetrievalType.POSITIONAL, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
@@ -92,18 +97,21 @@ public class CollectionTest {
         parameter.setLoadIndexesFromFile(true);
         Collection collection = new Collection("testCollection2", parameter);
         Query query = new Query("Caesar");
-        QueryResult result = collection.searchCollection(query, RetrievalType.RANKED, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.setRetrievalType(RetrievalType.RANKED);
+        searchParameter.setDocumentsRetrieved(2);
+        QueryResult result = collection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         assertEquals(1, result.getItems().get(0).getDocId());
         query = new Query("Caesar was killed");
-        result = collection.searchCollection(query, RetrievalType.RANKED, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         assertEquals(0, result.getItems().get(0).getDocId());
         query = new Query("in the Capitol");
-        result = collection.searchCollection(query, RetrievalType.RANKED, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, RetrievalType.RANKED, TermWeighting.NATURAL, DocumentWeighting.NO_IDF);
+        result = collection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
