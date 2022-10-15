@@ -116,14 +116,6 @@ public class CollectionTest {
     }
 
     @Test
-    public void testSaveIndexesToFileSmall() {
-        Parameter parameter = new Parameter();
-        parameter.setNGramIndex(true);
-        Collection collection = new Collection("testCollection2", parameter);
-        collection.save();
-    }
-
-    @Test
     public void testLoadIndexesFromFileSmall() {
         Parameter parameter = new Parameter();
         parameter.setNGramIndex(true);
@@ -131,16 +123,6 @@ public class CollectionTest {
         Collection collection = new Collection("testCollection2", parameter);
         assertEquals(2, collection.size());
         assertEquals(26, collection.vocabularySize());
-    }
-
-    @Test
-    public void testConstructIndexesInDiskSmall() {
-        Parameter parameter = new Parameter();
-        parameter.setConstructIndexInDisk(true);
-        parameter.setNGramIndex(false);
-        parameter.setDocumentLimit(1);
-        Collection collection = new Collection("testCollection2", parameter);
-        System.out.println();
     }
 
     @Test
@@ -152,16 +134,6 @@ public class CollectionTest {
         Collection collection = new Collection("testCollection2", parameter);
         assertEquals(1, collection.size());
         assertEquals(15, collection.vocabularySize());
-    }
-
-    @Test
-    public void testConstructDictionaryAndIndexesInDiskSmall() {
-        Parameter parameter = new Parameter();
-        parameter.setConstructDictionaryInDisk(true);
-        parameter.setDocumentLimit(1);
-        parameter.setWordLimit(10);
-        Collection collection = new Collection("testCollection2", parameter);
-        System.out.println();
     }
 
 }
