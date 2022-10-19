@@ -21,6 +21,7 @@ public class Parameter {
     private boolean limitNumberOfDocumentsLoaded = false;
     private int documentLimit = 1000;
     private int wordLimit = 10000;
+    private DocumentType documentType = DocumentType.NORMAL;
 
     public Parameter(){
     }
@@ -137,6 +138,14 @@ public class Parameter {
 
     public void setWordLimit(int wordLimit) {
         this.wordLimit = wordLimit;
+    }
+
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
     }
 
 }

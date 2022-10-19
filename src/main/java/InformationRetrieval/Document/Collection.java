@@ -48,7 +48,7 @@ public class Collection {
             while (i < listOfFiles.length && j < fileLimit) {
                 File file = listOfFiles[i];
                 if (file.isFile() && file.getName().endsWith(".txt")) {
-                    Document document = new Document(file.getAbsolutePath(), file.getName(), j);
+                    Document document = new Document(parameter.getDocumentType(), file.getAbsolutePath(), file.getName(), j);
                     documents.add(document);
                     j++;
                 }
@@ -56,6 +56,9 @@ public class Collection {
             }
         }
         if (parameter.loadIndexesFromFile()){
+            if (parameter.getDocumentType() == DocumentType.CATEGORICAL){
+                loadCategories();
+            }
             dictionary = new TermDictionary(comparator, directory);
             invertedIndex = new InvertedIndex(directory);
             if (parameter.constructPositionalIndex()){
@@ -116,6 +119,37 @@ public class Collection {
                 biGramIndex.save(name + "-biGram");
                 triGramIndex.save(name + "-triGram");
             }
+        }
+        if (parameter.getDocumentType() == DocumentType.CATEGORICAL){
+            saveCategories();
+        }
+    }
+
+    private void saveCategories(){
+        try{
+            PrintWriter printWriter = new PrintWriter(name + "-categories.txt", "UTF-8");
+            for (Document document : documents){
+                printWriter.write(document.getDocId() + "\t" + document.getCategoryHierarchy().toString() + "\n");
+            }
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCategories(){
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(name + "-categories.txt")), StandardCharsets.UTF_8));
+            String line = br.readLine();
+            while (line != null){
+                String[] items = line.split("\t");
+                int docId = Integer.parseInt(items[0]);
+                documents.get(docId).setCategoryHierarchy(items[1]);
+                line = br.readLine();
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

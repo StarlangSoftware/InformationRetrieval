@@ -10,6 +10,8 @@ import java.util.HashSet;
 
 public class DocumentText extends Corpus {
 
+    public DocumentText(){
+    }
     public DocumentText(String fileName){
         super(fileName);
     }

@@ -1,6 +1,7 @@
 package Document;
 
 import InformationRetrieval.Document.Collection;
+import InformationRetrieval.Document.DocumentType;
 import InformationRetrieval.Document.IndexType;
 import InformationRetrieval.Document.Parameter;
 import InformationRetrieval.Query.Query;
@@ -134,6 +135,18 @@ public class CollectionTest {
         Collection collection = new Collection("testCollection2", parameter);
         assertEquals(1, collection.size());
         assertEquals(15, collection.vocabularySize());
+    }
+
+    @Test
+    public void testCategoricalCollection() {
+        Parameter parameter = new Parameter();
+        parameter.setDocumentType(DocumentType.CATEGORICAL);
+        parameter.setLoadIndexesFromFile(true);
+        parameter.setPhraseIndex(false);
+        parameter.setNGramIndex(false);
+        Collection collection = new Collection("testCollection3", parameter);
+        assertEquals(1000, collection.size());
+        assertEquals(2283, collection.vocabularySize());
     }
 
 }
