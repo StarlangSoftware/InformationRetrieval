@@ -27,6 +27,7 @@ public class Collection {
     private final WordComparator comparator;
     private final String name;
     private final Parameter parameter;
+    private CategoryTree categoryTree = null;
 
     public Collection(String directory,
                       Parameter parameter){
@@ -89,6 +90,9 @@ public class Collection {
                 }
             }
         }
+        if (parameter.getDocumentType() == DocumentType.CATEGORICAL){
+            positionalIndex.setCategoryCounts(documents);
+        }
     }
 
     public int size(){
@@ -129,7 +133,7 @@ public class Collection {
         try{
             PrintWriter printWriter = new PrintWriter(name + "-categories.txt", "UTF-8");
             for (Document document : documents){
-                printWriter.write(document.getDocId() + "\t" + document.getCategoryHierarchy().toString() + "\n");
+                printWriter.write(document.getDocId() + "\t" + document.getCategory() + "\n");
             }
             printWriter.close();
         } catch (IOException e) {
@@ -139,12 +143,13 @@ public class Collection {
 
     private void loadCategories(){
         try {
+            categoryTree = new CategoryTree(name);
             BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(name + "-categories.txt")), StandardCharsets.UTF_8));
             String line = br.readLine();
             while (line != null){
                 String[] items = line.split("\t");
                 int docId = Integer.parseInt(items[0]);
-                documents.get(docId).setCategoryHierarchy(items[1]);
+                documents.get(docId).setCategory(categoryTree, items[1]);
                 line = br.readLine();
             }
             br.close();
@@ -211,6 +216,12 @@ public class Collection {
                 }
                 if (parameter.constructNGramIndex()){
                     constructNGramIndex();
+                }
+                if (parameter.getDocumentType() == DocumentType.CATEGORICAL){
+                    categoryTree = new CategoryTree(name);
+                    for (Document document : documents){
+                        document.loadCategory(categoryTree);
+                    }
                 }
                 break;
         }
@@ -627,6 +638,10 @@ public class Collection {
         terms = dictionary.constructTermsFromDictionary(3);
         triGramDictionary = new TermDictionary(comparator, terms);
         triGramIndex = new NGramIndex(triGramDictionary, terms, comparator);
+    }
+
+    public String topNString(int N){
+        return categoryTree.topNString(dictionary, N);
     }
 
     public QueryResult searchCollection(Query query, SearchParameter parameter){

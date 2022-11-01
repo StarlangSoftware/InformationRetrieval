@@ -160,16 +160,27 @@ public class PositionalIndex {
 
     public void setDocumentSizes(ArrayList<Document> documents){
         int[] sizes = new int[documents.size()];
-        for (int key : positionalIndex.keySet()){
-            PositionalPostingList positionalPostingList = positionalIndex.get(key);
+        for (int termId : positionalIndex.keySet()){
+            PositionalPostingList positionalPostingList = positionalIndex.get(termId);
             for (int j = 0; j < positionalPostingList.size(); j++) {
                 PositionalPosting positionalPosting = positionalPostingList.get(j);
-                int docID = positionalPosting.getDocId();
-                sizes[docID] += positionalPosting.size();
+                int docId = positionalPosting.getDocId();
+                sizes[docId] += positionalPosting.size();
             }
         }
         for (Document document : documents){
             document.setSize(sizes[document.getDocId()]);
+        }
+    }
+
+    public void setCategoryCounts(ArrayList<Document> documents){
+        for (int termId : positionalIndex.keySet()) {
+            PositionalPostingList positionalPostingList = positionalIndex.get(termId);
+            for (int j = 0; j < positionalPostingList.size(); j++) {
+                PositionalPosting positionalPosting = positionalPostingList.get(j);
+                int docId = positionalPosting.getDocId();
+                documents.get(docId).getCategoryNode().addCounts(termId, positionalPosting.size());
+            }
         }
     }
 

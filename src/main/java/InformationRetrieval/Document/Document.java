@@ -1,6 +1,8 @@
 package InformationRetrieval.Document;
 
 import Corpus.*;
+import InformationRetrieval.Index.CategoryNode;
+import InformationRetrieval.Index.CategoryTree;
 
 import java.util.ArrayList;
 
@@ -11,7 +13,7 @@ public class Document {
     private final int docId;
     private int size = 0;
     private final DocumentType documentType;
-    private CategoryHierarchy categoryHierarchy;
+    private CategoryNode category;
 
     public Document(DocumentType documentType, String absoluteFileName, String fileName, int docId){
         this.docId = docId;
@@ -31,7 +33,6 @@ public class Document {
             case CATEGORICAL:
                 Corpus corpus = new Corpus(absoluteFileName);
                 if (corpus.sentenceCount() >= 2){
-                    categoryHierarchy = new CategoryHierarchy(corpus.getSentence(0).toString());
                     documentText = new DocumentText();
                     ArrayList<Sentence> sentences = new TurkishSplitter().split(corpus.getSentence(1).toString());
                     for (Sentence sentence : sentences){
@@ -45,6 +46,16 @@ public class Document {
         }
         return documentText;
     }
+
+    public void loadCategory(CategoryTree categoryTree){
+        if (documentType == DocumentType.CATEGORICAL){
+            Corpus corpus = new Corpus(absoluteFileName);
+            if (corpus.sentenceCount() >= 2){
+                category = categoryTree.addCategoryHierarchy(corpus.getSentence(0).toString());
+            }
+        }
+    }
+
     public int getDocId(){
         return docId;
     }
@@ -65,12 +76,16 @@ public class Document {
         this.size = size;
     }
 
-    public void setCategoryHierarchy(String categoryHierarchy){
-        this.categoryHierarchy = new CategoryHierarchy(categoryHierarchy);
+    public void setCategory(CategoryTree categoryTree, String category){
+        this.category = categoryTree.addCategoryHierarchy(category);
     }
 
-    public CategoryHierarchy getCategoryHierarchy(){
-        return categoryHierarchy;
+    public String getCategory(){
+        return category.toString();
+    }
+
+    public CategoryNode getCategoryNode(){
+        return category;
     }
 
 }
