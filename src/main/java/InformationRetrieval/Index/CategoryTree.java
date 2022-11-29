@@ -1,5 +1,8 @@
 package InformationRetrieval.Index;
 
+import InformationRetrieval.Query.CategoryDeterminationType;
+import InformationRetrieval.Query.Query;
+
 import java.util.*;
 
 public class CategoryTree {
@@ -23,18 +26,21 @@ public class CategoryTree {
         return current;
     }
 
-    public String topNString(TermDictionary dictionary, int N){
-        Queue<CategoryNode> queue = new LinkedList<>();
-        queue.add(root);
-        String result = "";
-        while (!queue.isEmpty()){
-            CategoryNode node = queue.remove();
-            if (node != root){
-                result += node.topNString(dictionary, N) + "\n";
-            }
-            queue.addAll(node.getChildren());
+    public ArrayList<CategoryNode> getCategories(Query query, TermDictionary dictionary, CategoryDeterminationType categoryDeterminationType){
+        ArrayList<CategoryNode> result = new ArrayList<>();
+        switch (categoryDeterminationType){
+            default:
+            case KEYWORD:
+                root.getCategoriesWithKeyword(query, result);
+                break;
+            case COSINE:
+                root.getCategoriesWithCosine(query, dictionary, result);
+                break;
         }
         return result;
     }
 
+    public void setRepresentativeCount(int representativeCount) {
+        root.setRepresentativeCount(representativeCount);
+    }
 }

@@ -22,6 +22,7 @@ public class Parameter {
     private int documentLimit = 1000;
     private int wordLimit = 10000;
     private DocumentType documentType = DocumentType.NORMAL;
+    private int representativeCount = 10;
 
     public Parameter(){
     }
@@ -79,6 +80,10 @@ public class Parameter {
 
     public int getWordLimit() {
         return wordLimit;
+    }
+
+    public int getRepresentativeCount() {
+        return representativeCount;
     }
 
     public void setIndexType(IndexType indexType) {
@@ -146,6 +151,10 @@ public class Parameter {
 
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
+    }
+
+    public void setRepresentativeCount(int representativeCount) {
+        this.representativeCount = representativeCount;
     }
 
 }

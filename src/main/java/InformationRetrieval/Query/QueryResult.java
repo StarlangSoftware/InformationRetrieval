@@ -1,6 +1,5 @@
 package InformationRetrieval.Query;
 
-import DataStructure.Heap.MaxHeap;
 import DataStructure.Heap.MinHeap;
 
 import java.util.ArrayList;
@@ -20,8 +19,33 @@ public class QueryResult {
         items.add(new QueryResultItem(docId, 0.0));
     }
 
+    public int size(){
+        return items.size();
+    }
+
     public ArrayList<QueryResultItem> getItems(){
         return items;
+    }
+
+    public QueryResult intersection(QueryResult queryResult){
+        QueryResult result = new QueryResult();
+        int i = 0, j = 0;
+        while (i < size() && j < queryResult.size()){
+            QueryResultItem item1 = items.get(i);
+            QueryResultItem item2 = queryResult.items.get(j);
+            if (item1.getDocId() == item2.getDocId()){
+                result.add(item1.getDocId());
+                i++;
+                j++;
+            } else {
+                if (item1.getDocId() < item2.getDocId()){
+                    i++;
+                } else {
+                    j++;
+                }
+            }
+        }
+        return result;
     }
 
     public void getBest(int K){

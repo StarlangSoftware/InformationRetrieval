@@ -4,10 +4,7 @@ import InformationRetrieval.Document.Collection;
 import InformationRetrieval.Document.DocumentType;
 import InformationRetrieval.Document.IndexType;
 import InformationRetrieval.Document.Parameter;
-import InformationRetrieval.Query.Query;
-import InformationRetrieval.Query.QueryResult;
-import InformationRetrieval.Query.RetrievalType;
-import InformationRetrieval.Query.SearchParameter;
+import InformationRetrieval.Query.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -147,6 +144,42 @@ public class CollectionTest {
         Collection collection = new Collection("testCollection3", parameter);
         assertEquals(1000, collection.size());
         assertEquals(2283, collection.vocabularySize());
+    }
+    @Test
+    public void testAttributeQuery() {
+        Parameter parameter = new Parameter();
+        parameter.setDocumentType(DocumentType.CATEGORICAL);
+        parameter.setLoadIndexesFromFile(true);
+        Collection collection = new Collection("testCollection3", parameter);
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.setRetrievalType(RetrievalType.ATTRIBUTE);
+        Query query = new Query("Çift Yönlü");
+        QueryResult result = collection.searchCollection(query, searchParameter);
+        assertEquals(10, result.getItems().size());
+        query = new Query("Müzikli");
+        result = collection.searchCollection(query, searchParameter);
+        assertEquals(4, result.getItems().size());
+        query = new Query("Çift Yönlü Alüminyum Bebek Arabası");
+        result = collection.searchCollection(query, searchParameter);
+        assertEquals(2, result.getItems().size());
+    }
+
+    @Test
+    public void testCategoricalQuery() {
+        Parameter parameter = new Parameter();
+        parameter.setDocumentType(DocumentType.CATEGORICAL);
+        parameter.setLoadIndexesFromFile(true);
+        Collection collection = new Collection("testCollection3", parameter);
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.setFocusType(FocusType.CATEGORY);
+        searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
+        Query query = new Query("Çift Yönlü Bebek Arabası");
+        QueryResult result = collection.searchCollection(query, searchParameter);
+        assertEquals(10, result.getItems().size());
+        searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
+        query = new Query("Terlik");
+        result = collection.searchCollection(query, searchParameter);
+        assertEquals(5, result.getItems().size());
     }
 
 }

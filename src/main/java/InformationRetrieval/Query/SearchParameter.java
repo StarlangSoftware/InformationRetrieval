@@ -5,6 +5,8 @@ import InformationRetrieval.Index.TermWeighting;
 
 public class SearchParameter {
 
+    private CategoryDeterminationType categoryDeterminationType = CategoryDeterminationType.KEYWORD;
+    private FocusType focusType = FocusType.OVERALL;
     private RetrievalType retrievalType = RetrievalType.RANKED;
     private DocumentWeighting documentWeighting = DocumentWeighting.NO_IDF;
     private TermWeighting termWeighting = TermWeighting.NATURAL;
@@ -29,6 +31,14 @@ public class SearchParameter {
         this.documentsRetrieved = documentsRetrieved;
     }
 
+    public void setFocusType(FocusType focusType){
+        this.focusType = focusType;
+    }
+
+    public void setCategoryDeterminationType(CategoryDeterminationType categoryDeterminationType) {
+        this.categoryDeterminationType = categoryDeterminationType;
+    }
+
     public RetrievalType getRetrievalType() {
         return retrievalType;
     }
@@ -43,6 +53,14 @@ public class SearchParameter {
 
     public int getDocumentsRetrieved() {
         return documentsRetrieved;
+    }
+
+    public FocusType getFocusType() {
+        return focusType;
+    }
+
+    public CategoryDeterminationType getCategoryDeterminationType() {
+        return categoryDeterminationType;
     }
 
 }

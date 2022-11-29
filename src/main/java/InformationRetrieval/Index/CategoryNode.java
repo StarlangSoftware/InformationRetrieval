@@ -1,22 +1,24 @@
 package InformationRetrieval.Index;
 
 import DataStructure.CounterHashMap;
-import Dictionary.Word;
+import InformationRetrieval.Query.Query;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CategoryNode {
 
-    private String name;
-    private ArrayList<CategoryNode> children = new ArrayList<>();
-    private CategoryNode parent;
-
+    private final ArrayList<CategoryNode> children = new ArrayList<>();
+    private final CategoryNode parent;
     private CounterHashMap<Integer> counts = new CounterHashMap<>();
+    private double categoryScore;
+    private final ArrayList<String> categoryWords;
 
     public CategoryNode(String name, CategoryNode parent){
-        this.name = name;
+        String[] words = name.split(" ");
+        categoryWords = new ArrayList<>();
+        for (String word : words){
+            categoryWords.add(word);
+        }
         this.parent = parent;
         if (parent != null){
             parent.addChild(this);
@@ -28,7 +30,11 @@ public class CategoryNode {
     }
 
     public String getName(){
-        return name;
+        String result = categoryWords.get(0);
+        for (int i = 1; i < categoryWords.size(); i++){
+            result += " " + categoryWords.get(i);
+        }
+        return result;
     }
 
     public CategoryNode getChild(String childName){
@@ -52,33 +58,57 @@ public class CategoryNode {
         return children;
     }
 
-    public List<Map.Entry<Integer, Integer>> topN(int N){
-        if (N <= counts.size()){
-            return counts.topN(N);
-        } else {
-            return counts.topN(counts.size());
-        }
-    }
-
-    public String topNString(TermDictionary dictionary, int N){
-        List<Map.Entry<Integer, Integer>> topN = topN(N);
-        String result = toString();
-        for (Map.Entry<Integer, Integer> item : topN){
-            if (!Word.isPunctuation(dictionary.getWord(item.getKey()).getName())){
-                result += "\t" + dictionary.getWord(item.getKey()).getName() + " (" + item.getValue() + ")";
-            }
-        }
-        return result;
-    }
-
     public String toString(){
         if (parent != null){
             if (parent.parent != null){
-                return parent + "%" + name;
+                return parent + "%" + getName();
             } else {
-                return name;
+                return getName();
             }
         }
         return "";
     }
+
+    public void setRepresentativeCount(int representativeCount){
+        List<Map.Entry<Integer, Integer>> topList;
+        if (representativeCount <= counts.size()){
+            topList = counts.topN(representativeCount);
+            counts = new CounterHashMap<>();
+            for (Map.Entry<Integer, Integer> entry : topList){
+                counts.putNTimes(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    public void getCategoriesWithKeyword(Query query, ArrayList<CategoryNode> result){
+        categoryScore = 0;
+        for (int i = 0; i < query.size(); i++){
+            if (categoryWords.contains(query.getTerm(i).getName())){
+                categoryScore++;
+            }
+        }
+        if (categoryScore > 0){
+            result.add(this);
+        }
+        for (CategoryNode child : children){
+            child.getCategoriesWithKeyword(query, result);
+        }
+    }
+
+    public void getCategoriesWithCosine(Query query, TermDictionary dictionary, ArrayList<CategoryNode> result){
+        categoryScore = 0;
+        for (int i = 0; i < query.size(); i++){
+            Term term = (Term) dictionary.getWord(query.getTerm(i).getName());
+            if (term != null){
+                categoryScore += counts.count(term.getTermId());
+            }
+        }
+        if (categoryScore > 0){
+            result.add(this);
+        }
+        for (CategoryNode child : children){
+            child.getCategoriesWithCosine(query, dictionary, result);
+        }
+    }
+
 }

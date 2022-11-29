@@ -28,6 +28,7 @@ public class Collection {
     private final String name;
     private final Parameter parameter;
     private CategoryTree categoryTree = null;
+    private HashSet<String> attributeList;
 
     public Collection(String directory,
                       Parameter parameter){
@@ -35,6 +36,7 @@ public class Collection {
         this.indexType = parameter.getIndexType();
         this.comparator = parameter.getWordComparator();
         this.parameter = parameter;
+        loadAttributeList();
         documents = new ArrayList<>();
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
@@ -92,6 +94,7 @@ public class Collection {
         }
         if (parameter.getDocumentType() == DocumentType.CATEGORICAL){
             positionalIndex.setCategoryCounts(documents);
+            categoryTree.setRepresentativeCount(parameter.getRepresentativeCount());
         }
     }
 
@@ -155,6 +158,20 @@ public class Collection {
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void loadAttributeList(){
+        try {
+            attributeList = new HashSet<>();
+            BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(name + "-attributelist.txt")), StandardCharsets.UTF_8));
+            String line = br.readLine();
+            while (line != null){
+                attributeList.add(line);
+                line = br.readLine();
+            }
+            br.close();
+        } catch (IOException ignored) {
         }
     }
 
@@ -640,25 +657,64 @@ public class Collection {
         triGramIndex = new NGramIndex(triGramDictionary, terms, comparator);
     }
 
-    public String topNString(int N){
-        return categoryTree.topNString(dictionary, N);
+    private QueryResult attributeSearch(Query query){
+        Query termAttributes = new Query();
+        Query phraseAttributes = new Query();
+        QueryResult termResult = new QueryResult(), phraseResult = new QueryResult();
+        query.filterAttributes(attributeList, termAttributes, phraseAttributes);
+        if (termAttributes.size() > 0){
+            termResult = invertedIndex.search(termAttributes, dictionary);
+        }
+        if (phraseAttributes.size() > 0){
+            phraseResult = phraseIndex.search(phraseAttributes, phraseDictionary);
+        }
+        if (termAttributes.size() == 0){
+            return phraseResult;
+        }
+        if (phraseAttributes.size() == 0){
+            return termResult;
+        }
+        return termResult.intersection(phraseResult);
+    }
+
+    private QueryResult searchWithInvertedIndex(Query query, SearchParameter parameter){
+        switch (parameter.getRetrievalType()){
+            case    BOOLEAN:
+                return invertedIndex.search(query, dictionary);
+            case POSITIONAL:
+                return positionalIndex.positionalSearch(query, dictionary);
+            case RANKED:
+                return positionalIndex.rankedSearch(query,
+                        dictionary,
+                        documents,
+                        parameter.getTermWeighting(),
+                        parameter.getDocumentWeighting(),
+                        parameter.getDocumentsRetrieved());
+            case ATTRIBUTE:
+                return attributeSearch(query);
+        }
+        return new QueryResult();
     }
 
     public QueryResult searchCollection(Query query, SearchParameter parameter){
-        switch (indexType){
-            case INCIDENCE_MATRIX:
-                return incidenceMatrix.search(query, dictionary);
-            case   INVERTED_INDEX:
-                switch (parameter.getRetrievalType()){
-                    case    BOOLEAN:return invertedIndex.search(query, dictionary);
-                    case POSITIONAL:return positionalIndex.positionalSearch(query, dictionary);
-                    case RANKED:return positionalIndex.rankedSearch(query,
-                            dictionary,
-                            documents,
-                            parameter.getTermWeighting(),
-                            parameter.getDocumentWeighting(),
-                            parameter.getDocumentsRetrieved());
+        if (parameter.getFocusType().equals(FocusType.CATEGORY)){
+            ArrayList<CategoryNode> categories = categoryTree.getCategories(query, dictionary, parameter.getCategoryDeterminationType());
+            QueryResult result = searchWithInvertedIndex(query, parameter);
+            QueryResult filteredResult = new QueryResult();
+            ArrayList<QueryResultItem> items = result.getItems();
+            for (QueryResultItem queryResultItem : items) {
+                if (categories.contains(documents.get(queryResultItem.getDocId()).getCategoryNode())) {
+                    filteredResult.add(queryResultItem.getDocId(), queryResultItem.getScore());
                 }
+            }
+            return filteredResult;
+        } else {
+            switch (indexType){
+                case INCIDENCE_MATRIX:
+                    return incidenceMatrix.search(query, dictionary);
+                case   INVERTED_INDEX:
+                    return searchWithInvertedIndex(query, parameter);
+            }
         }
         return new QueryResult();
     }
