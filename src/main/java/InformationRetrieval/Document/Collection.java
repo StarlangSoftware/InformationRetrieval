@@ -703,8 +703,12 @@ public class Collection {
             QueryResult filteredResult = new QueryResult();
             ArrayList<QueryResultItem> items = result.getItems();
             for (QueryResultItem queryResultItem : items) {
-                if (categories.contains(documents.get(queryResultItem.getDocId()).getCategoryNode())) {
-                    filteredResult.add(queryResultItem.getDocId(), queryResultItem.getScore());
+                CategoryNode categoryNode = documents.get(queryResultItem.getDocId()).getCategoryNode();
+                for (CategoryNode possibleAncestor : categories){
+                    if (categoryNode.isDescendant(possibleAncestor)) {
+                        filteredResult.add(queryResultItem.getDocId(), queryResultItem.getScore());
+                        break;
+                    }
                 }
             }
             return filteredResult;

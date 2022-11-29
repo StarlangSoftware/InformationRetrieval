@@ -54,6 +54,16 @@ public class CategoryNode {
         }
     }
 
+    public boolean isDescendant(CategoryNode ancestor){
+        if (this.equals(ancestor)){
+            return true;
+        }
+        if (parent == null){
+            return false;
+        }
+        return parent.isDescendant(ancestor);
+    }
+
     public ArrayList<CategoryNode> getChildren(){
         return children;
     }
