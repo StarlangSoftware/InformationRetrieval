@@ -168,22 +168,26 @@ public class MemoryCollection extends AbstractCollection{
         return new QueryResult();
     }
 
-    public QueryResult searchCollection(Query query, SearchParameter parameter){
-        if (parameter.getFocusType().equals(FocusType.CATEGORY)){
-            ArrayList<CategoryNode> categories = categoryTree.getCategories(query, dictionary, parameter.getCategoryDeterminationType());
-            QueryResult result = searchWithInvertedIndex(query, parameter);
-            QueryResult filteredResult = new QueryResult();
-            ArrayList<QueryResultItem> items = result.getItems();
-            for (QueryResultItem queryResultItem : items) {
-                CategoryNode categoryNode = documents.get(queryResultItem.getDocId()).getCategoryNode();
-                for (CategoryNode possibleAncestor : categories){
-                    if (categoryNode.isDescendant(possibleAncestor)) {
-                        filteredResult.add(queryResultItem.getDocId(), queryResultItem.getScore());
-                        break;
-                    }
+    private QueryResult filterAccordingToCategories(QueryResult currentResult, ArrayList<CategoryNode> categories){
+        QueryResult filteredResult = new QueryResult();
+        ArrayList<QueryResultItem> items = currentResult.getItems();
+        for (QueryResultItem queryResultItem : items) {
+            CategoryNode categoryNode = documents.get(queryResultItem.getDocId()).getCategoryNode();
+            for (CategoryNode possibleAncestor : categories){
+                if (categoryNode.isDescendant(possibleAncestor)) {
+                    filteredResult.add(queryResultItem.getDocId(), queryResultItem.getScore());
+                    break;
                 }
             }
-            return filteredResult;
+        }
+        return filteredResult;
+    }
+
+    public QueryResult searchCollection(Query query, SearchParameter parameter){
+        if (parameter.getFocusType().equals(FocusType.CATEGORY)){
+            QueryResult currentResult = searchWithInvertedIndex(query, parameter);
+            ArrayList<CategoryNode> categories = categoryTree.getCategories(query, dictionary, parameter.getCategoryDeterminationType());
+            return filterAccordingToCategories(currentResult, categories);
         } else {
             switch (indexType){
                 case INCIDENCE_MATRIX:
