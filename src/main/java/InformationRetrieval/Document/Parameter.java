@@ -16,8 +16,6 @@ public class Parameter {
     private boolean phraseIndex = true;
     private boolean positionalIndex = true;
     private boolean constructNGramIndex = true;
-    private boolean constructIndexInDisk = false;
-    private boolean constructDictionaryInDisk = false;
     private boolean limitNumberOfDocumentsLoaded = false;
     private int documentLimit = 1000;
     private int wordLimit = 10000;
@@ -62,20 +60,12 @@ public class Parameter {
         return constructNGramIndex;
     }
 
-    public boolean constructIndexInDisk() {
-        return constructIndexInDisk;
-    }
-
     public boolean limitNumberOfDocumentsLoaded() {
         return limitNumberOfDocumentsLoaded;
     }
 
     public int getDocumentLimit() {
         return documentLimit;
-    }
-
-    public boolean constructDictionaryInDisk() {
-        return constructDictionaryInDisk;
     }
 
     public int getWordLimit() {
@@ -122,23 +112,12 @@ public class Parameter {
         this.constructNGramIndex = nGramIndex;
     }
 
-    public void setConstructIndexInDisk(boolean constructIndexInDisk) {
-        this.constructIndexInDisk = constructIndexInDisk;
-    }
-
     public void setLimitNumberOfDocumentsLoaded(boolean limitNumberOfDocumentsLoaded) {
         this.limitNumberOfDocumentsLoaded = limitNumberOfDocumentsLoaded;
     }
 
     public void setDocumentLimit(int documentLimit) {
         this.documentLimit = documentLimit;
-    }
-
-    public void setConstructDictionaryInDisk(boolean constructDictionaryInDisk) {
-        this.constructDictionaryInDisk = constructDictionaryInDisk;
-        if (constructDictionaryInDisk){
-            constructIndexInDisk = true;
-        }
     }
 
     public void setWordLimit(int wordLimit) {

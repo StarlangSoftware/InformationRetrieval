@@ -1,6 +1,6 @@
 package Document;
 
-import InformationRetrieval.Document.Collection;
+import InformationRetrieval.Document.MemoryCollection;
 import InformationRetrieval.Document.DocumentType;
 import InformationRetrieval.Document.IndexType;
 import InformationRetrieval.Document.Parameter;
@@ -9,38 +9,38 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class CollectionTest {
+public class MemoryCollectionTest {
 
     @Test
     public void testIncidenceMatrixSmall() {
         Parameter parameter = new Parameter();
         parameter.setIndexType(IndexType.INCIDENCE_MATRIX);
-        Collection collection = new Collection("testCollection2", parameter);
-        assertEquals(2, collection.size());
-        assertEquals(26, collection.vocabularySize());
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
+        assertEquals(2, memoryCollection.size());
+        assertEquals(26, memoryCollection.vocabularySize());
     }
 
     @Test
     public void testIncidenceMatrixQuery() {
         Parameter parameter = new Parameter();
         parameter.setIndexType(IndexType.INCIDENCE_MATRIX);
-        Collection collection = new Collection("testCollection2", parameter);
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
         Query query = new Query("Brutus");
         SearchParameter searchParameter = new SearchParameter();
         searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
-        QueryResult result = collection.searchCollection(query, searchParameter);
+        QueryResult result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("Brutus Caesar");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("enact");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("noble");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
@@ -48,23 +48,23 @@ public class CollectionTest {
     public void testInvertedIndexBooleanQuery() {
         Parameter parameter = new Parameter();
         parameter.setNGramIndex(true);
-        Collection collection = new Collection("testCollection2", parameter);
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
         Query query = new Query("Brutus");
         SearchParameter searchParameter = new SearchParameter();
         searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
-        QueryResult result = collection.searchCollection(query, searchParameter);
+        QueryResult result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("Brutus Caesar");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("enact");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("noble");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
@@ -72,20 +72,20 @@ public class CollectionTest {
     public void testPositionalIndexBooleanQuery() {
         Parameter parameter = new Parameter();
         parameter.setNGramIndex(true);
-        Collection collection = new Collection("testCollection2", parameter);
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
         Query query = new Query("Julius Caesar");
         SearchParameter searchParameter = new SearchParameter();
         searchParameter.setRetrievalType(RetrievalType.POSITIONAL);
-        QueryResult result = collection.searchCollection(query, searchParameter);
+        QueryResult result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         query = new Query("I was killed");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("The noble Brutus");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
@@ -93,23 +93,23 @@ public class CollectionTest {
     public void testPositionalIndexRankedQuery() {
         Parameter parameter = new Parameter();
         parameter.setLoadIndexesFromFile(true);
-        Collection collection = new Collection("testCollection2", parameter);
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
         Query query = new Query("Caesar");
         SearchParameter searchParameter = new SearchParameter();
         searchParameter.setRetrievalType(RetrievalType.RANKED);
         searchParameter.setDocumentsRetrieved(2);
-        QueryResult result = collection.searchCollection(query, searchParameter);
+        QueryResult result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         assertEquals(1, result.getItems().get(0).getDocId());
         query = new Query("Caesar was killed");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
         assertEquals(0, result.getItems().get(0).getDocId());
         query = new Query("in the Capitol");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(1, result.getItems().size());
         query = new Query("a");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(0, result.getItems().size());
     }
 
@@ -118,9 +118,9 @@ public class CollectionTest {
         Parameter parameter = new Parameter();
         parameter.setNGramIndex(true);
         parameter.setLoadIndexesFromFile(true);
-        Collection collection = new Collection("testCollection2", parameter);
-        assertEquals(2, collection.size());
-        assertEquals(26, collection.vocabularySize());
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
+        assertEquals(2, memoryCollection.size());
+        assertEquals(26, memoryCollection.vocabularySize());
     }
 
     @Test
@@ -129,9 +129,9 @@ public class CollectionTest {
         parameter.setNGramIndex(false);
         parameter.setLimitNumberOfDocumentsLoaded(true);
         parameter.setDocumentLimit(1);
-        Collection collection = new Collection("testCollection2", parameter);
-        assertEquals(1, collection.size());
-        assertEquals(15, collection.vocabularySize());
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
+        assertEquals(1, memoryCollection.size());
+        assertEquals(15, memoryCollection.vocabularySize());
     }
 
     @Test
@@ -141,26 +141,26 @@ public class CollectionTest {
         parameter.setLoadIndexesFromFile(true);
         parameter.setPhraseIndex(false);
         parameter.setNGramIndex(false);
-        Collection collection = new Collection("testCollection3", parameter);
-        assertEquals(1000, collection.size());
-        assertEquals(2283, collection.vocabularySize());
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection3", parameter);
+        assertEquals(1000, memoryCollection.size());
+        assertEquals(2283, memoryCollection.vocabularySize());
     }
     @Test
     public void testAttributeQuery() {
         Parameter parameter = new Parameter();
         parameter.setDocumentType(DocumentType.CATEGORICAL);
         parameter.setLoadIndexesFromFile(true);
-        Collection collection = new Collection("testCollection3", parameter);
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection3", parameter);
         SearchParameter searchParameter = new SearchParameter();
         searchParameter.setRetrievalType(RetrievalType.ATTRIBUTE);
         Query query = new Query("Çift Yönlü");
-        QueryResult result = collection.searchCollection(query, searchParameter);
+        QueryResult result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(10, result.getItems().size());
         query = new Query("Müzikli");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(4, result.getItems().size());
         query = new Query("Çift Yönlü Alüminyum Bebek Arabası");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(2, result.getItems().size());
     }
 
@@ -169,16 +169,16 @@ public class CollectionTest {
         Parameter parameter = new Parameter();
         parameter.setDocumentType(DocumentType.CATEGORICAL);
         parameter.setLoadIndexesFromFile(true);
-        Collection collection = new Collection("testCollection3", parameter);
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection3", parameter);
         SearchParameter searchParameter = new SearchParameter();
         searchParameter.setFocusType(FocusType.CATEGORY);
         searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
         Query query = new Query("Çift Yönlü Bebek Arabası");
-        QueryResult result = collection.searchCollection(query, searchParameter);
+        QueryResult result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(10, result.getItems().size());
         searchParameter.setRetrievalType(RetrievalType.BOOLEAN);
         query = new Query("Terlik");
-        result = collection.searchCollection(query, searchParameter);
+        result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(5, result.getItems().size());
     }
 
