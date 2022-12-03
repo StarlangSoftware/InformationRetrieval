@@ -10,7 +10,6 @@ public class CategoryNode {
     private final ArrayList<CategoryNode> children = new ArrayList<>();
     private final CategoryNode parent;
     private CounterHashMap<Integer> counts = new CounterHashMap<>();
-    private double categoryScore;
     private final ArrayList<String> categoryWords;
 
     public CategoryNode(String name, CategoryNode parent){
@@ -91,7 +90,7 @@ public class CategoryNode {
     }
 
     public void getCategoriesWithKeyword(Query query, ArrayList<CategoryNode> result){
-        categoryScore = 0;
+        double categoryScore = 0;
         for (int i = 0; i < query.size(); i++){
             if (categoryWords.contains(query.getTerm(i).getName())){
                 categoryScore++;
@@ -106,7 +105,7 @@ public class CategoryNode {
     }
 
     public void getCategoriesWithCosine(Query query, TermDictionary dictionary, ArrayList<CategoryNode> result){
-        categoryScore = 0;
+        double categoryScore = 0;
         for (int i = 0; i < query.size(); i++){
             Term term = (Term) dictionary.getWord(query.getTerm(i).getName());
             if (term != null){

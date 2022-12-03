@@ -183,17 +183,17 @@ public class MemoryCollection extends AbstractCollection{
         return filteredResult;
     }
 
-    public QueryResult searchCollection(Query query, SearchParameter parameter){
-        if (parameter.getFocusType().equals(FocusType.CATEGORY)){
-            QueryResult currentResult = searchWithInvertedIndex(query, parameter);
-            ArrayList<CategoryNode> categories = categoryTree.getCategories(query, dictionary, parameter.getCategoryDeterminationType());
+    public QueryResult searchCollection(Query query, SearchParameter searchParameter){
+        if (searchParameter.getFocusType().equals(FocusType.CATEGORY)){
+            QueryResult currentResult = searchWithInvertedIndex(query, searchParameter);
+            ArrayList<CategoryNode> categories = categoryTree.getCategories(query, dictionary, searchParameter.getCategoryDeterminationType());
             return filterAccordingToCategories(currentResult, categories);
         } else {
             switch (indexType){
                 case INCIDENCE_MATRIX:
                     return incidenceMatrix.search(query, dictionary);
                 case   INVERTED_INDEX:
-                    return searchWithInvertedIndex(query, parameter);
+                    return searchWithInvertedIndex(query, searchParameter);
             }
         }
         return new QueryResult();

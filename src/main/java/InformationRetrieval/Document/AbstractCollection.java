@@ -27,6 +27,7 @@ public abstract class AbstractCollection {
     protected PositionalIndex phrasePositionalIndex;
 
     protected WordComparator comparator;
+
     protected String name;
     protected Parameter parameter;
     protected CategoryTree categoryTree = null;
