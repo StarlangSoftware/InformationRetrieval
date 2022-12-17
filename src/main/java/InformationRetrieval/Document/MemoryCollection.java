@@ -199,4 +199,19 @@ public class MemoryCollection extends AbstractCollection{
         return new QueryResult();
     }
 
+    public ArrayList<String> autoCompleteWord(String prefix){
+        ArrayList<String> result = new ArrayList<>();
+        int i = dictionary.getWordStartingWith(prefix);
+        while (i < dictionary.size()){
+            if (dictionary.getWord(i).getName().startsWith(prefix)){
+                result.add(dictionary.getWord(i).getName());
+            } else {
+                break;
+            }
+            i++;
+        }
+        invertedIndex.autoCompleteWord(result, dictionary);
+        return result;
+    }
+
 }

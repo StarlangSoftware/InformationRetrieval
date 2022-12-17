@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeMap;
 
 public class InvertedIndex {
@@ -93,6 +94,21 @@ public class InvertedIndex {
         }
         postingList.add(docId);
         index.put(termId, postingList);
+    }
+
+    public void autoCompleteWord(ArrayList<String> wordList, TermDictionary dictionary){
+        ArrayList<Integer> counts = new ArrayList<>();
+        for (String word : wordList){
+            counts.add(index.get(dictionary.getWordIndex(word)).size());
+        }
+        for (int i = 0; i < wordList.size() - 1; i++){
+            for (int j = i + 1; j < wordList.size(); j++){
+                if (counts.get(i) < counts.get(j)){
+                    Collections.swap(counts, i, j);
+                    Collections.swap(wordList, i, j);
+                }
+            }
+        }
     }
 
     public QueryResult search(Query query, TermDictionary dictionary){

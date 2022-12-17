@@ -7,6 +7,8 @@ import InformationRetrieval.Document.Parameter;
 import InformationRetrieval.Query.*;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 public class MemoryCollectionTest {
@@ -180,6 +182,26 @@ public class MemoryCollectionTest {
         query = new Query("Terlik");
         result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(5, result.getItems().size());
+    }
+
+    @Test
+    public void testAutoCompleteWord() {
+        Parameter parameter = new Parameter();
+        parameter.setNGramIndex(true);
+        parameter.setLoadIndexesFromFile(true);
+        MemoryCollection memoryCollection = new MemoryCollection("testCollection2", parameter);
+        ArrayList<String> autoCompleteList = memoryCollection.autoCompleteWord("kill");
+        assertEquals(1, autoCompleteList.size());
+        autoCompleteList = memoryCollection.autoCompleteWord("Ca");
+        assertEquals(2, autoCompleteList.size());
+        memoryCollection = new MemoryCollection("testCollection3", parameter);
+        parameter.setDocumentType(DocumentType.CATEGORICAL);
+        autoCompleteList = memoryCollection.autoCompleteWord("Yeni");
+        assertEquals(6, autoCompleteList.size());
+        autoCompleteList = memoryCollection.autoCompleteWord("Ka");
+        assertEquals(68, autoCompleteList.size());
+        autoCompleteList = memoryCollection.autoCompleteWord("Bebe");
+        assertEquals(12, autoCompleteList.size());
     }
 
 }
