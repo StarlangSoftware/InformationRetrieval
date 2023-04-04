@@ -71,8 +71,12 @@ public abstract class AbstractCollection {
             String line = br.readLine();
             while (line != null){
                 String[] items = line.split("\t");
-                int docId = Integer.parseInt(items[0]);
-                documents.get(docId).setCategory(categoryTree, items[1]);
+                if (items.length > 0){
+                    int docId = Integer.parseInt(items[0]);
+                    if (items.length > 1){
+                        documents.get(docId).setCategory(categoryTree, items[1]);
+                    }
+                }
                 line = br.readLine();
             }
             br.close();
