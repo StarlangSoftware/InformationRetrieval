@@ -50,13 +50,21 @@ public class QueryResult {
 
     public void getBest(int K){
         QueryResultItemComparator comparator = new QueryResultItemComparator();
-        MinHeap<QueryResultItem> minHeap = new MinHeap<>(2 * K, comparator);
-        for (QueryResultItem queryResultItem : items){
-            minHeap.insert(queryResultItem);
+        MinHeap<QueryResultItem> minHeap = new MinHeap<>(K, comparator);
+        for (int i = 0; i < K && i < items.size(); i++){
+            minHeap.insert(items.get(i));
+        }
+        for (int i = K + 1; i < items.size(); i++){
+            QueryResultItem top = minHeap.delete();
+            if (comparator.compare(top, items.get(i)) > 0){
+                minHeap.insert(top);
+            } else {
+                minHeap.insert(items.get(i));
+            }
         }
         items.clear();
         for (int i = 0; i < K && !minHeap.isEmpty(); i++){
-            items.add(minHeap.delete());
+            items.add(0, minHeap.delete());
         }
     }
 }
