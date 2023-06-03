@@ -154,7 +154,9 @@ public class MemoryCollectionTest {
         parameter.setLoadIndexesFromFile(true);
         MemoryCollection memoryCollection = new MemoryCollection("testCollection3", parameter);
         SearchParameter searchParameter = new SearchParameter();
-        searchParameter.setRetrievalType(RetrievalType.ATTRIBUTE);
+        searchParameter.setSearchAttributes(true);
+        searchParameter.setDocumentsRetrieved(400);
+        searchParameter.setRetrievalType(RetrievalType.RANKED);
         Query query = new Query("Çift Yönlü");
         QueryResult result = memoryCollection.searchCollection(query, searchParameter);
         assertEquals(10, result.getItems().size());

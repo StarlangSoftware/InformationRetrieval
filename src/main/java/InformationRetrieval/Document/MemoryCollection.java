@@ -129,11 +129,12 @@ public class MemoryCollection extends AbstractCollection{
         return terms;
     }
 
-    private QueryResult attributeSearch(Query query){
+    private QueryResult attributeSearch(Query query, SearchParameter parameter){
         Query termAttributes = new Query();
         Query phraseAttributes = new Query();
         QueryResult termResult = new QueryResult(), phraseResult = new QueryResult();
-        query.filterAttributes(attributeList, termAttributes, phraseAttributes);
+        QueryResult attributeResult, filteredResult;
+        Query filteredQuery = query.filterAttributes(attributeList, termAttributes, phraseAttributes);
         if (termAttributes.size() > 0){
             termResult = invertedIndex.search(termAttributes, dictionary);
         }
@@ -141,12 +142,28 @@ public class MemoryCollection extends AbstractCollection{
             phraseResult = phraseIndex.search(phraseAttributes, phraseDictionary);
         }
         if (termAttributes.size() == 0){
-            return phraseResult;
+            attributeResult = phraseResult;
+        } else {
+            if (phraseAttributes.size() == 0){
+                attributeResult = termResult;
+            } else {
+                attributeResult = termResult.intersectionFastSearch(phraseResult);
+            }
         }
-        if (phraseAttributes.size() == 0){
-            return termResult;
+        if (filteredQuery.size() == 0){
+            return attributeResult;
+        } else {
+            filteredResult = searchWithInvertedIndex(filteredQuery, parameter);
+            if (parameter.getRetrievalType() != RetrievalType.RANKED){
+                return filteredResult.intersectionFastSearch(attributeResult);
+            } else {
+                if (attributeResult.size() < 10){
+                    return filteredResult.intersectionLinearSearch(attributeResult);
+                } else {
+                    return filteredResult.intersectionBinarySearch(attributeResult);
+                }
+            }
         }
-        return termResult.intersection(phraseResult);
     }
 
     private QueryResult searchWithInvertedIndex(Query query, SearchParameter parameter){
@@ -162,8 +179,6 @@ public class MemoryCollection extends AbstractCollection{
                         parameter.getTermWeighting(),
                         parameter.getDocumentWeighting(),
                         parameter.getDocumentsRetrieved());
-            case ATTRIBUTE:
-                return attributeSearch(query);
         }
         return new QueryResult();
     }
@@ -184,8 +199,13 @@ public class MemoryCollection extends AbstractCollection{
     }
 
     public QueryResult searchCollection(Query query, SearchParameter searchParameter){
+        QueryResult currentResult;
         if (searchParameter.getFocusType().equals(FocusType.CATEGORY)){
-            QueryResult currentResult = searchWithInvertedIndex(query, searchParameter);
+            if (searchParameter.getSearchAttributes()){
+                currentResult = attributeSearch(query, searchParameter);
+            } else {
+                currentResult = searchWithInvertedIndex(query, searchParameter);
+            }
             ArrayList<CategoryNode> categories = categoryTree.getCategories(query, dictionary, searchParameter.getCategoryDeterminationType());
             return filterAccordingToCategories(currentResult, categories);
         } else {
@@ -193,7 +213,11 @@ public class MemoryCollection extends AbstractCollection{
                 case INCIDENCE_MATRIX:
                     return incidenceMatrix.search(query, dictionary);
                 case   INVERTED_INDEX:
-                    return searchWithInvertedIndex(query, searchParameter);
+                    if (searchParameter.getSearchAttributes()){
+                        return attributeSearch(query, searchParameter);
+                    } else {
+                        return searchWithInvertedIndex(query, searchParameter);
+                    }
             }
         }
         return new QueryResult();

@@ -26,8 +26,9 @@ public class Query {
         return terms.size();
     }
 
-    public void filterAttributes(HashSet<String> attributeList, Query termAttributes, Query phraseAttributes){
+    public Query filterAttributes(HashSet<String> attributeList, Query termAttributes, Query phraseAttributes){
         int i = 0;
+        Query filteredQuery = new Query();
         while (i < this.terms.size()){
             if (i < this.terms.size() - 1){
                 String pair = this.terms.get(i).getName() + " " + this.terms.get(i + 1).getName();
@@ -39,8 +40,11 @@ public class Query {
             }
             if (attributeList.contains(this.terms.get(i).getName())){
                 termAttributes.terms.add(this.terms.get(i));
+            } else {
+                filteredQuery.terms.add(this.terms.get(i));
             }
             i++;
         }
+        return filteredQuery;
     }
 }

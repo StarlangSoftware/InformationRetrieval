@@ -12,6 +12,8 @@ public class SearchParameter {
     private TermWeighting termWeighting = TermWeighting.NATURAL;
     private int documentsRetrieved = 1;
 
+    private boolean searchAttributes = false;
+
     public SearchParameter(){
     }
 
@@ -61,6 +63,14 @@ public class SearchParameter {
 
     public CategoryDeterminationType getCategoryDeterminationType() {
         return categoryDeterminationType;
+    }
+
+    public boolean getSearchAttributes() {
+        return searchAttributes;
+    }
+
+    public void setSearchAttributes(boolean searchAttributes) {
+        this.searchAttributes = searchAttributes;
     }
 
 }

@@ -27,7 +27,7 @@ public class QueryResult {
         return items;
     }
 
-    public QueryResult intersection(QueryResult queryResult){
+    public QueryResult intersectionFastSearch(QueryResult queryResult){
         QueryResult result = new QueryResult();
         int i = 0, j = 0;
         while (i < size() && j < queryResult.size()){
@@ -42,6 +42,45 @@ public class QueryResult {
                     i++;
                 } else {
                     j++;
+                }
+            }
+        }
+        return result;
+    }
+
+    public QueryResult intersectionBinarySearch(QueryResult queryResult){
+        QueryResult result = new QueryResult();
+        for (QueryResultItem searchedItem : items){
+            int low = 0;
+            int high = queryResult.size() - 1;
+            int middle = (low + high) / 2;
+            boolean found = false;
+            while (low <= high){
+                if (searchedItem.getDocId() > queryResult.items.get(middle).getDocId()){
+                    low = middle + 1;
+                } else {
+                    if (searchedItem.getDocId() < queryResult.items.get(middle).getDocId()){
+                        high = middle - 1;
+                    } else {
+                        found = true;
+                        break;
+                    }
+                }
+                middle = (low + high) / 2;
+            }
+            if (found){
+                result.add(searchedItem.getDocId(), searchedItem.getScore());
+            }
+        }
+        return result;
+    }
+
+    public QueryResult intersectionLinearSearch(QueryResult queryResult){
+        QueryResult result = new QueryResult();
+        for (QueryResultItem searchedItem : items){
+            for (QueryResultItem item : queryResult.items){
+                if (searchedItem.getDocId() == item.getDocId()){
+                    result.add(searchedItem.getDocId(), searchedItem.getScore());
                 }
             }
         }
