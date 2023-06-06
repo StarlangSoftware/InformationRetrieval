@@ -2,9 +2,9 @@ package InformationRetrieval.Index;
 
 import Dictionary.WordComparator;
 import InformationRetrieval.Document.Document;
-import InformationRetrieval.Document.DocumentWeighting;
 import InformationRetrieval.Query.Query;
 import InformationRetrieval.Query.QueryResult;
+import InformationRetrieval.Query.SearchParameter;
 import InformationRetrieval.Query.VectorSpaceModel;
 
 import java.io.*;
@@ -184,7 +184,10 @@ public class PositionalIndex {
         }
     }
 
-    public QueryResult rankedSearch(Query query, TermDictionary dictionary, ArrayList<Document> documents, TermWeighting termWeighting, DocumentWeighting documentWeighting, int documentsReturned){
+    public QueryResult rankedSearch(Query query,
+                                    TermDictionary dictionary,
+                                    ArrayList<Document> documents,
+                                    SearchParameter parameter){
         int i, j, term, docID, N = documents.size(), tf, df;
         QueryResult result = new QueryResult();
         HashMap<Integer, Double> scores = new HashMap<>();
@@ -199,7 +202,7 @@ public class PositionalIndex {
                     tf = positionalPosting.size();
                     df = positionalIndex.get(term).size();
                     if (tf > 0 && df > 0){
-                        double score = VectorSpaceModel.weighting(tf, df, N, termWeighting, documentWeighting);
+                        double score = VectorSpaceModel.weighting(tf, df, N, parameter.getTermWeighting(), parameter.getDocumentWeighting());
                         if (scores.containsKey(docID)){
                             scores.put(docID, scores.get(docID) + score);
                         } else {
@@ -212,7 +215,6 @@ public class PositionalIndex {
         for (int docId : scores.keySet()){
             result.add(docId, scores.get(docId) / documents.get(docId).getSize());
         }
-        result.getBest(documentsReturned);
         return result;
     }
 
