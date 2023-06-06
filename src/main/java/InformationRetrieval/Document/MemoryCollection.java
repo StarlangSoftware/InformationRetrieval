@@ -157,17 +157,17 @@ public class MemoryCollection extends AbstractCollection {
                 filteredResult = searchWithInvertedIndex(filteredQuery, parameter);
                 return filteredResult.intersectionFastSearch(attributeResult);
             } else {
-                QueryResult result = positionalIndex.rankedSearch(query,
+                filteredResult = positionalIndex.rankedSearch(filteredQuery,
                         dictionary,
                         documents,
                         parameter);
                 if (attributeResult.size() < 10) {
-                    result.intersectionLinearSearch(attributeResult);
+                    filteredResult = filteredResult.intersectionLinearSearch(attributeResult);
                 } else {
-                    result.intersectionBinarySearch(attributeResult);
+                    filteredResult = filteredResult.intersectionBinarySearch(attributeResult);
                 }
-                result.getBest(parameter.getDocumentsRetrieved());
-                return result;
+                filteredResult.getBest(parameter.getDocumentsRetrieved());
+                return filteredResult;
             }
         }
     }
