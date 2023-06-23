@@ -2,10 +2,17 @@ package InformationRetrieval.Query;
 
 import Dictionary.Word;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.regex.Pattern;
 
 public class Query {
     private final ArrayList<Word> terms;
+
+    private static final ArrayList<String> shortcuts = new ArrayList<>(Arrays.asList("cc", "cm2", "cm", "gb", "ghz", "gr", "gram", "hz", "inc", "inch", "inç",
+            "kg", "kw", "kva", "litre", "lt", "m2", "m3", "mah", "mb", "metre", "mg", "mhz", "ml", "mm", "mp", "ms", "kb", "mb", "gb", "tb", "pb", "kbps",
+            "mt", "mv", "tb", "tl", "va", "volt", "watt", "ah", "hp", "oz", "rpm", "dpi", "ppm", "ohm", "kwh", "kcal", "kbit", "mbit", "gbit", "bit", "byte",
+            "mbps", "gbps", "cm3", "mm2", "mm3", "khz", "ft", "db", "sn", "g", "v", "m", "l", "w", "s"));
 
     public Query(){
         terms = new ArrayList<>();
@@ -36,6 +43,14 @@ public class Query {
                     phraseAttributes.terms.add(new Word(pair));
                     i += 2;
                     continue;
+                }
+                if (shortcuts.contains(this.terms.get(i + 1).getName())){
+                    Pattern p = Pattern.compile("([-+]?\\d+)|([-+]?\\d+\\.\\d+)|(\\d*\\.\\d+)");
+                    if (p.matcher(this.terms.get(i).getName()).matches()){
+                        phraseAttributes.terms.add(new Word(pair));
+                        i += 2;
+                        continue;
+                    }
                 }
             }
             if (attributeList.contains(this.terms.get(i).getName())){
