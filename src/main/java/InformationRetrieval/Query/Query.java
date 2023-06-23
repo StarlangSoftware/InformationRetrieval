@@ -45,8 +45,7 @@ public class Query {
                     continue;
                 }
                 if (shortcuts.contains(this.terms.get(i + 1).getName())){
-                    Pattern p = Pattern.compile("([-+]?\\d+)|([-+]?\\d+\\.\\d+)|(\\d*\\.\\d+)");
-                    if (p.matcher(this.terms.get(i).getName()).matches()){
+                    if (Pattern.matches("([-+]?\\d+)|([-+]?\\d+\\.\\d+)|(\\d*\\.\\d+)", this.terms.get(i).getName())){
                         phraseAttributes.terms.add(new Word(pair));
                         i += 2;
                         continue;
