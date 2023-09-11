@@ -14,7 +14,7 @@ Class Diagram
 For Developers
 ============
 
-You can also see [Python](https://github.com/starlangsoftware/InformationRetrieval-Py), [Cython](https://github.com/starlangsoftware/InformationRetrieval-Cy), [C++](https://github.com/starlangsoftware/InformationRetrieval-CPP), [Js](https://github.com/starlangsoftware/InformationRetrieval-Js), or [C#](https://github.com/starlangsoftware/InformationRetrieval-CS) repository.
+You can also see [Python](https://github.com/starlangsoftware/InformationRetrieval-Py), [Cython](https://github.com/starlangsoftware/InformationRetrieval-Cy), [C++](https://github.com/starlangsoftware/InformationRetrieval-CPP), [Js](https://github.com/starlangsoftware/InformationRetrieval-Js), [C](https://github.com/starlangsoftware/InformationRetrieval-C), or [C#](https://github.com/starlangsoftware/InformationRetrieval-CS) repository.
 
 ## Requirements
 
