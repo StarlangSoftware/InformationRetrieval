@@ -4,7 +4,6 @@ import InformationRetrieval.Query.QueryResult;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class PostingList {
     protected ArrayList<Posting> postings;

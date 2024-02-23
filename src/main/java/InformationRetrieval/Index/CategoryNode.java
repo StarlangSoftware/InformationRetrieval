@@ -3,6 +3,7 @@ package InformationRetrieval.Index;
 import DataStructure.CounterHashMap;
 import InformationRetrieval.Query.Query;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 public class CategoryNode {
@@ -86,6 +87,25 @@ public class CategoryNode {
             for (Map.Entry<Integer, Integer> entry : topList){
                 counts.putNTimes(entry.getKey(), entry.getValue());
             }
+        }
+        for (CategoryNode child : children){
+            child.setRepresentativeCount(representativeCount);
+        }
+    }
+
+    public void printRepresentatives(PrintWriter output, TermDictionary dictionary){
+        String result = "";
+        ArrayList<String> representatives = new ArrayList<>();
+        for (int key : counts.keySet()){
+            representatives.add(dictionary.getTerm(key).getName());
+        }
+        representatives.sort(String.CASE_INSENSITIVE_ORDER);
+        for (String representative : representatives){
+            result += "\t" + representative;
+        }
+        output.println(toString() + result);
+        for (CategoryNode child : children){
+            child.printRepresentatives(output, dictionary);
         }
     }
 

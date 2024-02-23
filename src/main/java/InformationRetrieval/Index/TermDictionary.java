@@ -8,22 +8,29 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class TermDictionary extends Dictionary{
 
+    private HashMap<Integer, Term> idMap;
+
     public TermDictionary(WordComparator comparator){
         super(comparator);
+        idMap = new HashMap<>();
     }
 
     public TermDictionary(WordComparator comparator, String fileName){
         super(comparator);
+        idMap = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-dictionary.txt")), StandardCharsets.UTF_8));
             String line = br.readLine();
             while (line != null){
                 int termId = Integer.parseInt(line.substring(0, line.indexOf(" ")));
-                words.add(new Term(line.substring(line.indexOf(" ") + 1), termId));
+                Term newTerm = new Term(line.substring(line.indexOf(" ") + 1), termId);
+                words.add(newTerm);
+                idMap.put(termId, newTerm);
                 line = br.readLine();
             }
             br.close();
@@ -34,6 +41,7 @@ public class TermDictionary extends Dictionary{
 
     public TermDictionary(WordComparator comparator, ArrayList<TermOccurrence> terms){
         super(comparator);
+        idMap = new HashMap<>();
         int i, termId = 0;
         TermOccurrence term, previousTerm;
         if (terms.size() > 0){
@@ -55,6 +63,7 @@ public class TermDictionary extends Dictionary{
     }
     public TermDictionary(WordComparator comparator, HashSet<String> words){
         super((comparator));
+        idMap = new HashMap<>();
         ArrayList<Word> wordList = new ArrayList<>();
         for (String word : words){
             wordList.add(new Word(word));
@@ -70,7 +79,9 @@ public class TermDictionary extends Dictionary{
     public void addTerm(String name, int termId){
         int middle = Collections.binarySearch(words, new Word(name), comparator);
         if (middle < 0){
-            words.add(-middle - 1, new Term(name, termId));
+            Term newTerm = new Term(name, termId);
+            words.add(-middle - 1, newTerm);
+            idMap.put(termId, newTerm);
         } else {
             System.out.println(name);
         }
@@ -87,6 +98,10 @@ public class TermDictionary extends Dictionary{
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Term getTerm(int termId){
+        return idMap.get(termId);
     }
 
     public static ArrayList<TermOccurrence> constructNGrams(String word, int termId, int k){

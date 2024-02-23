@@ -39,12 +39,12 @@ public abstract class AbstractCollection {
         this.comparator = parameter.getWordComparator();
         this.parameter = parameter;
         loadAttributeList();
-        documents = new ArrayList<>();
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
             Arrays.sort(listOfFiles);
             int fileLimit = listOfFiles.length;
+            documents = new ArrayList<>(fileLimit);
             if (parameter.limitNumberOfDocumentsLoaded()) {
                 fileLimit = parameter.getDocumentLimit();
             }
@@ -52,7 +52,7 @@ public abstract class AbstractCollection {
             int j = 0;
             while (i < listOfFiles.length && j < fileLimit) {
                 File file = listOfFiles[i];
-                if (file.isFile() && file.getName().endsWith(".txt")) {
+                if (file.getName().endsWith(".txt")) {
                     Document document = new Document(parameter.getDocumentType(), file.getAbsolutePath(), file.getName(), j);
                     documents.add(document);
                     j++;
@@ -115,4 +115,13 @@ public abstract class AbstractCollection {
         triGramIndex = new NGramIndex(triGramDictionary, terms, comparator);
     }
 
+    public void printRepresentatives(String fileName){
+        try {
+            PrintWriter output = new PrintWriter(fileName, "UTF-8");
+            categoryTree.printRepresentatives(output, dictionary);
+            output.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

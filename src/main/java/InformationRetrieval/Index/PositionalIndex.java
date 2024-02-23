@@ -179,7 +179,10 @@ public class PositionalIndex {
             for (int j = 0; j < positionalPostingList.size(); j++) {
                 PositionalPosting positionalPosting = positionalPostingList.get(j);
                 int docId = positionalPosting.getDocId();
-                documents.get(docId).getCategoryNode().addCounts(termId, positionalPosting.size());
+                CategoryNode categoryNode = documents.get(docId).getCategoryNode();
+                if (categoryNode != null){
+                    categoryNode.addCounts(termId, positionalPosting.size());
+                }
             }
         }
     }

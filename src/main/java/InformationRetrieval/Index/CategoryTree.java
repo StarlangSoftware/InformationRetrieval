@@ -3,6 +3,7 @@ package InformationRetrieval.Index;
 import InformationRetrieval.Query.CategoryDeterminationType;
 import InformationRetrieval.Query.Query;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 public class CategoryTree {
@@ -42,5 +43,9 @@ public class CategoryTree {
 
     public void setRepresentativeCount(int representativeCount) {
         root.setRepresentativeCount(representativeCount);
+    }
+
+    public void printRepresentatives(PrintWriter output, TermDictionary dictionary){
+        root.printRepresentatives(output, dictionary);
     }
 }
