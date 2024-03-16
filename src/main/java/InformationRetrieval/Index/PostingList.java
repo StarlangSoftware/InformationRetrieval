@@ -73,10 +73,10 @@ public class PostingList {
     }
 
     public String toString(){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Posting posting : postings){
-            result += posting.getId() + " ";
+            result.append(posting.getId()).append(" ");
         }
-        return result.trim() + "\n";
+        return result.toString().trim() + "\n";
     }
 }

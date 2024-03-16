@@ -134,11 +134,11 @@ public class PositionalPostingList {
     }
 
     public String toString(){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (PositionalPosting positionalPosting : postings){
-            result += "\t" + positionalPosting.toString() + "\n";
+            result.append("\t").append(positionalPosting.toString()).append("\n");
         }
-        return result;
+        return result.toString();
     }
 
 }

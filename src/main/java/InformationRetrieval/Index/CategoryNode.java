@@ -16,9 +16,7 @@ public class CategoryNode {
     public CategoryNode(String name, CategoryNode parent){
         String[] words = name.split(" ");
         categoryWords = new ArrayList<>();
-        for (String word : words){
-            categoryWords.add(word);
-        }
+        categoryWords.addAll(Arrays.asList(words));
         this.parent = parent;
         if (parent != null){
             parent.addChild(this);
@@ -30,11 +28,11 @@ public class CategoryNode {
     }
 
     public String getName(){
-        String result = categoryWords.get(0);
+        StringBuilder result = new StringBuilder(categoryWords.get(0));
         for (int i = 1; i < categoryWords.size(); i++){
-            result += " " + categoryWords.get(i);
+            result.append(" ").append(categoryWords.get(i));
         }
-        return result;
+        return result.toString();
     }
 
     public CategoryNode getChild(String childName){
@@ -94,14 +92,14 @@ public class CategoryNode {
     }
 
     public void printRepresentatives(PrintWriter output, TermDictionary dictionary){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         ArrayList<String> representatives = new ArrayList<>();
         for (int key : counts.keySet()){
             representatives.add(dictionary.getTerm(key).getName());
         }
         representatives.sort(String.CASE_INSENSITIVE_ORDER);
         for (String representative : representatives){
-            result += "\t" + representative;
+            result.append("\t").append(representative);
         }
         output.println(toString() + result);
         for (CategoryNode child : children){

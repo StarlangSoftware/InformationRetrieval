@@ -28,10 +28,10 @@ public class PositionalPosting {
     }
 
     public String toString(){
-        String result = docId + " " + positions.size();
+        StringBuilder result = new StringBuilder(docId + " " + positions.size());
         for (Posting posting : positions){
-            result += " " + posting.getId();
+            result.append(" ").append(posting.getId());
         }
-        return result;
+        return result.toString();
     }
 }
