@@ -33,6 +33,13 @@ public abstract class AbstractCollection {
     protected CategoryTree categoryTree = null;
     protected HashSet<String> attributeList;
 
+    /**
+     * Constructor for the AbstractCollection class. All collections, disk, memory, large, medium are extended from this
+     * basic class. Loads the attribute list from attribute file if required. Loads the names of the documents from
+     * the document collection. If the collection is a categorical collection, also loads the category tree.
+     * @param directory Directory where the document collection resides.
+     * @param parameter Search parameter
+     */
     public AbstractCollection(String directory,
                             Parameter parameter) {
         this.name = directory;
@@ -64,6 +71,12 @@ public abstract class AbstractCollection {
             loadCategories();
         }
     }
+
+    /**
+     * Loads the category tree for the categorical collections from category index file. Each line of the category index
+     * file stores the index of the category and the category name with its hierarchy. Hierarchy string is obtained by
+     * concatenating the names of all nodes in the path from root node to a leaf node separated with '%'.
+     */
     private void loadCategories(){
         try {
             categoryTree = new CategoryTree(name);
@@ -80,10 +93,15 @@ public abstract class AbstractCollection {
                 line = br.readLine();
             }
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
+
+    /**
+     * Loads the attribute list from attribute index file. Attributes are single or bi-word phrases representing the
+     * important features of products in the collection. Each line of the attribute file contains either single or a two
+     * word expression.
+     */
     private void loadAttributeList(){
         try {
             attributeList = new HashSet<>();
@@ -98,23 +116,39 @@ public abstract class AbstractCollection {
         }
     }
 
+    /**
+     * Returns size of the document collection.
+     * @return Size of the document collection.
+     */
     public int size(){
         return documents.size();
     }
 
+    /**
+     * Returns size of the term dictionary.
+     * @return Size of the term dictionary.
+     */
     public int vocabularySize(){
         return dictionary.size();
     }
 
+    /**
+     * Constructs bi-gram and tri-gram indexes in memory.
+     */
     protected void constructNGramIndex(){
-        ArrayList<TermOccurrence> terms = dictionary.constructTermsFromDictionary(2);
+        ArrayList<TermOccurrence> terms = dictionary.constructNGramTermsFromDictionary(2);
         biGramDictionary = new TermDictionary(comparator, terms);
         biGramIndex = new NGramIndex(biGramDictionary, terms, comparator);
-        terms = dictionary.constructTermsFromDictionary(3);
+        terms = dictionary.constructNGramTermsFromDictionary(3);
         triGramDictionary = new TermDictionary(comparator, terms);
         triGramIndex = new NGramIndex(triGramDictionary, terms, comparator);
     }
 
+    /**
+     * The method prints the representative words to the output file. Representative words are the
+     * most frequent words that appears in the name of the product.
+     * @param fileName Output file name.
+     */
     public void printRepresentatives(String fileName){
         try {
             PrintWriter output = new PrintWriter(fileName, "UTF-8");

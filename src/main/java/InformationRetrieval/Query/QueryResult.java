@@ -7,26 +7,52 @@ import java.util.ArrayList;
 public class QueryResult {
     private final ArrayList<QueryResultItem> items;
 
+    /**
+     * Empty constructor forthe QueryResult object.
+     */
     public QueryResult(){
         items = new ArrayList<QueryResultItem>();
     }
 
+    /**
+     * Adds a new result item to the list of query result.
+     * @param docId Document id of the result
+     * @param score Score of the result
+     */
     public void add(int docId, double score){
         items.add(new QueryResultItem(docId, score));
     }
 
+    /**
+     * Adds a new result item with score 0 to the list of query result.
+     * @param docId Document id of the result
+     */
     public void add(int docId){
         items.add(new QueryResultItem(docId, 0.0));
     }
 
+    /**
+     * Returns number of results for query
+     * @return Number of results for query
+     */
     public int size(){
         return items.size();
     }
 
+    /**
+     * Returns result list for query
+     * @return Result list for query
+     */
     public ArrayList<QueryResultItem> getItems(){
         return items;
     }
 
+    /**
+     * Given two query results, this method identifies the intersection of those two results by doing parallel iteration
+     * in O(N).
+     * @param queryResult Second query result to be intersected.
+     * @return Intersection of this query result with the second query result
+     */
     public QueryResult intersectionFastSearch(QueryResult queryResult){
         QueryResult result = new QueryResult();
         int i = 0, j = 0;
@@ -48,6 +74,12 @@ public class QueryResult {
         return result;
     }
 
+    /**
+     * Given two query results, this method identifies the intersection of those two results by doing binary search on
+     * the second list in O(N log N).
+     * @param queryResult Second query result to be intersected.
+     * @return Intersection of this query result with the second query result
+     */
     public QueryResult intersectionBinarySearch(QueryResult queryResult){
         QueryResult result = new QueryResult();
         for (QueryResultItem searchedItem : items){
@@ -75,6 +107,12 @@ public class QueryResult {
         return result;
     }
 
+    /**
+     * Given two query results, this method identifies the intersection of those two results by doing exhaustive search
+     * on the second list in O(N^2).
+     * @param queryResult Second query result to be intersected.
+     * @return Intersection of this query result with the second query result
+     */
     public QueryResult intersectionLinearSearch(QueryResult queryResult){
         QueryResult result = new QueryResult();
         for (QueryResultItem searchedItem : items){
@@ -87,6 +125,10 @@ public class QueryResult {
         return result;
     }
 
+    /**
+     * The method returns K best results from the query result using min heap in O(K log N + N log K) time.
+     * @param K Size of the best subset.
+     */
     public void getBest(int K){
         QueryResultItemComparator comparator = new QueryResultItemComparator();
         MinHeap<QueryResultItem> minHeap = new MinHeap<>(K, comparator);

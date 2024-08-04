@@ -10,17 +10,29 @@ public class IncidenceMatrix {
     private final int dictionarySize;
     private final int documentSize;
 
+    /**
+     * Empty constructor for the incidence matrix representation. Initializes the incidence matrix according to the
+     * given dictionary and document size.
+     * @param dictionarySize Number of words in the dictionary (number of distinct words in the collection)
+     * @param documentSize Number of documents in the collection
+     */
     public IncidenceMatrix(int dictionarySize, int documentSize){
         this.dictionarySize = dictionarySize;
         this.documentSize = documentSize;
         incidenceMatrix = new boolean[dictionarySize][documentSize];
     }
 
+    /**
+     * Constructs an incidence matrix from a list of sorted tokens in the given terms array.
+     * @param dictionary Term dictionary
+     * @param terms List of tokens in the memory collection.
+     * @param documentSize Number of documents in the collection
+     */
     public IncidenceMatrix(ArrayList<TermOccurrence> terms, TermDictionary dictionary, int documentSize){
         this(dictionary.size(), documentSize);
         int i;
         TermOccurrence term;
-        if (terms.size() > 0){
+        if (!terms.isEmpty()){
             term = terms.get(0);
             i = 1;
             set(dictionary.getWordIndex(term.getTerm().getName()), term.getDocID());
@@ -31,6 +43,12 @@ public class IncidenceMatrix {
             }
         }
     }
+
+    /**
+     * Sets the given cell in the incidence matrix to true.
+     * @param row Row no of the cell
+     * @param col Column no of the cell
+     */
     public void set(int row, int col){
         if (row < 0 || row >= dictionarySize){
             System.out.println("The term with index " + row + " is out of incidence matrix\n");

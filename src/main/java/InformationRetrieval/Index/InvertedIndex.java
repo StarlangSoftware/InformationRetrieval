@@ -15,14 +15,26 @@ import java.util.TreeMap;
 public class InvertedIndex {
     private final TreeMap<Integer, PostingList> index;
 
+    /**
+     * Constructs an empty inverted index.
+     */
     public InvertedIndex(){
         index = new TreeMap<>();
     }
+
+    /**
+     * Constructs an inverted index from a list of sorted tokens. The terms array should be sorted before calling this
+     * method. Multiple occurrences of the same term from the same document are merged in the index. Instances of the
+     * same term are then grouped, and the result is split into a postings list.
+     * @param dictionary Term dictionary
+     * @param terms Sorted list of tokens in the memory collection.
+     * @param comparator Comparator method to compare two terms.
+     */
     public InvertedIndex(TermDictionary dictionary, ArrayList<TermOccurrence> terms, WordComparator comparator){
         this();
         int i, termId, prevDocId;
         TermOccurrence term, previousTerm;
-        if (terms.size() > 0){
+        if (!terms.isEmpty()){
             term = terms.get(0);
             i = 1;
             previousTerm = term;
@@ -51,6 +63,12 @@ public class InvertedIndex {
         }
     }
 
+    /**
+     * Reads the postings list of the inverted index from an input file. The postings are stored in two lines. The first
+     * line contains the term id and the number of postings for that term. The second line contains the postings
+     * list for that term.
+     * @param fileName Inverted index file.
+     */
     private void readPostingList(String fileName){
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(fileName + "-postings.txt")), StandardCharsets.UTF_8));
@@ -63,16 +81,26 @@ public class InvertedIndex {
                 line = br.readLine();
             }
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
+    /**
+     * Reads the inverted index from an input file.
+     * @param fileName Input file name for the inverted index.
+     */
     public InvertedIndex(String fileName){
         index = new TreeMap<>();
         readPostingList(fileName);
     }
 
+    /**
+     * Saves the inverted index into the index file. The postings are stored in two lines. The first
+     * line contains the term id and the number of postings for that term. The second line contains the postings
+     * list for that term.
+     * @param fileName Index file name. Real index file name is created by attaching -postings.txt to this
+     *                 file name
+     */
     public void save(String fileName){
         try {
             PrintWriter printWriter = new PrintWriter(fileName + "-postings.txt", "UTF-8");
@@ -85,6 +113,12 @@ public class InvertedIndex {
         }
     }
 
+    /**
+     * Adds a possible new term with a document id to the inverted index. First the term is searched in the hash map,
+     * then the document id is put into the correct postings list.
+     * @param termId Id of the term
+     * @param docId Document id in which the term exists
+     */
     public void add(int termId, int docId){
         PostingList postingList;
         if (!index.containsKey(termId)){
@@ -96,6 +130,12 @@ public class InvertedIndex {
         index.put(termId, postingList);
     }
 
+    /**
+     * Constructs a sorted array list of frequency counts for a word list and also sorts the word list according to
+     * those frequencies.
+     * @param wordList Word list for which frequency array is constructed.
+     * @param dictionary Term dictionary
+     */
     public void autoCompleteWord(ArrayList<String> wordList, TermDictionary dictionary){
         ArrayList<Integer> counts = new ArrayList<>();
         for (String word : wordList){
@@ -111,6 +151,12 @@ public class InvertedIndex {
         }
     }
 
+    /**
+     * Searches a given query in the document collection using inverted index boolean search.
+     * @param query Query string
+     * @param dictionary Term dictionary
+     * @return The result of the query obtained by doing inverted index boolean search in the collection.
+     */
     public QueryResult search(Query query, TermDictionary dictionary){
         int i, termIndex;
         PostingList result;

@@ -58,7 +58,6 @@ public class CategoryTest {
         HashMap<Integer, CategoryNode> n11Map = loadCategoryTree(starlangTree, "../../../../SearchEngine/N11.txt");
     }
 
-    @Test
     public void printRepresentatives(){
         int count = 100;
         Parameter parameter = new Parameter();

@@ -6,16 +6,29 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+/**
+ * For each term, we have a list that records which documents and also positions the term occurs in. Each item in the
+ * list
+ */
 public class PositionalPostingList {
 
     private ArrayList<PositionalPosting> postings;
 
+    /**
+     * Constructor of the PositionalPostingList class. Initializes the list.
+     */
     public PositionalPostingList(){
         postings = new ArrayList<>();
     }
 
+    /**
+     * Reads a positional posting list from a file. Reads N lines, where each line stores a positional posting. The
+     * first item in the line shows document id. The second item in the line shows the number of positional postings.
+     * Other items show the positional postings.
+     * @param br Input stream to read from.
+     * @param count Number of positional postings for this positional posting list.
+     */
     public PositionalPostingList(BufferedReader br, int count){
         postings = new ArrayList<>();
         try {
@@ -38,10 +51,20 @@ public class PositionalPostingList {
         }
     }
 
+    /**
+     * Returns the number of positional postings in the posting list.
+     * @return Number of positional postings in the posting list.
+     */
     public int size(){
         return postings.size();
     }
 
+    /**
+     * Does a binary search on the positional postings list for a specific document id.
+     * @param docId Document id to be searched.
+     * @return The position of the document id in the positional posting list. If it does not exist, the method returns
+     * -1.
+     */
     public int getIndex(int docId){
         int begin = 0, end = size() - 1, middle;
         while (begin <= end){
@@ -59,6 +82,11 @@ public class PositionalPostingList {
         return -1;
     }
 
+    /**
+     * Converts the positional postings list to a query result object. Simply adds all positional postings one by one
+     * to the result.
+     * @return QueryResult object containing the positional postings in this object.
+     */
     public QueryResult toQueryResult(){
         QueryResult result = new QueryResult();
         for (PositionalPosting posting: postings){
@@ -67,6 +95,11 @@ public class PositionalPostingList {
         return result;
     }
 
+    /**
+     * Adds a new positional posting (document id and position) to the posting list.
+     * @param docId New document id to be added to the positional posting list.
+     * @param position New position to be added to the positional posting list.
+     */
     public void add(int docId, int position){
         int index = getIndex(docId);
         if (index == -1){
@@ -77,11 +110,22 @@ public class PositionalPostingList {
         }
     }
 
+    /**
+     * Gets the positional posting at position index.
+     * @param index Position of the positional posting.
+     * @return The positional posting at position index.
+     */
     public PositionalPosting get(int index){
         return postings.get(index);
     }
 
-    public PositionalPostingList union(PositionalPostingList secondList){
+    /**
+     * Returns simple union of two positional postings list p1 and p2. The algorithm assumes the intersection of two
+     * positional postings list is empty, therefore the union is just concatenation of two positional postings lists.
+     * @param secondList p2
+     * @return Union of two positional postings lists.
+     */
+    public PositionalPostingList merge(PositionalPostingList secondList){
         PositionalPostingList result = new PositionalPostingList();
         result.postings = new ArrayList<>();
         result.postings.addAll(postings);
@@ -89,6 +133,17 @@ public class PositionalPostingList {
         return result;
     }
 
+    /**
+     * Algorithm for the intersection of two positional postings lists p1 and p2. We maintain pointers into both lists
+     * and walk through the two positional postings lists simultaneously, in time linear in the total number of postings
+     * entries. At each step, we compare the docID pointed to by both pointers. If they are not the same, we advance the
+     * pointer pointing to the smaller docID. Otherwise, we advance both pointers and do the same intersection search on
+     * the positional lists of two documents. Similarly, we compare the positions pointed to by both position pointers.
+     * If they are successive, we add the position to the result and advance both position pointers. Otherwise, we
+     * advance the pointer pointing to the smaller position.
+     * @param secondList p2, second posting list.
+     * @return Intersection of two postings lists p1 and p2.
+     */
     public PositionalPostingList intersection(PositionalPostingList secondList){
         int i = 0, j = 0;
         PositionalPostingList result = new PositionalPostingList();
@@ -126,6 +181,11 @@ public class PositionalPostingList {
         return result;
     }
 
+    /**
+     * Prints this object into a file with the given index.
+     * @param printWriter Output stream to write the file.
+     * @param index Position of this positional posting list in the inverted index.
+     */
     public void writeToFile(PrintWriter printWriter, int index){
         if (size() > 0){
             printWriter.write(index + " " + size() + "\n");
@@ -133,6 +193,10 @@ public class PositionalPostingList {
         }
     }
 
+    /**
+     * Converts the positional posting list to a string. String is of the form all postings separated via space.
+     * @return String form of the positional posting list.
+     */
     public String toString(){
         StringBuilder result = new StringBuilder();
         for (PositionalPosting positionalPosting : postings){

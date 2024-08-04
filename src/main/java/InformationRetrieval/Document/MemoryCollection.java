@@ -9,6 +9,12 @@ import java.util.*;
 public class MemoryCollection extends AbstractCollection {
     private final IndexType indexType;
 
+    /**
+     * Constructor for the MemoryCollection class. In small collections, dictionary and indexes are kept in memory.
+     * Memory collection also supports categorical documents.
+     * @param directory Directory where the document collection resides.
+     * @param parameter Search parameter
+     */
     public MemoryCollection(String directory, Parameter parameter) {
         super(directory, parameter);
         this.indexType = parameter.getIndexType();
@@ -23,6 +29,11 @@ public class MemoryCollection extends AbstractCollection {
         }
     }
 
+    /**
+     * The method loads the term dictionary, inverted index, positional index, phrase and N-Gram indexes from dictionary
+     * and index files to the memory.
+     * @param directory Directory where the document collection resides.
+     */
     protected void loadIndexesFromFile(String directory) {
         dictionary = new TermDictionary(comparator, directory);
         invertedIndex = new InvertedIndex(directory);
@@ -45,6 +56,11 @@ public class MemoryCollection extends AbstractCollection {
         }
     }
 
+    /**
+     * The method saves the term dictionary, inverted index, positional index, phrase and N-Gram indexes to the dictionary
+     * and index files. If the collection is a categorical collection, categories are also saved to the category
+     * files.
+     */
     public void save() {
         if (indexType == IndexType.INVERTED_INDEX) {
             dictionary.save(name);
@@ -71,6 +87,9 @@ public class MemoryCollection extends AbstractCollection {
         }
     }
 
+    /**
+     * The method saves the category tree for the categorical collections.
+     */
     private void saveCategories() {
         try {
             PrintWriter printWriter = new PrintWriter(name + "-categories.txt", "UTF-8");
@@ -78,11 +97,13 @@ public class MemoryCollection extends AbstractCollection {
                 printWriter.write(document.getDocId() + "\t" + document.getCategory() + "\n");
             }
             printWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
+    /**
+     * The method constructs the term dictionary, inverted index, positional index, phrase and N-Gram indexes in memory.
+     */
     private void constructIndexesInMemory() {
         ArrayList<TermOccurrence> terms = constructTerms(TermType.TOKEN);
         dictionary = new TermDictionary(comparator, terms);
@@ -116,6 +137,14 @@ public class MemoryCollection extends AbstractCollection {
         }
     }
 
+    /**
+     * Given the document collection, creates an array list of terms. If term type is TOKEN, the terms are single
+     * word, if the term type is PHRASE, the terms are bi-words. Each document is loaded into memory and
+     * word list is created. Since the dictionary can be kept in memory, all operations can be done in memory.
+     * @param termType If term type is TOKEN, the terms are single word, if the term type is PHRASE, the terms are
+     *                 bi-words.
+     * @return Array list of terms occurring in the document collection.
+     */
     private ArrayList<TermOccurrence> constructTerms(TermType termType) {
         TermOccurrenceComparator termComparator = new TermOccurrenceComparator(comparator);
         ArrayList<TermOccurrence> terms = new ArrayList<>();
@@ -129,6 +158,18 @@ public class MemoryCollection extends AbstractCollection {
         return terms;
     }
 
+    /**
+     * The method searches given query string in the document collection using the attribute list according to the
+     * given search parameter. First, the original query is filtered by removing phrase attributes, shortcuts and single
+     * word attributes. At this stage, we get the word and phrase attributes in the original query and the remaining
+     * words in the original query as two separate queries. Second, both single word and phrase attributes in the
+     * original query are searched in the document collection. Third, these intermediate query results are then
+     * intersected. Fourth, we put this results into either (i) an inverted index (ii) or a ranked based positional
+     * filtering with the filtered query to get the end result.
+     * @param query Query string
+     * @param parameter Search parameter for the query
+     * @return The intermediate result of the query obtained by doing attribute list based search in the collection.
+     */
     private QueryResult attributeSearch(Query query, SearchParameter parameter) {
         Query termAttributes = new Query();
         Query phraseAttributes = new Query();
@@ -172,6 +213,14 @@ public class MemoryCollection extends AbstractCollection {
         }
     }
 
+    /**
+     * The method searches given query string in the document collection using the inverted index according to the
+     * given search parameter. If the search is (i) boolean, inverted index is used (ii) positional, positional
+     * inverted index is used, (iii) ranked, positional inverted index is used with a ranking algorithm at the end.
+     * @param query Query string
+     * @param parameter Search parameter for the query
+     * @return The intermediate result of the query obtained by doing inverted index based search in the collection.
+     */
     private QueryResult searchWithInvertedIndex(Query query, SearchParameter parameter) {
         switch (parameter.getRetrievalType()) {
             case BOOLEAN:
@@ -189,6 +238,14 @@ public class MemoryCollection extends AbstractCollection {
         return new QueryResult();
     }
 
+    /**
+     * Filters current search result according to the predicted categories from the query string. For every search
+     * result, if it is in one of the predicated categories, is added to the filtered end result. Otherwise, it is
+     * omitted in the end result.
+     * @param currentResult Current search result before filtering.
+     * @param categories Predicted categories that match the query string.
+     * @return Filtered query result
+     */
     private QueryResult filterAccordingToCategories(QueryResult currentResult, ArrayList<CategoryNode> categories) {
         QueryResult filteredResult = new QueryResult();
         ArrayList<QueryResultItem> items = currentResult.getItems();
@@ -204,6 +261,16 @@ public class MemoryCollection extends AbstractCollection {
         return filteredResult;
     }
 
+    /**
+     * Searches a document collection for a given query according to the given search parameters. The documents are
+     * searched using (i) incidence matrix if the index type is incidence matrix, (ii) attribute list if search
+     * attributes option is selected, (iii) inverted index if the index type is inverted index and no attribute
+     * search is done. After the initial search, if there is a categorical focus, it filters the results
+     * according to the predicted categories from the query string.
+     * @param query Query string
+     * @param searchParameter Search parameter for the query
+     * @return The result of the query obtained by doing search in the collection.
+     */
     public QueryResult searchCollection(Query query, SearchParameter searchParameter) {
         QueryResult currentResult;
         if (searchParameter.getFocusType().equals(FocusType.CATEGORY)){
@@ -229,6 +296,12 @@ public class MemoryCollection extends AbstractCollection {
         return new QueryResult();
     }
 
+    /**
+     * Constructs an auto complete list of product names for a given prefix. THe results are sorted according to
+     * frequencies.
+     * @param prefix Prefix of the name of the product.
+     * @return An auto complete list of product names for a given prefix.
+     */
     public ArrayList<String> autoCompleteWord(String prefix) {
         ArrayList<String> result = new ArrayList<>();
         int i = dictionary.getWordStartingWith(prefix);
