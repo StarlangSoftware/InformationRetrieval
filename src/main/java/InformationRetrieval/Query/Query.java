@@ -51,7 +51,7 @@ public class Query {
     }
 
     /**
-     * Filters the origilan query by removing phrase attributes, shortcuts and single word attributes.
+     * Filters the original query by removing phrase attributes, shortcuts and single word attributes.
      * @param attributeList Hash set containing all attributes (phrase and single word)
      * @param termAttributes New query that will accumulate single word attributes from the original query.
      * @param phraseAttributes New query that will accumulate phrase attributes from the original query.

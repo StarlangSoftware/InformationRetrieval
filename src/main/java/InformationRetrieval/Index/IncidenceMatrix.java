@@ -61,6 +61,12 @@ public class IncidenceMatrix {
         incidenceMatrix[row][col] = true;
     }
 
+    /**
+     * Searches a given query in the document collection using incidence matrix boolean search.
+     * @param query Query string
+     * @param dictionary Term dictionary
+     * @return The result of the query obtained by doing incidence matrix boolean search in the collection.
+     */
     public QueryResult search(Query query, TermDictionary dictionary){
         int i, j, termIndex;
         boolean[] resultRow;

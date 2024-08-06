@@ -8,7 +8,7 @@ public class QueryResult {
     private final ArrayList<QueryResultItem> items;
 
     /**
-     * Empty constructor forthe QueryResult object.
+     * Empty constructor for the QueryResult object.
      */
     public QueryResult(){
         items = new ArrayList<QueryResultItem>();

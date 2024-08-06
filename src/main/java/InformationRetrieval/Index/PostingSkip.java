@@ -50,6 +50,10 @@ public class PostingSkip extends Posting{
         return next;
     }
 
+    /**
+     * Accessor for the skip.
+     * @return Skip
+     */
     public PostingSkip getSkip(){
         return skip;
     }
