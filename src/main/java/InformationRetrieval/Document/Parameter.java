@@ -118,7 +118,7 @@ public class Parameter {
     /**
      * Accessor for the documentLimit search parameter. If limitNumberOfDocumentsLoaded is true,  the query result will
      * be filtered according to the documentLimit search parameter.
-     * @return limitNumberOfDocumentsLoaded search parameter
+     * @return documentLimit search parameter
      */
     public int getDocumentLimit() {
         return documentLimit;
