@@ -233,7 +233,7 @@ public class Parameter {
     /**
      * Mutator for the documentLimit search parameter. If limitNumberOfDocumentsLoaded is true,  the query result will
      * be filtered according to the documentLimit search parameter.
-     * @param documentLimit limitNumberOfDocumentsLoaded search parameter
+     * @param documentLimit documentLimit search parameter
      */
     public void setDocumentLimit(int documentLimit) {
         this.documentLimit = documentLimit;
@@ -242,7 +242,7 @@ public class Parameter {
     /**
      * Mutator for the documentLimit search parameter. If limitNumberOfDocumentsLoaded is true,  the query result will
      * be filtered according to the documentLimit search parameter.
-     * @param wordLimit limitNumberOfDocumentsLoaded search parameter
+     * @param wordLimit wordLimit search parameter
      */
     public void setWordLimit(int wordLimit) {
         this.wordLimit = wordLimit;

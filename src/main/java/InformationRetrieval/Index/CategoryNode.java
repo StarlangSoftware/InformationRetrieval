@@ -183,6 +183,7 @@ public class CategoryNode {
      * accumulates the nodes that satisfies the condition. If any word  in the query appears in any category word, the
      * node will be accumulated.
      * @param query Query string
+     * @param dictionary Term dictionary
      * @param result Accumulator array
      */
     public void getCategoriesWithCosine(Query query, TermDictionary dictionary, ArrayList<CategoryNode> result){
