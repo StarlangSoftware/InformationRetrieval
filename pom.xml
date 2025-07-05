@@ -48,7 +48,7 @@
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>MorphologicalDisambiguation</artifactId>
-            <version>1.0.25</version>
+            <version>1.0.26</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -74,6 +74,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
                 </configuration>
             </plugin>
             <plugin>
